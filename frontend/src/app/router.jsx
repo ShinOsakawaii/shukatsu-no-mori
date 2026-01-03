@@ -8,11 +8,11 @@ import MyPage from '../pages/mypage/MyPage';
 import MyPageEdit from '../pages/mypage/MyPageEdit';
 import AnalysisDetail from '../pages/analysis/AnalysisDetail';
 import ReviewDetail from '../pages/review/ReviewDetail';
-import AnalysisNew from '../pages/analysis/AnalysisNew';
-import AnalysisEdit from '../pages/analysis/AnalysisEdit';
+import AnalysisForm from '../pages/analysis/AnalysisForm';
 import ReviewNew from '../pages/review/ReviewNew';
 import ReviewEdit from '../pages/review/ReviewEdit';
 import CompanyForm from '../pages/companies/CompanyForm';
+import AnalysisForm from '../pages/analysis/AnalysisForm';
 
 export const router = createBrowserRouter([
     {
@@ -36,9 +36,8 @@ export const router = createBrowserRouter([
                     {
                         path: ':companyId/detail',
                         children: [
-                            { path: 'new', element: <AnalysisNew /> }, // 분석 작성
+                            { path: 'new', element: <AnalysisForm /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
                             { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
-                            { path: ':detailId/edit', element: <AnalysisEdit /> }, // 분석 수정
                         ]
                     },
 
