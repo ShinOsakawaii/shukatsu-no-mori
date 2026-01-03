@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CompanyEdit(props) {
+function CompanyDetailButtons(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function CompanyEdit(props) {
     );
 }
 
-export default CompanyEdit;
+export default CompanyDetailButtons;

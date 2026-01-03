@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CompanyNew(props) {
+function CompanyForm(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function CompanyNew(props) {
     );
 }
 
-export default CompanyNew;
+export default CompanyForm;
