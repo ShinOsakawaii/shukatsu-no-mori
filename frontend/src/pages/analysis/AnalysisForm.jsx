@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AnalysisNew(props) {
+function AnalysisForm(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function AnalysisNew(props) {
     );
 }
 
-export default AnalysisNew;
+export default AnalysisForm;
