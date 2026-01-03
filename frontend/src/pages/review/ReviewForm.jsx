@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ReviewNew(props) {
+function ReviewForm(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function ReviewNew(props) {
     );
 }
 
-export default ReviewNew;
+export default ReviewForm;
