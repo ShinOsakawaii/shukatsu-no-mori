@@ -8,11 +8,9 @@ import MyPage from '../pages/mypage/MyPage';
 import MyPageEdit from '../pages/mypage/MyPageEdit';
 import AnalysisDetail from '../pages/analysis/AnalysisDetail';
 import ReviewDetail from '../pages/review/ReviewDetail';
-import AnalysisForm from '../pages/analysis/AnalysisForm';
-import ReviewNew from '../pages/review/ReviewNew';
-import ReviewEdit from '../pages/review/ReviewEdit';
 import CompanyForm from '../pages/companies/CompanyForm';
 import AnalysisForm from '../pages/analysis/AnalysisForm';
+import ReviewForm from '../pages/review/ReviewForm';
 
 export const router = createBrowserRouter([
     {
@@ -45,9 +43,8 @@ export const router = createBrowserRouter([
                     {
                         path: ':companyId/review',
                         children: [
-                            { path: 'new', element: <ReviewNew /> }, // 후기 작성
+                            { path: 'new', element: <ReviewForm /> }, // 후기 등록 화면, 수정 화면 == ReviewForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
                             { path: ':reviewId', element: <ReviewDetail /> }, // 후기 조회 (작성자/비작성자 공통)
-                            { path: ':reviewId/edit', element: <ReviewEdit /> }, // 후기 수정
                         ]
                     }
                 ]
