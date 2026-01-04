@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.dto.response;
+package com.shinosaka.shukatsunomori.backend.dto.response.review;
 
 import com.shinosaka.shukatsunomori.backend.domain.Review;
 import lombok.*;

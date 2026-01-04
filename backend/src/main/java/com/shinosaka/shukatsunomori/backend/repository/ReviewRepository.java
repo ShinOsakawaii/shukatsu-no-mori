@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Page<Review> findByCompanyIdAndTitleContainingIgnoreCaseOrCompanyIdAndContentContainingIgnoreCase(
-            Long companyId, String title, Long companyIdAgain, String content, Pageable pageable
+    Page<Review> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(
+            String title, String content, Pageable pageable
     );
 }

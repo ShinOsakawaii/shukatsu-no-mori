@@ -4,6 +4,7 @@ import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Review;
 import com.shinosaka.shukatsunomori.backend.domain.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -13,6 +14,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ReviewCreateRequest {
+
+    // 1. 이 필드를 가장 위에 추가하세요!
+    @NotNull(message = "회사 선택은 필수입니다.")
+    private Long companyId;
 
     @NotBlank(message = "제목 작성은 필수입니다.")
     @Size(max = 200, message = "200자 이하로 작성해주세요.")
@@ -34,10 +39,10 @@ public class ReviewCreateRequest {
     @Size(max = 4000, message = "4000자 이하로 작성해주세요.")
     private String content;
 
-    public Review toEntity(Company company, User user) {
+    public Review toEntity(User user, Company company) {
         return Review.builder()
-                .company(company)
                 .user(user)
+                .company(company)
                 .title(title)
                 .position(position)
                 .stage(stage)
