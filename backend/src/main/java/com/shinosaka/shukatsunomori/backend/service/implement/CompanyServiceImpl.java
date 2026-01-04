@@ -1,11 +1,13 @@
 package com.shinosaka.shukatsunomori.backend.service.implement;
 
 import com.shinosaka.shukatsunomori.backend.domain.Company;
+import com.shinosaka.shukatsunomori.backend.domain.Location;
 import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
 import com.shinosaka.shukatsunomori.backend.respository.CompanyRepository;
+import com.shinosaka.shukatsunomori.backend.respository.LocationRepository;
 import com.shinosaka.shukatsunomori.backend.service.CompanyService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -25,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Transactional
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
+    private final LocationRepository locationRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -44,7 +47,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest) {
-        Company company = companyCreateRequest.toEntity();
+        Location location = locationRepository.findByCity(companyCreateRequest.getCity())
+                .orElseGet(() -> locationRepository.save(Location.builder().city(companyCreateRequest.getCity()).build()));
+        Company company = companyCreateRequest.toEntity(location);
         return CompanyResponse.from(companyRepository.save(company));
     }
 
@@ -52,8 +57,10 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest) {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업을 찾을 수 없습니다."));
+        Location location = locationRepository.findByCity(companyUpdateRequest.getCity())
+                .orElseGet(() -> locationRepository.save(Location.builder().city(companyUpdateRequest.getCity()).build()));
         company.update(
-                companyUpdateRequest.getLocation(),
+                location,
                 companyUpdateRequest.getName(),
                 companyUpdateRequest.getIndustry(),
                 companyUpdateRequest.getWebsite(),

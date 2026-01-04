@@ -3,7 +3,6 @@ package com.shinosaka.shukatsunomori.backend.dto.request;
 import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Location;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -14,8 +13,9 @@ import lombok.*;
 @Builder
 public class CompanyCreateRequest {
 
-    @NotNull(message = "위치 작성 필수")
-    private Location location;
+    @NotBlank(message = "위치 작성 필수")
+    @Size(max = 50, message = "50자 이하로 작성하세요.")
+    private String city;
 
     @NotBlank(message = "회사명 작성 필수")
     @Size(max = 100, message = "100자 이하로 작성하세요.")
@@ -25,16 +25,16 @@ public class CompanyCreateRequest {
     @Size(max = 50, message = "50자 이하로 작성하세요.")
     private String industry;
 
-    @Size
+    @Size(max = 255, message = "255자 이하로 작성하세요.")
     private String website;
 
     private String description;
 
-    @Size
+    @Size(max = 255, message = "255자 이하로 작성하세요.")
     private String companyImage;
 
 
-    public Company toEntity() {
+    public Company toEntity(Location location) {
         return Company.builder()
                 .location(location)
                 .name(name)
