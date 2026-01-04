@@ -1,6 +1,7 @@
 package com.shinosaka.shukatsunomori.backend.service;
 
 import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
 import jakarta.validation.Valid;
@@ -14,4 +15,6 @@ public interface CompanyService {
     CompanyResponse getCompanyDetail(Long companyId);
 
     CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest);
+
+    CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest);
 }

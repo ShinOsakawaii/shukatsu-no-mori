@@ -36,7 +36,7 @@ public class CompanyController {
     }
 
     // 기업 등록
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<CompanyResponse> create(
             @Valid
             @RequestBody
@@ -46,8 +46,13 @@ public class CompanyController {
     }
 
     // 기업 수정
-//    @PutMapping("/{companyId}/edit")
-
+    @PutMapping("/{companyId}")
+    public ResponseEntity<CompanyResponse> update(
+            @PathVariable Long companyId,
+            @RequestBody CompanyUpdateRequest companyUpdateRequest
+    ) {
+        return ResponseEntity.ok(companyService.updateCompany(companyId, companyUpdateRequest));
+    }
 
     // 기업 삭제 (없음)
 }

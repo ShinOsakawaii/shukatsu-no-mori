@@ -2,6 +2,7 @@ package com.shinosaka.shukatsunomori.backend.dto.request;
 
 import com.shinosaka.shukatsunomori.backend.domain.Location;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -12,8 +13,7 @@ import lombok.*;
 @Builder
 public class CompanyUpdateRequest {
 
-    @NotBlank(message = "위치 작성 필수")
-    @Size(max = 50, message = "50자 이하로 작성하세요.")
+    @NotNull(message = "위치 작성 필수")
     private Location location;
 
     @NotBlank(message = "회사명 작성 필수")

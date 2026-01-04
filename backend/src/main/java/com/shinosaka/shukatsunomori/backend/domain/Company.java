@@ -1,6 +1,8 @@
 package com.shinosaka.shukatsunomori.backend.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,4 +51,19 @@ public class Company {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public void update(
+            Location location,
+            String name,
+            String industry,
+            String website,
+            String description,
+            String companyImage) {
+        this.location = location;
+        this.name = name;
+        this.industry = industry;
+        this.website = website;
+        this.description = description;
+        this.companyImage = companyImage;
+    }
 }

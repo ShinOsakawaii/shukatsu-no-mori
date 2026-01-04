@@ -2,6 +2,7 @@ package com.shinosaka.shukatsunomori.backend.service.implement;
 
 import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
 import com.shinosaka.shukatsunomori.backend.respository.CompanyRepository;
@@ -45,5 +46,19 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest) {
         Company company = companyCreateRequest.toEntity();
         return CompanyResponse.from(companyRepository.save(company));
+    }
+
+    @Override
+    public CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업을 찾을 수 없습니다."));
+        company.update(
+                companyUpdateRequest.getLocation(),
+                companyUpdateRequest.getName(),
+                companyUpdateRequest.getIndustry(),
+                companyUpdateRequest.getWebsite(),
+                companyUpdateRequest.getDescription(),
+                companyUpdateRequest.getCompanyImage());
+        return CompanyResponse.from(company);
     }
 }
