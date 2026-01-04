@@ -7,3 +7,4 @@
 - 정소영 : 기업 정보 API
 - 성찬미 : 기업 분석 API
 - 이승이 : API 모듈(axios) + React Query
+- 강동희 : 라우터 레이아웃
