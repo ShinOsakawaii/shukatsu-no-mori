@@ -1,9 +1,11 @@
 package com.shinosaka.shukatsunomori.backend.controller;
 
+import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
 import com.shinosaka.shukatsunomori.backend.service.CompanyService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,14 @@ public class CompanyController {
     }
 
     // 기업 등록
-//    @PostMapping("/new")
+    @PostMapping("/new")
+    public ResponseEntity<CompanyResponse> create(
+            @Valid
+            @RequestBody
+            CompanyCreateRequest companyCreateRequest
+    ) {
+        return ResponseEntity.ok(companyService.createCompany(companyCreateRequest));
+    }
 
     // 기업 수정
 //    @PutMapping("/{companyId}/edit")

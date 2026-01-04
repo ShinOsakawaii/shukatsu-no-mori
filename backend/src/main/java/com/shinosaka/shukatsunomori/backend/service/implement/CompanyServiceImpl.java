@@ -1,10 +1,12 @@
 package com.shinosaka.shukatsunomori.backend.service.implement;
 
 import com.shinosaka.shukatsunomori.backend.domain.Company;
+import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
 import com.shinosaka.shukatsunomori.backend.respository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.service.CompanyService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +39,11 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업을 찾을 수 없습니다."));
         return CompanyResponse.from(company);
+    }
+
+    @Override
+    public CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest) {
+        Company company = companyCreateRequest.toEntity();
+        return CompanyResponse.from(companyRepository.save(company));
     }
 }

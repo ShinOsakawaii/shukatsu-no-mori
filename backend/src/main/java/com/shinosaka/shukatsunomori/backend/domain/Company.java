@@ -24,7 +24,7 @@ public class Company {
     @Column(name = "company_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_id")
     private Location location;
 
