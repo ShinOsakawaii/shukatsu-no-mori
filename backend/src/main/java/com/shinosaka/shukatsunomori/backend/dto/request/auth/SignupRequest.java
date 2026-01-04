@@ -1,5 +1,6 @@
 package com.shinosaka.shukatsunomori.backend.dto.request.auth;
 
+import com.shinosaka.shukatsunomori.backend.domain.Role;
 import com.shinosaka.shukatsunomori.backend.domain.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,11 +27,14 @@ public class SignupRequest {
 
     private String profileImage;
 
+    private Role role;
+
     public User toEntity(String encodedPassword) {
         return User.builder()
                 .email(this.email)
                 .password(encodedPassword)
                 .nickname(this.nickname)
+                .role(role.USER)
                 .profileImage(this.profileImage)
                 .build();
     }
