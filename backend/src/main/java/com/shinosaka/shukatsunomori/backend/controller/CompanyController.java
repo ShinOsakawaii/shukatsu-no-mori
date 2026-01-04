@@ -21,7 +21,7 @@ public class CompanyController {
 
     // 기업 목록 조회
     @GetMapping
-    public ResponseEntity<PageResponse<CompanyResponse>> list(
+    public ResponseEntity<PageResponse<CompanyResponse>> companyList(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Max(10) int size
     ) {
@@ -31,13 +31,13 @@ public class CompanyController {
 
     // 기업 상세 조회
     @GetMapping("/{companyId}")
-    public ResponseEntity<CompanyResponse> companyDetail(@PathVariable Long companyId) {
+    public ResponseEntity<CompanyResponse> getCompany(@PathVariable Long companyId) {
         return ResponseEntity.ok(companyService.getCompanyDetail(companyId));
     }
 
     // 기업 등록
     @PostMapping
-    public ResponseEntity<CompanyResponse> create(
+    public ResponseEntity<CompanyResponse> createCompany(
             @Valid
             @RequestBody
             CompanyCreateRequest companyCreateRequest
@@ -47,7 +47,7 @@ public class CompanyController {
 
     // 기업 수정
     @PutMapping("/{companyId}")
-    public ResponseEntity<CompanyResponse> update(
+    public ResponseEntity<CompanyResponse> updateCompany(
             @PathVariable Long companyId,
             @RequestBody CompanyUpdateRequest companyUpdateRequest
     ) {
