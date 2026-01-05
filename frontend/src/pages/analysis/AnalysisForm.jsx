@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { createAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
+import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
-import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
+import AnalysisFormSubmit from '../../components/analysis/AnalysisFormFields';
+import AnalysisFormButtons from '../../components/analysis/AnalysisFormSubmit';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 
@@ -59,6 +60,18 @@ function AnalysisForm({ mode }) {
         }
 
     })
+
+    // 삭제
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteAnalysis(companyId),
+        onSuccessL: () => {
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId]});
+            navigate(`/companies/${companyId}/detail/`);
+        },
+        onError: () => {
+            alert('게시글 삭제에 실패했습니다.');
+        }
+    });
 
     if (isEdit && isLoading) return <Loader />
     if (isEdit && isError) return <ErrorMessage error={error} />
@@ -129,30 +142,14 @@ function AnalysisForm({ mode }) {
                     />
 
                     {/* 버튼 */}
-                    <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => navigate(-1)}
-                            sx={{
-                                borderColor: '#a88464',
-                                color: '#a88464',
-                                px: 5
-                            }}
-                        >
-                            취소
-                        </Button>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            sx={{
-                                backgroundColor: '#a7c76f',
-                                px: 5,
-                                '&:hover': { backgroundColor: '#96b85f' }
-                            }}
-                        >
-                            저장
-                        </Button>
-                    </Stack>
+                    <AnalysisFormButtons 
+                    isEdit={isEdit}
+                    onDelete={() => {
+                        if(window.confirm('해당 글을 정말 삭제하겠습니까?')) {
+                            deleteMutation.mutate();
+                        }
+                    }} />
+
                 </Box>
             </Paper>
         </Box>

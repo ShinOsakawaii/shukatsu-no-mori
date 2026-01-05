@@ -1,32 +1,54 @@
-import { Box, TextField } from '@mui/material';
 import React from 'react';
+import { Box, Button, Stack } from '@mui/material';
+import { useNavigate } from 'react-router';
 
-function AnalysisFormSubmit({ title, content, onChangeTitle, onChangeContent }) {
+function AnalysisFormSubmit({ isEdit, onDelete }) {
+
+    const navigate = useNavigate();
+
     return (
+        <>
+            {/* 수정일 때만 삭제 버튼 (우측 상단) */}
+            {isEdit && (
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                    <Button
+                        color="error"
+                        variant="contained"
+                        sx={{ px: 4, borderRadius: 2 }}
+                        onClick={onDelete}
+                    >
+                        삭제
+                    </Button>
+                </Box>
+            )}
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            <TextField
-                fullWidth
-                placeholder='제목'
-                value={title}
-                onChange={(evt) => onChangeTitle(evt.target.value)}
-                variant='outlined'
-                sx={{ backgroundColor: '#b8cf86', borderRadius: 3, '& fieldset': { border: 'none' } }}
-            />
+            {/* 하단 버튼 */}
+            <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
+                <Button
+                    variant="outlined"
+                    onClick={() => navigate(-1)}
+                    sx={{
+                        borderColor: '#a88464',
+                        color: '#a88464',
+                        px: 5,
+                    }}
+                >
+                    취소
+                </Button>
 
-            <TextField
-                fullWidth
-                placeholder='내용'
-                value={content}
-                onChange={(evt) => onChangeContent(evt.target.value)}
-                variant='outlined'
-                sx={{ backgroundColor: '#b8cf86', borderRadius: 3, '& fieldset': { border: 'none' }  }}
-                multiline
-                minRows={8}
-            />
-
-        </Box>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        backgroundColor: '#a7c76f',
+                        px: 5,
+                        '&:hover': { backgroundColor: '#96b85f' },
+                    }}
+                >
+                    {isEdit ? '수정' : '저장'}
+                </Button>
+            </Stack>
+        </>
     );
 }
-
 export default AnalysisFormSubmit;
