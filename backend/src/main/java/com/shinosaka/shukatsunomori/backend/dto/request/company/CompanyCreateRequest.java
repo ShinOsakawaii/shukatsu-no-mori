@@ -1,5 +1,7 @@
-package com.shinosaka.shukatsunomori.backend.dto.request;
+package com.shinosaka.shukatsunomori.backend.dto.request.company;
 
+import com.shinosaka.shukatsunomori.backend.domain.Company;
+import com.shinosaka.shukatsunomori.backend.domain.Location;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -9,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyUpdateRequest {
+public class CompanyCreateRequest {
 
     @NotBlank(message = "위치 작성 필수")
     @Size(max = 50, message = "50자 이하로 작성하세요.")
@@ -32,4 +34,14 @@ public class CompanyUpdateRequest {
     private String companyImage;
 
 
+    public Company toEntity(Location location) {
+        return Company.builder()
+                .location(location)
+                .name(name)
+                .industry(industry)
+                .website(website)
+                .description(description)
+                .companyImage(companyImage)
+                .build();
+    }
 }
