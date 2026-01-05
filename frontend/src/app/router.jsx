@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router';
 import AppLayout from '../layouts/AppLayout';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
                     {
                         path: ':companyId/detail',
                         children: [
-                            { path: 'new', element: <AnalysisForm /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
+                            { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
                             { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
                         ]
                     },
@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
                     {
                         path: ':companyId/review',
                         children: [
-                            { path: 'new', element: <ReviewForm /> }, // 후기 등록 화면, 수정 화면 == ReviewForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
+                            { path: 'new', element: <ReviewForm mode="create" /> }, // 후기 등록 화면, 수정 화면 == ReviewForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
                             { path: ':reviewId', element: <ReviewDetail /> }, // 후기 조회 (작성자/비작성자 공통)
                         ]
                     }
@@ -59,5 +59,9 @@ export const router = createBrowserRouter([
                 ]
             },
         ]
+    },
+    {
+        path: '*',
+        element: <NotFound /> // 404 페이지
     }
 ]);
