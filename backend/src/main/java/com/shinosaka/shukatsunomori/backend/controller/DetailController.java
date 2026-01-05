@@ -1,8 +1,8 @@
 package com.shinosaka.shukatsunomori.backend.controller;
 
-import com.shinosaka.shukatsunomori.backend.dto.request.CompanyDetail.DetailCreateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.request.CompanyDetail.DetailUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.CompanyDetail.DetailResponse;
+import com.shinosaka.shukatsunomori.backend.dto.request.companyDetail.DetailCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.companyDetail.DetailUpdateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.response.companyDetail.DetailResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
 import com.shinosaka.shukatsunomori.backend.service.DetailService;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.dto.request;
+package com.shinosaka.shukatsunomori.backend.dto.request.company;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

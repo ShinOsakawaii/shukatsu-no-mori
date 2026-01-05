@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.dto.request.CompanyDetail;
+package com.shinosaka.shukatsunomori.backend.dto.request.companyDetail;
 
 import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Detail;
