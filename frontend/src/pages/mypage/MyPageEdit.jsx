@@ -49,10 +49,6 @@ function MyPageEdit() {
     });
 
     const handleSave = () => {
-        if (!form.password || !form.rePassword) {
-            alert("비밀번호 입력은 필수 입니다.");
-            return;
-        }
 
         if (form.password !== form.rePassword) {
             alert("비밀번호가 일치하지 않습니다.");

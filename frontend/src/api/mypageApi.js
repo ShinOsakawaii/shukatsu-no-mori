@@ -22,7 +22,7 @@ export async function fetchMyPage(userId) {
 //마이페이지 수정 api
 
 export function updateMyProfile(formData) {
-    return api.put("/mypage/edit", formData, {
+    return api.patch("/api/user/myinfo", formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
