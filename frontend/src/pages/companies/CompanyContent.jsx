@@ -35,20 +35,25 @@ function CompanyContent() {
         }
     });
 
-    const { data: me, isLoading: meIsLoading } = useMe();
-
-    if (isLoading) return <Loader />;
-    if (isError) return <ErrorMessage error={error} />
-
-    const { content } = data;
+    const { detail, review } = data;
 
     return (
         <>
             {/* 기업 분석 테이블 */}
-            <CompanyDetailAnalysis company={content} />
+            <CompanyDetailAnalysis
+                companyId={companyId}
+                detail={detail}
+                isLoading={isLoading}
+                isError={isError}
+            />
 
             {/* 기업 후기 테이블 */}
-            <CompanyDetatilReview />
+            <CompanyDetailReview
+                companyId={companyId}
+                review={review}
+                isLoading={isLoading}
+                isError={isError}
+            />
         </>
     );
 }
