@@ -6,8 +6,8 @@ import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
-import com.shinosaka.shukatsunomori.backend.respository.CompanyRepository;
-import com.shinosaka.shukatsunomori.backend.respository.LocationRepository;
+import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
+import com.shinosaka.shukatsunomori.backend.repository.LocationRepository;
 import com.shinosaka.shukatsunomori.backend.service.CompanyService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -32,7 +32,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional(readOnly = true)
     public PageResponse<CompanyResponse> getCompanyList(@Min(0) int page, @Max(10) int size) {
-        Pageable pageable = PageRequest.of(page, size,  Sort.by(Sort.Direction.DESC, "id"));
+        Pageable pageable = PageRequest.of(page, size,  Sort.by(Sort.Direction.DESC, "companyId"));
         Page<Company> companies = companyRepository.findAll(pageable);
         return PageResponse.from(companies, CompanyResponse::from);
     }
