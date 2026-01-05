@@ -1,8 +1,6 @@
 package com.shinosaka.shukatsunomori.backend.dto.request;
 
-import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Review;
-import com.shinosaka.shukatsunomori.backend.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

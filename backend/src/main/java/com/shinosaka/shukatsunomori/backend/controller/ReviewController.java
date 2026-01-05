@@ -2,7 +2,6 @@ package com.shinosaka.shukatsunomori.backend.controller;
 
 import com.shinosaka.shukatsunomori.backend.dto.request.ReviewCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.ReviewUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewDetailResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewListResponse;
 import com.shinosaka.shukatsunomori.backend.service.ReviewService;

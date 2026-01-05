@@ -1,16 +1,11 @@
 package com.shinosaka.shukatsunomori.backend.service.implement;
 
-import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Review;
-import com.shinosaka.shukatsunomori.backend.domain.User;
 import com.shinosaka.shukatsunomori.backend.dto.request.ReviewCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.ReviewUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewDetailResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewListResponse;
-import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.repository.ReviewRepository;
-import com.shinosaka.shukatsunomori.backend.repository.UserRepository;
 import com.shinosaka.shukatsunomori.backend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
