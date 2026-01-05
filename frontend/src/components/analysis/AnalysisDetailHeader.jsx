@@ -7,22 +7,59 @@ export default function AnalysisDetailHeader({ dummyAnalysis }) {
 
     return (
         <>
-            <Typography variant='subtitle1' sx={{ fontWeight: 700, mb: 3.5 }}>
+            <Typography
+                variant='subtitle1'
+                sx={{
+                    color: "#6C584C",
+                    fontWeight: 700,
+                    mb: 3.5
+                }}>
                 {nickname}님의 기업 분석
             </Typography>
 
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2, flexWrap: "wrap" }}>
-                <Typography variant='body1' sx={{ fontWeight: 500 }}>
-                    {title}</Typography>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: "#6C584C",
+                    mb: 2,
+                    flexWrap: "wrap"
+                }}>
 
-                <Typography variant='body1' sx={{ fontWeight: 500 }}>
-                    {position}</Typography>
+                <Typography
+                    variant='body1'
+                    sx={{
+                        color: "#6C584C",
+                        fontWeight: 500
+                    }}>
+                    {title}
+                </Typography>
 
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                <Typography
+                    variant='body1'
+                    sx={{
+                        color: "#6C584C",
+                        fontWeight: 500
+                    }}>
+                    {position}
+                </Typography>
+
+                <Typography
+                    variant="body2"
+                    sx={{
+                        color: "#6C584C",
+                        fontWeight: 500
+                    }}>
                     등록일: {dayjs(createdDate).format("YYYY/MM/DD")}
                 </Typography>
 
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                <Typography
+                    variant="body2"
+                    sx={{
+                        color: "#6C584C",
+                        fontWeight: 500
+                    }}>
                     수정일: {dayjs(updatedDate).format("YYYY/MM/DD")}
                 </Typography>
             </Box>

@@ -32,13 +32,13 @@ export default function AnalysisDetail() {
     // 테스트용 더미 유저 데이터
     const dummyUser = {
         userId: 1,
-        nickname: "홍길동"
+        nickname: "토마토"
     };
 
     // 테스트용 더미 데이터
     const dummyAnalysis = {
         detailId: 1,
-        userId: 1,
+        userId: 2,
         title: "스타트업 분석",
         position: "개발",
         content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
@@ -57,8 +57,8 @@ export default function AnalysisDetail() {
                     sx={{
                         width: 340,
                         height: 48,
-                        backgroundColor: '#a88464',
-                        color: '#fff',
+                        backgroundColor: '#A98467',
+                        color: '#F0EAD2',
                         borderRadius: 2,
                         display: 'flex',
                         alignItems: 'center',

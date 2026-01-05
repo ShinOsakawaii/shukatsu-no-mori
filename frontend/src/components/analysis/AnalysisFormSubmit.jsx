@@ -8,22 +8,9 @@ function AnalysisFormSubmit({ isEdit, onDelete }) {
 
     return (
         <>
-            {/* 수정일 때만 삭제 버튼 (우측 상단) */}
-            {isEdit && (
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                    <Button
-                        color="error"
-                        variant="contained"
-                        sx={{ px: 4, borderRadius: 2 }}
-                        onClick={onDelete}
-                    >
-                        삭제
-                    </Button>
-                </Box>
-            )}
 
-            {/* 하단 버튼 */}
-            <Stack direction="row" spacing={1.5} justifyContent="center" mt={4}>
+        {/* 하단 버튼 */ }
+        < Stack direction = "row" spacing = { 1.5} justifyContent = "center" mt = { 4} >
                 <Button
                     variant="outlined"
                     size="small"
@@ -42,6 +29,7 @@ function AnalysisFormSubmit({ isEdit, onDelete }) {
                     variant="contained"
                     size="small"
                     sx={{
+                        color: '#6C584C',
                         backgroundColor: '#ADC178',
                         px: 5,
                         '&:hover': { backgroundColor: '#96b85f' },
@@ -49,7 +37,7 @@ function AnalysisFormSubmit({ isEdit, onDelete }) {
                 >
                     {isEdit ? '수정' : '저장'}
                 </Button>
-            </Stack>
+            </Stack >
         </>
     );
 }
