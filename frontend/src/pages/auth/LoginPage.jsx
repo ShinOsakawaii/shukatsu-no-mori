@@ -12,7 +12,7 @@ function LoginPage() {
         onSuccess: async (data) => {
             setAuth(data); // 토큰 저장
             await queryClient.invalidateQueries({ queryKey: ["me"] });
-            navigate("/posts"); // 사용자 정보 갱신 후 이동
+            navigate("/companies"); // 사용자 정보 갱신 후 이동
         }
     });
 
@@ -84,6 +84,7 @@ function LoginPage() {
                             sx={{ mt: 2 }}
                         >
                             <Button
+                                type="submit"
                                 variant="outlined"
                                 size="small"
                                 onClick={() => navigate("/auth/register")}
