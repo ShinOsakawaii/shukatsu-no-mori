@@ -3,6 +3,7 @@ package com.shinosaka.shukatsunomori.backend.service.implement;
 import com.shinosaka.shukatsunomori.backend.config.JwtTokenProvider;
 import com.shinosaka.shukatsunomori.backend.domain.User;
 import com.shinosaka.shukatsunomori.backend.dto.request.auth.LoginRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.auth.MyInfoUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.auth.SignupRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.auth.AuthResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.auth.MyInfoResponse;
@@ -14,10 +15,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
@@ -70,6 +73,29 @@ public class AuthServiceImpl implements AuthService {
 
         return MyInfoResponse.from(user);
     }
+
+    //내 정보 수정
+    @Override
+    public void patchMyInfo(Long userId, @Valid MyInfoUpdateRequest request){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 회원을 찾을 수 없습니다."));
+
+        //닉네임 변경
+        if(request.getNickname() != null){
+            user.updateNickname(request.getNickname());
+        }
+        //이미지 변경
+        if (request.getProfileImage() != null){
+            user.updateProfileImage(request.getProfileImage());
+        }
+        //비밀번호 변경
+        if(request.getNewPassword() != null && request.getNewPassword().equals(request.getConfirmPassword())
+        ){
+            String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+            user.updatePassword(encodedPassword);
+        }
+    }
+
 
 
 }
