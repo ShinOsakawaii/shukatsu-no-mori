@@ -1,2 +1,3 @@
 # shukatsu-no-mori
-신한 GYC 7기 오사카반 프로젝트
+
+* 강동희 : 분석, 후기 리스트 UI
