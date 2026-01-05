@@ -2,7 +2,9 @@ import { Link } from 'react-router'
 import dayjs from 'dayjs';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 
-function MyPageAnalysis() {
+function MyPageAnalysis({ detail }) {
+
+    const lists = detail ? detail : []
     return (
         <TableContainer sx={{ mt: 3 }}>
             <Table>

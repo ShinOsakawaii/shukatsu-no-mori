@@ -1,7 +1,9 @@
 import React from 'react';
+import MyPageAnalysis from '../../components/mypage/MyPageAnalysis';
+import MyPageReview from '../../components/mypage/MyPageReview';
 //내가 쓴 글 조회
-function MyPageContent(userId) {
-    
+function MyPageContent({ userId }) {
+
     //Api 관련 TanStaks Query=============
     //1. 내 기본 정보
     const myPageQuery = useQuery({
@@ -21,10 +23,15 @@ function MyPageContent(userId) {
         queryFn: () => fetchMyReviews()
     });
 
+    const { detail, review } = data;
 
     return (
         <div>
+            {/* 마이페이지 분석 테이블 */}
+            <MyPageAnalysis detail={detail} />
 
+            {/* 마이페이지 후기 테이블 */}
+            <MyPageReview review={review} />
         </div>
     );
 }
