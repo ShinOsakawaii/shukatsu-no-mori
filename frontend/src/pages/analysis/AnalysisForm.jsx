@@ -1,51 +1,161 @@
-import React from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { createAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
+import { Box, Typography, Button, Stack, Paper } from '@mui/material';
+import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
+import Loader from '../../components/common/Loader';
+import ErrorMessage from '../../components/common/ErrorMessage';
+
 //기업 분석 등록, 삭제
-function AnalysisForm(props) {
+function AnalysisForm({ mode }) {
 
-    const { companyId: companyIdParam, detailId } = useParams();
-    const companyId = Number(companyIdParam);
+    const isEdit = mode === 'edit';
+
     const queryClient = useQueryClient();
+    const { companyId: companyIdParam } = useParams();
+    const companyId = Number(companyIdParam);
+    const { detailId: detailIdParam } = useParams();
+    const analysisId = Number(detailIdParam);
+    const navigate = useNavigate();
 
-    const isEdit = !!detailId;
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+
 
     // TanStack Query=============
-    // 1. 기업 분석 등록
+    // 기업 분석 등록
     const createMutation = useMutation({
-        mutationFn: (payload) =>
-            createCompanyDetail(companyId, payload),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['companyDetails', companyId]
-            });
+        mutationFn: (payload) => createAnalysis(companyId, payload),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            navigate(`/companies/${companyId}/detail/${data.detailId}`);
         },
         onError: () => {
-            alert('기업 분석 등록에 실패했습니다.');
+            alert('게시글 등록에 실패했습니다.');
         }
     });
 
+    // 수정 모드일 때 기존 데이터 가져오기 
+    const { data: analysis, isLoading, isError, error } = useQuery({
+        queryKey: ['analysis', companyId, analysisId],
+        queryFn: () => fetchAnalysisDetail(companyId, analysisId),
+        enabled: isEdit
+    });
 
-    // 2. 기업 분석 삭제
+    // 수정 mutation
     const updateMutation = useMutation({
-        mutationFn: (payload) =>
-            updateCompanyDetail(companyId, detailId, payload),
+        mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['companyDetails', companyId]
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['companyDetail', companyId, detailId]
-            });
+            // 목록 캐시 무효화
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            // 상세 내용 무효화
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
+            // 이동
+            navigate(`/companies/${companyId}/detail/${analysisId}`);
         },
         onError: () => {
-            alert('기업 분석 수정에 실패했습니다.');
+            alert('게시글 수정에 실패했습니다.')
         }
-    });
 
+    })
+
+    if (isEdit && isLoading) return <Loader />
+    if (isEdit && isError) return <ErrorMessage error={error} />
+
+    // 이벤트 핸들러 ==============
+
+    // 폼 전송 =========
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        const payload = {
+            title: title.trim(),
+            content: content.trim()
+        }
+
+        //검증
+        if (!title.trim() || !content.trim()) {
+            alert('제목과 내용은 필수입니다.');
+            return;
+        }
+
+        // props에 따라 생성/수정 mutation 호출
+        if (isEdit) {
+            updateMutation.mutate(payload);   // 수정
+        } else {
+            createMutation.mutate(payload); // 작성
+        }
+    }
     return (
-        <div>
+        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
+            {/* 상단 제목 */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                <Typography
+                    sx={{
+                        width: 340,
+                        height: 48,
+                        backgroundColor: '#a88464',
+                        color: '#fff',
+                        borderRadius: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '16px',
+                        fontWeight: 500
+                    }}
+                >
+                    기업 분석
+                </Typography>
+            </Box>
 
-        </div>
+            {/* 입력 카드 */}
+            <Paper
+                elevation={0}
+                sx={{
+                    maxWidth: 900,
+                    mx: 'auto',
+                    p: 5,
+                    borderRadius: 6,
+                    backgroundColor: '#e4efc3'
+                }}
+            >
+                <Box component="form" onSubmit={handleSubmit}>
+                    <AnalysisFormSubmit
+                        title={title}
+                        content={content}
+                        onChangeTitle={setTitle}
+                        onChangeContent={setContent}
+                    />
+
+                    {/* 버튼 */}
+                    <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => navigate(-1)}
+                            sx={{
+                                borderColor: '#a88464',
+                                color: '#a88464',
+                                px: 5
+                            }}
+                        >
+                            취소
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{
+                                backgroundColor: '#a7c76f',
+                                px: 5,
+                                '&:hover': { backgroundColor: '#96b85f' }
+                            }}
+                        >
+                            저장
+                        </Button>
+                    </Stack>
+                </Box>
+            </Paper>
+        </Box>
     );
 }
-
 export default AnalysisForm;
