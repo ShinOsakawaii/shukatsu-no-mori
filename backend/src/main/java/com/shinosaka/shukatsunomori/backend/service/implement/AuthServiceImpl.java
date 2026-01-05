@@ -34,6 +34,20 @@ public class AuthServiceImpl implements AuthService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다.");
         }
 
+        if (request.getPassword() == null || request.getRePassword() == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "비밀번호와 비밀번호 확인을 모두 입력해주세요."
+            );
+        }
+
+        if (!request.getPassword().equals(request.getRePassword())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "비밀번호와 비밀번호 확인이 일치하지 않습니다."
+            );
+        }
+
         //비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 

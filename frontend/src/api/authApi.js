@@ -29,7 +29,7 @@ export async function fetchMe() {
 
 // 로그인
 export async function login({ email, password }) {
-    const res = await api.post("/api/member/login", {
+    const res = await api.post("/api/user/login", {
         email,
         password
     });
@@ -37,12 +37,18 @@ export async function login({ email, password }) {
 }
 
 // 회원가입
-export async function register({ email, password, rePassword, nickname }) {
-    const res = await api.post("/api/signup", {
+export async function register({ email, password, rePassword, nickname, profileImage }) {
+    console.log("VITE_API_BASE_URL =", import.meta.env.VITE_API_BASE_URL);
+    console.log("api.defaults.baseURL =", api.defaults.baseURL);
+
+    console.log({ email, password, rePassword, nickname, profileImage });
+    const res = await api.post("/api/user/signup", {
         email,
         password,
         rePassword,
-        nickname
+        nickname,
+        profileImage: null
     });
+    console.log(res);
     return res.data;
 }

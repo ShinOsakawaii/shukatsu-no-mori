@@ -50,6 +50,7 @@ function RegisterPage() {
         registerMutation.mutate({
             email: form.email.trim(),
             password: form.password.trim(),
+            rePassword: form.rePassword.trim(),
             nickname: form.nickname.trim()
         });
     };
