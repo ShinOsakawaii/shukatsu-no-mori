@@ -1,11 +1,15 @@
 package com.shinosaka.shukatsunomori.backend.service.implement;
 
+import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Review;
-import com.shinosaka.shukatsunomori.backend.dto.request.ReviewCreateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.request.ReviewUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewDetailResponse;
-import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewListResponse;
+import com.shinosaka.shukatsunomori.backend.domain.User;
+import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewUpdateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
+import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewResponse;
+import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.repository.ReviewRepository;
+import com.shinosaka.shukatsunomori.backend.repository.UserRepository;
 import com.shinosaka.shukatsunomori.backend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     //  리뷰 작성 (Create)
     @Override
-    public ReviewDetailResponse createReview(Long userId, ReviewCreateRequest request) {
+    public ReviewResponse createReview(Long userId, ReviewCreateRequest request) {
         // 로그인 체크
         requiredLogin(userId);
 
@@ -53,13 +57,13 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 저장 및 결과 반환
         Review saved = reviewRepository.save(review);
-        return ReviewDetailResponse.form(saved);
+        return ReviewResponse.from(saved);
     }
 
     // 리뷰 목록 조회 + 페이징 + 검색
     @Override
     @Transactional(readOnly = true)
-    public PageResponse<ReviewListResponse> getReviewList(int page, int size, String keyword) {
+    public PageResponse<ReviewResponse> getReviewList(int page, int size, String keyword) {
         // Pageable 객체 생성. 페이지 번호, 한 페이지 안에 데이터 수, 정렬 기준 (reviewId 기준)
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "reviewId"));
 
@@ -68,7 +72,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         // DTO로 반환
         // reviewPage 안에 있는 entity 목록을 ReviewListResponse DTO로 변환 -> PageResponse 형태로 반환
-        return PageResponse.from(reviewPage, ReviewListResponse::form);
+        return PageResponse.from(reviewPage, ReviewResponse::from);
     }
 
     private Page<Review> findReviewPage(String keyword, Pageable pageable) {
@@ -87,18 +91,18 @@ public class ReviewServiceImpl implements ReviewService {
 
     // 리뷰 상세 조회
     @Override
-    public ReviewDetailResponse getReviewDetail(Long id) {
+    public ReviewResponse getReviewDetail(Long id) {
         // id 조회, 없으면 예외 처리
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 글을 찾을 수 없습니다."));
 
         // 상세정보를 DTO 변환 반환
-        return ReviewDetailResponse.form(review);
+        return ReviewResponse.from(review);
     }
 
     // 리뷰 수정
     @Override
-    public ReviewDetailResponse updateReview(Long userId, Long id, ReviewUpdateRequest request) {
+    public ReviewResponse updateReview(Long userId, Long id, ReviewUpdateRequest request) {
 
         requiredLogin(userId);
 
@@ -113,7 +117,7 @@ public class ReviewServiceImpl implements ReviewService {
         // 엔티티 업데이트 메서드
         review.update(request.getTitle(), request.getPosition(), request.getContent(), request.getStage(), request.getResult());
         // response DTO 변환 후 반환
-        return ReviewDetailResponse.form(review);
+        return ReviewResponse.from(review);
     }
 
     // 리뷰 삭제

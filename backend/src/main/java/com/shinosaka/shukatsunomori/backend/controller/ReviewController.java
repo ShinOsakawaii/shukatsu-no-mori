@@ -1,9 +1,9 @@
 package com.shinosaka.shukatsunomori.backend.controller;
 
-import com.shinosaka.shukatsunomori.backend.dto.request.ReviewCreateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.request.ReviewUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewDetailResponse;
-import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewListResponse;
+import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewUpdateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
+import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewResponse;
 import com.shinosaka.shukatsunomori.backend.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class ReviewController {
 
     // 기업 후기 목록 조회 + 검색 + 페이지
     @GetMapping
-    public ResponseEntity<PageResponse<ReviewListResponse>> getReviewList(
+    public ResponseEntity<PageResponse<ReviewResponse>> getReviewList(
             @PathVariable Long companyId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -32,7 +32,7 @@ public class ReviewController {
 
     // 기업 후기 개별 조회
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewDetailResponse> getReviewDetail(
+    public ResponseEntity<ReviewResponse> getReviewDetail(
             @PathVariable Long companyId,
             @PathVariable Long reviewId) {
 
@@ -41,7 +41,7 @@ public class ReviewController {
 
     // 기업 후기 등록
     @PostMapping
-    public ResponseEntity<ReviewDetailResponse> createReview(
+    public ResponseEntity<ReviewResponse> createReview(
             @PathVariable Long companyId,
             @Valid @RequestBody ReviewCreateRequest request) {
 
@@ -57,7 +57,7 @@ public class ReviewController {
 
     // 기업 후기 수정
     @PutMapping("/{reviewId}")
-    public ResponseEntity<ReviewDetailResponse> updateReview(
+    public ResponseEntity<ReviewResponse> updateReview(
             @PathVariable Long companyId,
             @PathVariable Long reviewId,
             @Valid @RequestBody ReviewUpdateRequest request) {

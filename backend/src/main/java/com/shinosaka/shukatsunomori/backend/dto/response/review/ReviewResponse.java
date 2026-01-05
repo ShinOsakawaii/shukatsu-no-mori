@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReviewDetailResponse {
+public class ReviewResponse {
 
     private Long reviewId;
     private Long companyId;
@@ -21,21 +21,23 @@ public class ReviewDetailResponse {
     private String stage;
     private String result;
     private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 
-    public static ReviewDetailResponse form(Review review){
-        return ReviewDetailResponse.builder()
+    /*
+     * Entity -> DTO 변환 메서드
+     */
+    public static ReviewResponse from(Review review) {
+        return ReviewResponse.builder()
                 .reviewId(review.getReviewId())
-                .companyId(review.getReviewId())
-                .userId(review.getReviewId())
+                .companyId(review.getCompany().getCompanyId())
+                .userId(review.getUser().getUserId())
                 .title(review.getTitle())
                 .position(review.getPosition())
                 .content(review.getContent())
                 .stage(review.getStage())
                 .result(review.getResult())
                 .createdAt(review.getCreatedAt())
-                .updateAt(review.getUpdateAt())
+                .updatedAt(review.getUpdateAt())
                 .build();
     }
 }
-
