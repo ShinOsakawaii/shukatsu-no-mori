@@ -23,13 +23,14 @@ function AnalysisFormSubmit({ isEdit, onDelete }) {
             )}
 
             {/* 하단 버튼 */}
-            <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
+            <Stack direction="row" spacing={1.5} justifyContent="center" mt={4}>
                 <Button
                     variant="outlined"
+                    size="small"
                     onClick={() => navigate(-1)}
                     sx={{
-                        borderColor: '#a88464',
-                        color: '#a88464',
+                        borderColor: '#6C584C',
+                        color: '#6C584C',
                         px: 5,
                     }}
                 >
@@ -39,8 +40,9 @@ function AnalysisFormSubmit({ isEdit, onDelete }) {
                 <Button
                     type="submit"
                     variant="contained"
+                    size="small"
                     sx={{
-                        backgroundColor: '#a7c76f',
+                        backgroundColor: '#ADC178',
                         px: 5,
                         '&:hover': { backgroundColor: '#96b85f' },
                     }}

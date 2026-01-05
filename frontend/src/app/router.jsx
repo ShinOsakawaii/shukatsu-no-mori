@@ -35,7 +35,8 @@ export const router = createBrowserRouter([
                         path: ':companyId/detail',
                         children: [
                             { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                            { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
+                            // { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
+                            { path: 'dummy/analysis', element: <AnalysisDetail /> } // 테스트용 더미 주소
                         ]
                     },
 

@@ -21,6 +21,7 @@ function AnalysisForm({ mode }) {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
+    const [position, setPosition] =useState("");
     const [content, setContent] = useState("");
 
 
@@ -84,12 +85,13 @@ function AnalysisForm({ mode }) {
 
         const payload = {
             title: title.trim(),
+            position: position.trim(),
             content: content.trim()
         }
 
         //검증
-        if (!title.trim() || !content.trim()) {
-            alert('제목과 내용은 필수입니다.');
+        if (!title.trim() || !position.trim() || !content.trim()) {
+            alert('모든 내용은 필수입니다.');
             return;
         }
 
@@ -108,14 +110,15 @@ function AnalysisForm({ mode }) {
                     sx={{
                         width: 340,
                         height: 48,
-                        backgroundColor: '#a88464',
+                        backgroundColor: '#a98467',
                         color: '#fff',
                         borderRadius: 2,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '16px',
-                        fontWeight: 500
+                        fontWeight: 500,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                     }}
                 >
                     기업 분석
@@ -130,14 +133,17 @@ function AnalysisForm({ mode }) {
                     mx: 'auto',
                     p: 5,
                     borderRadius: 6,
-                    backgroundColor: '#e4efc3'
+                    backgroundColor: '#DDE5B6',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                 }}
             >
                 <Box component="form" onSubmit={handleSubmit}>
                     <AnalysisFormSubmit
                         title={title}
                         content={content}
+                        position={position}
                         onChangeTitle={setTitle}
+                        onChangePosition={setPosition}
                         onChangeContent={setContent}
                     />
 
