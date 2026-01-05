@@ -60,9 +60,5 @@ export const router = createBrowserRouter([
             }
 
         ]
-    },
-    {
-        path: '*',
-        element: <NotFound /> // 404 페이지
     }
 ]);
