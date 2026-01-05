@@ -3,13 +3,13 @@ import AppLayout from '../layouts/AppLayout';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import CompanyList from '../pages/companies/CompanyList';
-import CompanyDetail from '../pages/companies/CompanyDetail';
-import MyPage from '../pages/mypage/MyPage';
+import CompanyContent from '../pages/companies/CompanyContent';
+import MyPage from '../pages/mypage/MyPageContent';
 import MyPageEdit from '../pages/mypage/MyPageEdit';
-import AnalysisDetail from '../pages/analysis/AnalysisDetail';
-import ReviewDetail from '../pages/review/ReviewDetail';
+import AnalysisDetail from '../pages/analysis/DetailContent';
+import ReviewDetail from '../pages/review/ReviewContent';
 import CompanyForm from '../pages/companies/CompanyForm';
-import AnalysisForm from '../pages/analysis/AnalysisForm';
+import AnalysisForm from '../pages/analysis/DetailForm';
 import ReviewForm from '../pages/review/ReviewForm';
 
 export const router = createBrowserRouter([
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
                 path: 'companies',
                 children: [
                     { path: 'new', element: <CompanyForm mode="create" /> }, // 기업 등록 화면, 기업 등록 수정 화면 == CompanyForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                    { path: ':companyId', element: <CompanyDetail /> }, // 기업 상세 조회 화면 
+                    { path: ':companyId', element: <CompanyContent /> }, // 기업 상세 조회 화면 
 
                     // 2-1. 기업 분석 (Detail)
                     {
