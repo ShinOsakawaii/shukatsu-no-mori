@@ -34,7 +34,7 @@ public class Review {
     @Column(name = "title", nullable = false, length = 200)
     private String title;
 
-    @Column(name = "position", nullable = false, length = 50)
+    @Column(name = "job_position", nullable = false, length = 50) // "position" 대신 변경
     private String position;
 
     @Column(name = "content", nullable = false, length = 4000)
@@ -43,7 +43,7 @@ public class Review {
     @Column(name = "stage", nullable = false, length = 20)
     private String stage;
 
-    @Column(name = "result", nullable = false, length = 20)
+    @Column(name = "test_result", nullable = false, length = 20)   // "result" 대신 변경
     private String result;
 
     @CreationTimestamp

@@ -15,7 +15,7 @@ import lombok.*;
 @Builder
 public class ReviewCreateRequest {
 
-    // 1. 이 필드를 가장 위에 추가하세요!
+
     @NotNull(message = "회사 선택은 필수입니다.")
     private Long companyId;
 
