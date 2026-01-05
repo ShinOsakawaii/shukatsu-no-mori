@@ -1,6 +1,6 @@
 import React from 'react';
 //내가 쓴 글 조회
-function MyPageContent(userId) {
+function MyPage(userId) {
     
     //Api 관련 TanStaks Query=============
     //1. 내 기본 정보

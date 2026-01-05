@@ -3,7 +3,7 @@ import { deleteCompany, fetchCompany } from '../../api/companyApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 //기업정보 상세조회, 삭제
-function CompanyContent() {
+function CompanyDetail() {
     
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
@@ -42,4 +42,4 @@ function CompanyContent() {
     );
 }
 
-export default CompanyContent;
+export default CompanyDetail;

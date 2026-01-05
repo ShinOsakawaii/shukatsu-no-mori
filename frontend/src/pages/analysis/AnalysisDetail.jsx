@@ -1,6 +1,6 @@
 import React from 'react';
 //기업 분석 조회, 삭제 
-function DetailContent(props) {
+function AnalysisDetail(props) {
 
     const { companyId: companyIdParam, detailId } = useParams();
     const companyId = Number(companyIdParam);
@@ -44,4 +44,4 @@ function DetailContent(props) {
     );
 }
 
-export default DetailContent;
+export default AnalysisDetail;
