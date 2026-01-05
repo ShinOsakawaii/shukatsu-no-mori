@@ -3,6 +3,7 @@ import { deleteCompany, fetchCompany } from '../../api/companyApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 import { CompanyDetailAnalysis } from '../../companies/CompanyDetailAnalysis';
+import { CompanyDetailReview } from '../../companies/CompanyDetailAnalysis';
 import { ErrorMessage } from '../../common/ErrorMessage';
 import { Loader } from '../../common/Loader';
 //기업정보 상세조회, 삭제
@@ -43,8 +44,11 @@ function CompanyContent() {
 
     return (
         <>
-            {/* 기업 분석 테이블*/}
+            {/* 기업 분석 테이블 */}
             <CompanyDetailAnalysis company={content} />
+
+            {/* 기업 후기 테이블 */}
+            <CompanyDetatilReview />
         </>
     );
 }
