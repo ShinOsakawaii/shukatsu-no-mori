@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
+import { useMe } from "../hooks/useMe";
+
 import ForestIcon from '@mui/icons-material/Forest';
+import { Button } from "@mui/material";
 
 function NavBar() {
     const navigate = useNavigate();
 
     // 로그인 상태
-    const [user, setUser] = useState(null);
+    const { data: user, isLoading: userIsLoading } = useMe();
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user"); // 로그인 시 user 정보 저장한다고 가정
@@ -32,25 +35,25 @@ function NavBar() {
 
             {/* 오른쪽 메뉴 */}
             <div style={{ display: "flex", gap: "15px" }}>
-                {!user ? (
+                {!userIsLoading && user ? (
                     <>
-                        <Link to="/auth/login" style={{ textDecoration: "none" }}>로그인</Link>
-                        <Link to="/auth/register" style={{ textDecoration: "none" }}>회원가입</Link>
-                    </>
-                ) : (
-                    <>
-                        <span>{user.name}님 환영합니다. </span>
+                        <span>{user.nickname}님 환영합니다. </span>
                         <Link to="/mypage" style={{ textDecoration: "none" }}>마이페이지</Link>
-                        <span
+                        <Button
+                            variant='text'
                             onClick={handleLogout}
-                            style={{
+                            sx={{
                                 cursor: "pointer",
                                 textDecoration: "none",
                                 color: "inherit",
-                            }}
-                        >
+                            }}>
                             로그아웃
-                        </span>
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/auth/login" style={{ textDecoration: "none" }}>로그인</Link>
+                        <Link to="/auth/register" style={{ textDecoration: "none" }}>회원가입</Link>
                     </>
                 )}
             </div>

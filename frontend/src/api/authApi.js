@@ -23,7 +23,7 @@ export function clearAuth() {
 // 로그인한 사용자 정보 가져오기
 // ❗ 명세서에 없으면 일단 그대로 두거나 주석 처리해도 됨
 export async function fetchMe() {
-    const res = await api.get("/api/member/me");
+    const res = await api.get("/api/user/myinfo");
     return res.data;
 }
 
