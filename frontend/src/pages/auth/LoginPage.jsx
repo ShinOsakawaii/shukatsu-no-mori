@@ -12,6 +12,8 @@ function LoginPage() {
         onSuccess: async (data) => {
             setAuth(data); // 토큰 저장
             await queryClient.invalidateQueries({ queryKey: ["me"] });
+            console.log("✅ LOGIN SUCCESS:", data);
+
             navigate("/companies"); // 사용자 정보 갱신 후 이동
         }
     });
