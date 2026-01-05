@@ -28,7 +28,7 @@ function MyPageAnalysis({ detail }) {
                 <TableBody>
                     {
                         lists.map(({
-                            id, title, createAt }) =>
+                            id, title, createAt, companyId, detailId }) =>
                         (
                             <TableRow key={id}
                                 hover sx={{
@@ -54,7 +54,7 @@ function MyPageAnalysis({ detail }) {
                     {
                         lists.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={5}
+                                <TableCell colSpan={3}
                                     align='center' sx={{ py: 5 }}>
                                     게시글이 없습니다.
                                 </TableCell>
