@@ -21,23 +21,44 @@ function AnalysisForm({ mode }) {
 
     const navigate = useNavigate();
 
-    // const [title, setTitle] = useState("");
-    // const [position, setPosition] = useState("");
-    // const [content, setContent] = useState("");
+    const [title, setTitle] = useState("");
+    const [position, setPosition] = useState("");
+    const [content, setContent] = useState("");
 
 
-    // // TanStack Query=============
-    // // 기업 분석 등록
-    // const createMutation = useMutation({
-    //     mutationFn: (payload) => createAnalysis(companyId, payload),
-    //     onSuccess: (data) => {
-    //         queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-    //         navigate(`/companies/${companyId}/detail/${data.detailId}`);
-    //     },
-    //     onError: () => {
-    //         alert('게시글 등록에 실패했습니다.');
-    //     }
-    // });
+    // // 데스트용 더미 데이터
+    // const dummyAnalysis = {
+    //     title: "스타트업 분석",
+    //     position: "개발",
+    //     content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
+    //     userId: 1,
+    //     nickname: "토마토님",
+    //     createdDate: "2025/11/14",
+    //     updatedDate: "2025/12/04"
+    // };
+
+    // // 테스트용 더미 데이터
+    // // 로그인 여부/작성자 여부
+    // const dummyUser = { userId: 1, nickname: "토마토님" }; // 로그인 사용자 더미
+    // const isAuthor = dummyUser.userId === dummyAnalysis.userId;
+
+    // const [title, setTitle] = useState(dummyAnalysis.title);
+    // const [position, setPosition] = useState(dummyAnalysis.position);
+    // const [content, setContent] = useState(dummyAnalysis.content);
+
+
+    // TanStack Query=============
+    // 기업 분석 등록
+    const createMutation = useMutation({
+        mutationFn: (payload) => createAnalysis(companyId, payload),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            navigate(`/companies/${companyId}/detail/${data.detailId}`);
+        },
+        onError: () => {
+            alert('게시글 등록에 실패했습니다.');
+        }
+    });
 
     // 수정 모드일 때 기존 데이터 가져오기 
     const { data: analysis, isLoading, isError, error } = useQuery({
@@ -46,86 +67,62 @@ function AnalysisForm({ mode }) {
         enabled: isEdit
     });
 
-    // // 수정 mutation
-    // const updateMutation = useMutation({
-    //     mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
-    //     onSuccess: () => {
-    //         // 목록 캐시 무효화
-    //         queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-    //         // 상세 내용 무효화
-    //         queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
-    //         // 이동
-    //         navigate(`/companies/${companyId}/detail/${analysisId}`);
-    //     },
-    //     onError: () => {
-    //         alert('게시글 수정에 실패했습니다.')
-    //     }
+    // 수정 mutation
+    const updateMutation = useMutation({
+        mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
+        onSuccess: () => {
+            // 목록 캐시 무효화
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            // 상세 내용 무효화
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
+            // 이동
+            navigate(`/companies/${companyId}/detail/${analysisId}`);
+        },
+        onError: () => {
+            alert('게시글 수정에 실패했습니다.')
+        }
 
-    // })
+    })
 
-    // // 삭제
-    // const deleteMutation = useMutation({
-    //     mutationFn: () => deleteAnalysis(companyId),
-    //     onSuccessL: () => {
-    //         queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-    //         navigate(`/companies/${companyId}/detail/`);
-    //     },
-    //     onError: () => {
-    //         alert('게시글 삭제에 실패했습니다.');
-    //     }
-    // });
+    // 삭제
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteAnalysis(companyId),
+        onSuccessL: () => {
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            navigate(`/companies/${companyId}/detail/`);
+        },
+        onError: () => {
+            alert('게시글 삭제에 실패했습니다.');
+        }
+    });
 
-    // if (isEdit && isLoading) return <Loader />
-    // if (isEdit && isError) return <ErrorMessage error={error} />
+    if (isEdit && isLoading) return <Loader />
+    if (isEdit && isError) return <ErrorMessage error={error} />
 
-    // // 이벤트 핸들러 ==============
+    // 이벤트 핸들러 ==============
 
-    // // 폼 전송 =========
-    // const handleSubmit = (evt) => {
-    //     evt.preventDefault();
-
-    //     const payload = {
-    //         title: title.trim(),
-    //         position: position.trim(),
-    //         content: content.trim()
-    //     }
-
-    //     //검증
-    //     if (!title.trim() || !position.trim() || !content.trim()) {
-    //         alert('모든 내용은 필수입니다.');
-    //         return;
-    //     }
-
-    //     // props에 따라 생성/수정 mutation 호출
-    //     if (isEdit) {
-    //         updateMutation.mutate(payload);   // 수정
-    //     } else {
-    //         createMutation.mutate(payload); // 작성
-    //     }
-    // }
-
-    // 데스트용 더미 데이터
-    const dummyAnalysis = {
-        title: "스타트업 분석",
-        position: "개발",
-        content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
-        userId: 1,
-        nickname: "토마토님",
-        createdDate: "2025/11/14",
-        updatedDate: "2025/12/04"
-    };
-
-    // 테스트용 더미 데이터
-    // 로그인 여부/작성자 여부
-    const dummyUser = { userId: 1, nickname: "토마토님" }; // 로그인 사용자 더미
-    const isAuthor = dummyUser.userId === dummyAnalysis.userId;
-
-    const [title, setTitle] = useState(dummyAnalysis.title);
-    const [position, setPosition] = useState(dummyAnalysis.position);
-    const [content, setContent] = useState(dummyAnalysis.content);
-
+    // 폼 전송 =========
     const handleSubmit = (evt) => {
         evt.preventDefault();
+
+        const payload = {
+            title: title.trim(),
+            position: position.trim(),
+            content: content.trim()
+        }
+
+        //검증
+        if (!title.trim() || !position.trim() || !content.trim()) {
+            alert('모든 내용은 필수입니다.');
+            return;
+        }
+
+        // props에 따라 생성/수정 mutation 호출
+        if (isEdit) {
+            updateMutation.mutate(payload);   // 수정
+        } else {
+            createMutation.mutate(payload); // 작성
+        }
     }
 
     return (
@@ -207,19 +204,9 @@ function AnalysisForm({ mode }) {
                         onChangeContent={setContent}
                     />
 
-                    {/* 버튼
-                    <AnalysisFormButtons
-                        isEdit={isEdit}
-                        onDelete={() => {
-                            if (window.confirm('해당 글을 정말 삭제하겠습니까?')) {
-                                deleteMutation.mutate();
-                            }
-                        }} /> */}
-
                     {/* 버튼 */}
                     <AnalysisFormButtons
-                        isEdit={isEdit && isAuthor}
-                    />
+                        isEdit={isEdit}/>
 
                 </Box>
             </Paper>
