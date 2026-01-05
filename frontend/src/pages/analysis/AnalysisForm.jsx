@@ -1,6 +1,6 @@
 import React from 'react';
 //기업 분석 등록, 삭제
-function DetailForm(props) {
+function AnalysisForm(props) {
 
     const { companyId: companyIdParam, detailId } = useParams();
     const companyId = Number(companyIdParam);
@@ -48,4 +48,4 @@ function DetailForm(props) {
     );
 }
 
-export default DetailForm;
+export default AnalysisForm;

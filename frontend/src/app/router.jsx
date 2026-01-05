@@ -3,13 +3,13 @@ import AppLayout from '../layouts/AppLayout';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import CompanyList from '../pages/companies/CompanyList';
-import CompanyContent from '../pages/companies/CompanyContent';
-import MyPage from '../pages/mypage/MyPageContent';
+import CompanyContent from '../pages/companies/CompanyDetail';
+import MyPage from '../pages/mypage/MyPage';
 import MyPageEdit from '../pages/mypage/MyPageEdit';
-import AnalysisDetail from '../pages/analysis/DetailContent';
-import ReviewDetail from '../pages/review/ReviewContent';
+import AnalysisDetail from '../pages/analysis/AnalysisDetail';
+import ReviewDetail from '../pages/review/ReviewDetail';
 import CompanyForm from '../pages/companies/CompanyForm';
-import AnalysisForm from '../pages/analysis/DetailForm';
+import AnalysisForm from '../pages/analysis/AnalysisForm';
 import ReviewForm from '../pages/review/ReviewForm';
 
 export const router = createBrowserRouter([

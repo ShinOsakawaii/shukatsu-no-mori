@@ -35,7 +35,7 @@ function CompanyForm(props) {
     //3. 기업 정보 수정
     const updateMutation = useMutation({
         mutationFn: (payload) => updateCompany(companyId, payload),
-        onSuccess: (update) => {
+        onSuccess: () => {
             //목록 캐시 무효화
             queryClient.invalidateQueries({ queryKey: ['companies'] });
             queryClient.invalidateQueries({ queryKey: ['company', companyId] }); 
@@ -49,7 +49,7 @@ function CompanyForm(props) {
         }
     });
 
-    // 이미지 업로드 (React Query 세팅만)
+    // 기업 정보 이미지 업로드
     const uploadMutation = useMutation({
         mutationFn: uploadImage,
         onSuccess: () => {
@@ -57,6 +57,18 @@ function CompanyForm(props) {
         },
         onError: () => {
             alert('이미지 업로드에 실패했습니다.');
+        }
+    });
+
+    // 기업 정보 이미지 수정
+    const updateImageMutation = useMutation({
+        mutationFn: (payload) => updateCompanyImage(companyId, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['company', companyId] });
+            queryClient.invalidateQueries({ queryKey: ['companies'] });
+        },
+        onError: () => {
+            alert('기업 이미지 수정에 실패했습니다.');
         }
     });
 
