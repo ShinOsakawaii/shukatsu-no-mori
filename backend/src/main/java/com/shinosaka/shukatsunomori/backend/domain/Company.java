@@ -21,7 +21,7 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company_seq_gen")
     @Column(name = "company_id")
-    private Long id;
+    private Long companyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")

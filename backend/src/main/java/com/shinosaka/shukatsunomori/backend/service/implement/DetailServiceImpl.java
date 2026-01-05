@@ -54,7 +54,7 @@ public class DetailServiceImpl implements DetailService {
         Page<Detail> detailPage;
 
         if (keyword == null || keyword.isBlank()) {
-            detailPage = detailRepository.findByCompanyId(companyId, pageable);
+            detailPage = detailRepository.findByCompanyCompanyId(companyId, pageable);
         } else {
             detailPage = detailRepository.findByTitleContainingIgnoreCaseOrContentContaining(
                     companyId, keyword,
@@ -70,7 +70,7 @@ public class DetailServiceImpl implements DetailService {
     @Transactional(readOnly = true)
     public DetailResponse getDetail(Long companyId, Long detailId, Long userId) {
         // 기업 및 글 id 조회, 없으면 예외 처리
-        Detail detail = detailRepository.findByDetailIdAndCompanyId(detailId, companyId)
+        Detail detail = detailRepository.findByDetailIdAndCompanyCompanyId(detailId, companyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업의 분석 글을 찾을 수 없습니다."));
 
         // 작성자 여부 판단
@@ -111,7 +111,7 @@ public class DetailServiceImpl implements DetailService {
         requiredLogin(userId);
 
         // 기업 및 글 id 조회, 없으면 예외 처리
-        Detail detail = detailRepository.findByDetailIdAndCompanyId(detailId, companyId)
+        Detail detail = detailRepository.findByDetailIdAndCompanyCompanyId(detailId, companyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업의 분석 글을 찾을 수 없습니다."));
 
         // 게시글 수정 권한 확인
@@ -133,7 +133,7 @@ public class DetailServiceImpl implements DetailService {
         requiredLogin(userId);
 
         // 기업 및 글 id 조회, 없으면 예외 처리
-        Detail detail = detailRepository.findByDetailIdAndCompanyId(detailId, companyId)
+        Detail detail = detailRepository.findByDetailIdAndCompanyCompanyId(detailId, companyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업의 분석 글을 찾을 수 없습니다."));
 
         //게시글 삭제 권한 확인
