@@ -5,7 +5,7 @@ import axios from 'axios';
 import { getToken, clearAuth } from './authApi';
 
 export const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
     headers: {
         'Content-Type': 'application/json',
     },

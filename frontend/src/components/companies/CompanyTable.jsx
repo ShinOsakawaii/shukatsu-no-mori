@@ -27,7 +27,7 @@ function CompanyTable({ companies = [] }) {
                     {companies.map((company) => (
                         <Grid item key={company.companyId} xs={12} sm={6} md={4}>
                             <Card sx={{ width: 345, borderRadius: '10px' }}>
-                                <CardActionArea component={Link} to={`/${company.companyId}`}>
+                                <CardActionArea component={Link} to={`${company.companyId}`}>
                                     <CardMedia
                                         component="img"
                                         height="140"
