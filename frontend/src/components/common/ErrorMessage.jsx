@@ -1,11 +1,3 @@
-import React from 'react';
-
-function ErrorMessage(props) {
-    return (
-        <div>
-
-        </div>
-    );
+export default function ErrorMessage({ error }) {
+    return <p style={{ color: '#f00' }}>{error?.statusText || error?.message}</p>
 }
-
-export default ErrorMessage;

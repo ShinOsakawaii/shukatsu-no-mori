@@ -25,7 +25,7 @@ public class CompanyResponse {
 
     public static CompanyResponse from(Company company) {
         return CompanyResponse.builder()
-                .companyId(company.getId())
+                .companyId(company.getCompanyId())
                 .location(company.getLocation())
                 .name(company.getName())
                 .industry(company.getIndustry())

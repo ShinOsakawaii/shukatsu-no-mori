@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ReviewDetail(props) {
+function MyPageAnalysis(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function ReviewDetail(props) {
     );
 }
 
-export default ReviewDetail;
+export default MyPageAnalysis;

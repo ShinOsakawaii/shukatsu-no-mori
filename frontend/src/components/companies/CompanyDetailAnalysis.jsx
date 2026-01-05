@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CompanyDetail(props) {
+function CompanyDetailAnalysis(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function CompanyDetail(props) {
     );
 }
 
-export default CompanyDetail;
+export default CompanyDetailAnalysis;

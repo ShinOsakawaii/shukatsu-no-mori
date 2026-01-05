@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.respository;
+package com.shinosaka.shukatsunomori.backend.repository;
 
 import com.shinosaka.shukatsunomori.backend.domain.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
