@@ -1,25 +1,100 @@
-import React from 'react';
-//수정
-function MyPageEdit(props) {
+import { Container, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useMe } from "../../hooks/useMe";
+import { useMutation } from "@tanstack/react-query";
+import { updateMyProfile } from "../../api/mypageApi";
 
-    const queryClient = useQueryClient();
+import MyPageEditImage from "../../components/mypage/MyPageEditImage";
+import MyPageEditContents from "../../components/mypage/MyPageEditContents";
+import MyPageEditButtons from "../../components/mypage/MyPageEditButtons";
 
-    //Api 관련 TanStaks Query=============
-    //정보 및 이미지 수정 뮤테이션
-    const updateMutation = useMutation({
-        mutationFn: (payload) => updateMyPage(payload),
+
+function MyPageEdit() {
+    const navigate = useNavigate();
+    const { data: me, isLoading } = useMe(); //로그인한 회원 정보 가져오기
+
+
+
+    const [form, setForm] = useState({
+        password: "",
+        rePassword: "",
+        nickname: ""
+    });
+
+
+    const [profileImage, setProfileImage] = useState(null);
+
+    // useEffect
+    useEffect(() => {
+        if (me && me.nickname) {
+            setForm(prev => ({ ...prev, nickname: me.nickname }));
+        }
+    }, [me, setForm]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const mutation = useMutation({
+        mutationFn: (formData) => updateMyProfile(formData),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['mypage', 'me'] }); //로그인한 내 페이지로 이동
-        },
-        onError: () => {
-            alert('마이페이지 수정에 실패했습니다.');
+            alert("정보가 수정되었습니다.");
+            navigate("/mypage");
         }
     });
 
-    return (
-        <div>
+    const handleSave = () => {
+        if (!form.password || !form.rePassword) {
+            alert("비밀번호 입력은 필수 입니다.");
+            return;
+        }
 
-        </div>
+        if (form.password !== form.rePassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("password", form.password);
+        formData.append("nickname", form.nickname);
+
+        if (profileImage) {
+            formData.append("profileImage", profileImage);
+        }
+
+        mutation.mutate(formData);
+    };
+
+    if (isLoading) return null;
+
+    return (
+        <Container maxWidth="sm">
+            <Stack spacing={4} alignItems="center">
+                <Typography variant="h5">개인 정보 수정</Typography>
+
+                <MyPageEditImage
+                    imageUrl={me?.profileImageUrl}
+                    onChangeImage={setProfileImage}
+                />
+
+                <MyPageEditContents
+                    email={me?.email}
+                    form={form}
+                    onChange={handleChange}
+                />
+
+                <MyPageEditButtons
+                    onSave={handleSave}
+                    onCancel={() => navigate("/mypage")} // <- 여기 명시적 이동
+                />
+
+            </Stack>
+        </Container>
     );
 }
 

@@ -34,7 +34,7 @@ function RegisterPage() {
 
     // 취소 버튼
     const handleCancel = () => {
-        navigate("/posts"); // 또는 "/"
+        navigate("/companies"); // 또는 "/"
     };
 
     // 제출
@@ -61,7 +61,15 @@ function RegisterPage() {
         <Container maxWidth="sm">
             <Typography variant="h5" align="center" fontWeight={500} sx={{ mb: 2 }}>회원가입</Typography>
 
-            <Paper sx={{ width: "100%", borderRadius: 3, px: 4, py: 3 }}>
+            <Paper
+                sx={{
+                    width: '100%',
+                    borderRadius: 3,
+                    px: 8,
+                    py: 6,
+                    boxShadow: '0 16px 40px rgba(0,0,0, 0.07)'
+                }}
+            >
 
 
 
@@ -71,6 +79,7 @@ function RegisterPage() {
                             label="이메일"
                             name="email"
                             type="email"
+                            placeholder="aaa@bbb.com"
                             required
                             helperText="*필수 입력입니다"
                             value={form.email}
@@ -100,6 +109,7 @@ function RegisterPage() {
                         <TextField
                             label="닉네임"
                             name="nickname"
+                            type="text"
                             required
                             helperText="*필수 입력입니다"
                             value={form.nickname}

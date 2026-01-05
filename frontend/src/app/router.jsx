@@ -50,14 +50,15 @@ export const router = createBrowserRouter([
                 ]
             },
 
-            // 3. 마이페이지
+            // 3. 마이페이지 (유저아이디로 하는 거 없앴다고 해서 수정했습니다)
             {
-                path: 'mypage/:userId',
+                path: 'mypage',
                 children: [
-                    { index: true, element: <MyPage /> }, // 마이 페이지 
+                    { index: true, element: <MyPage /> }, // 마이 페이지
                     { path: 'edit', element: <MyPageEdit /> }, // 개인정보 수정
                 ]
-            },
+            }
+
         ]
     },
     {

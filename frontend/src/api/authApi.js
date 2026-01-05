@@ -37,10 +37,11 @@ export async function login({ email, password }) {
 }
 
 // 회원가입
-export async function register({ email, password, nickname }) {
+export async function register({ email, password, rePassword, nickname }) {
     const res = await api.post("/api/signup", {
         email,
         password,
+        rePassword,
         nickname
     });
     return res.data;

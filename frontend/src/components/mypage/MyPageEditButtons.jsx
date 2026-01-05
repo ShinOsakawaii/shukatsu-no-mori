@@ -1,11 +1,23 @@
-import React from 'react';
+import { Stack, Button } from "@mui/material";
 
-function MyPageEditButtons(props) {
-    return (
-        <div>
+function MyPageEditButtons({ onSave, onCancel }) {
+  return (
+    <Stack direction="row" spacing={2}>
+      <Button
+        variant="outlined"
+        onClick={onCancel}
+      >
+        취소
+      </Button>
 
-        </div>
-    );
+      <Button
+        variant="contained"
+        onClick={onSave}
+      >
+        저장
+      </Button>
+    </Stack>
+  );
 }
 
 export default MyPageEditButtons;
