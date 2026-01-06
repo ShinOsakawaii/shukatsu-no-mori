@@ -1,6 +1,7 @@
+import React from 'react';
 import { fetchCompany } from '../../api/companyApi';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router';
 import CompanyDetailAnalysis from "../../components/companies/CompanyDetailAnalysis";
 import CompanyDetailReview from '../../components/companies/CompanyDetailReview';
 import ErrorMessage from '../../components/common/ErrorMessage';
@@ -24,10 +25,26 @@ function CompanyDetail() {
         enabled: !!companyId
     });
 
+
     if (isLoading) return <Loader />;
     if (isError) return <ErrorMessage error={error} />
 
     const { detail, review } = company;
+    /*
+    // 2. 삭제 
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteCompany(companyId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey:['companies']});
+            navigate('/companies');
+            
+        },
+        onError: () => {
+            alert('기업 정보 삭제에 실패했습니다.');
+        }
+    });
+    */
+
 
     return (
         <Box sx={{ m: 3 }}>
