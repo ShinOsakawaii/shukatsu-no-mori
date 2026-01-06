@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { Outlet } from 'react-router';
 import NavBar from './NavBar';
 
-function AppLayout(props) {
+function AppLayout() {
     return (
         <>
             <NavBar />
@@ -10,6 +11,7 @@ function AppLayout(props) {
                 <Outlet />
             </main>
         </>
+
     );
 }
 
