@@ -13,4 +13,3 @@ export async function uploadImage(file) {
     });
     return res.data;
 }
-

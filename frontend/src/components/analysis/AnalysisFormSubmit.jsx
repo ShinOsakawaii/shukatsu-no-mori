@@ -2,15 +2,15 @@ import React from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-function AnalysisFormSubmit({ isEdit}) {
+function AnalysisFormSubmit({ isEdit }) {
 
     const navigate = useNavigate();
 
     return (
         <>
 
-        {/* 하단 버튼 */ }
-        < Stack direction = "row" spacing = { 1.5} justifyContent = "center" mt = { 4} >
+            {/* 하단 버튼 */}
+            < Stack direction="row" spacing={1.5} justifyContent="center" mt={4} >
                 <Button
                     variant="outlined"
                     size="small"

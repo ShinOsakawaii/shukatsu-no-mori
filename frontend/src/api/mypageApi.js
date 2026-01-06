@@ -40,26 +40,26 @@ export async function updateMyProfile({
     console.log("➡️ updateMyProfile payload:", payload);
 
 
-// 마이페이지 수정 API
-export async function updateMyProfile({
-    nickname,
-    password,
-    rePassword,
-    profileImage,
-}) {
-    const payload = {
+    // 마이페이지 수정 API
+    export async function updateMyProfile({
         nickname,
-        profileImage, // URL string or null
-        ...(password
-            ? { password, rePassword }
-            : {}),
-    };
-    console.log(nickname,
         password,
         rePassword,
-        profileImage,);
-    console.log("➡️ updateMyProfile payload:", payload);
+        profileImage,
+    }) {
+        const payload = {
+            nickname,
+            profileImage, // URL string or null
+            ...(password
+                ? { password, rePassword }
+                : {}),
+        };
+        console.log(nickname,
+            password,
+            rePassword,
+            profileImage,);
+        console.log("➡️ updateMyProfile payload:", payload);
 
-    const res = await api.patch("/api/user/myinfo", payload);
-    return res.data;
-}
+        const res = await api.patch("/api/user/myinfo", payload);
+        return res.data;
+    }
