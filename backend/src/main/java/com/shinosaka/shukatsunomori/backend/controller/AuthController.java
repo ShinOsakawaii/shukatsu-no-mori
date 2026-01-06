@@ -1,6 +1,7 @@
 package com.shinosaka.shukatsunomori.backend.controller;
 
 import com.shinosaka.shukatsunomori.backend.dto.request.auth.LoginRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.auth.MyInfoUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.auth.SignupRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.auth.AuthResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.auth.MyInfoResponse;
@@ -37,5 +38,12 @@ public class AuthController {
     @GetMapping("/myinfo")
     public ResponseEntity<MyInfoResponse> getMyInfo(@AuthenticationPrincipal Long userId){
         return ResponseEntity.ok(authService.getMyInfo(userId));
+    }
+
+    //myinfo 수정
+    @PatchMapping("/myinfo")
+    public ResponseEntity<Void> patchMyInfo(@AuthenticationPrincipal Long userId, @Valid @RequestBody MyInfoUpdateRequest request){
+        authService.patchMyInfo(userId, request);
+        return ResponseEntity.noContent().build();
     }
 }

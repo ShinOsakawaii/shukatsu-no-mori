@@ -1,9 +1,9 @@
 package com.shinosaka.shukatsunomori.backend.service;
 
-import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
-import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
+import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyUpdateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.response.company.CompanyResponse;
+import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

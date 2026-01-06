@@ -36,7 +36,7 @@ public class Detail {
     @Column(name = "title", nullable = false, length = 200)
     private String title;
 
-    @Column(name = "position", nullable = false, length = 100)
+    @Column(name = "position", nullable = false, length = 50)
     private String position;
 
     @Column(name = "content", nullable = false, length = 4000)
