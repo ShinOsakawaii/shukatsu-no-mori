@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-function AnalysisFormSubmit({ isEdit}) {
+function AnalysisFormSubmit({ isEdit }) {
 
     const navigate = useNavigate();
 
@@ -42,3 +42,4 @@ function AnalysisFormSubmit({ isEdit}) {
     );
 }
 export default AnalysisFormSubmit;
+

@@ -31,14 +31,13 @@ export default function AnalysisDetail() {
 
     // 테스트용 더미 유저 데이터
     const dummyUser = {
-        userId: 1,
-        nickname: "토마토"
+        userId: 1
     };
 
     // 테스트용 더미 데이터
     const dummyAnalysis = {
         detailId: 1,
-        userId: 2,
+        userId: 1,
         title: "스타트업 분석",
         position: "개발",
         content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
