@@ -17,7 +17,7 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "location_seq_gen")
     @Column(name = "location_id")
-    private Long id;
+    private Long locationId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String city;

@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.dto.response.CompanyDetail;
+package com.shinosaka.shukatsunomori.backend.dto.response.companyDetail;
 
 import com.shinosaka.shukatsunomori.backend.domain.Detail;
 import lombok.*;
