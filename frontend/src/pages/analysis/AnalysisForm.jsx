@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
@@ -75,55 +75,20 @@ function AnalysisForm({ mode }) {
         }
     });
 
-    if (isEdit && isLoading) return <Loader />
-    if (isEdit && isError) return <ErrorMessage error={error} />
+    // useEffect
+    useEffect(() => {
+        if (analysis) {
+            setTitle(analysis.title);
+            setPosition(analysis.position);
+            setContent(analysis.content);
+        }
+    }, [analysis]);
+
+
+
 
     // 이벤트 핸들러 ==============
-
     // 폼 전송 =========
-    // const handleSubmit = (evt) => {
-    //     evt.preventDefault();
-
-    //     const payload = {
-    //         title: title.trim(),
-    //         position: position.trim(),
-    //         content: content.trim()
-    //     }
-
-    //     //검증
-    //     if (!title.trim() || !position.trim() || !content.trim()) {
-    //         alert('모든 내용은 필수입니다.');
-    //         return;
-    //     }
-
-    //     // props에 따라 생성/수정 mutation 호출
-    //     if (isEdit) {
-    //         updateMutation.mutate(payload);   // 수정
-    //     } else {
-    //         createMutation.mutate(payload); // 작성
-    //     }
-    // }
-
-    // // 데스트용 더미 데이터
-    // const dummyAnalysis = {
-    //     title: "스타트업 분석",
-    //     position: "개발",
-    //     content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
-    //     userId: 1,
-    //     nickname: "토마토님",
-    //     createdDate: "2025/11/14",
-    //     updatedDate: "2025/12/04"
-    // };
-
-    // // 테스트용 더미 데이터
-    // // 로그인 여부/작성자 여부
-    // const dummyUser = { userId: 1, nickname: "토마토님" }; // 로그인 사용자 더미
-    // const isAuthor = dummyUser.userId === dummyAnalysis.userId;
-
-    // const [title, setTitle] = useState(dummyAnalysis.title);
-    // const [position, setPosition] = useState(dummyAnalysis.position);
-    // const [content, setContent] = useState(dummyAnalysis.content);
-
     const handleSubmit = (evt) => {
         evt.preventDefault();
 
@@ -147,6 +112,9 @@ function AnalysisForm({ mode }) {
         }
 
     }
+
+    if (isEdit && isLoading) return <Loader />
+    if (isEdit && isError) return <ErrorMessage error={error} />
 
     return (
         <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>

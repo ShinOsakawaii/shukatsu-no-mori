@@ -12,14 +12,12 @@ import { useMe } from "../../hooks/useMe";
 
 export default function AnalysisDetail() {
 
+    const { data: me } = useMe();
+
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
     const { detailId: detailIdParam } = useParams();
     const analysisId = Number(detailIdParam);
-
-    if (!companyId || !analysisId) {
-        return <ErrorMessage error={{ message: "잘못된 접근입니다. " }} />;
-    }
 
     // TanStack Query============
     // 상세 데이터 조회
@@ -29,30 +27,14 @@ export default function AnalysisDetail() {
         enabled: !!companyId && !!analysisId
     });
 
+    if (!companyId || !analysisId) {
+        return <ErrorMessage error={{ message: "잘못된 접근입니다." }} />;
+    }
+
     if (isLoading) return <Loader />;
     if (isError || !analysis) return <ErrorMessage error={error} />;
 
-    const { data: me } = useMe();
-    const isAuthor = me && analysis.userId === me.id;
-
-    // // 테스트용 더미 유저 데이터
-    // const dummyUser = {
-    //     userId: 1
-    // };
-
-    // // 테스트용 더미 데이터
-    // const dummyAnalysis = {
-    //     detailId: 1,
-    //     userId: 1,
-    //     title: "스타트업 분석",
-    //     position: "개발",
-    //     content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
-    //     nickname: "홍길동",
-    //     createdDate: "2026-01-06T01:00:00",
-    //     updatedDate: "2026-01-06T02:00:00"
-    //  };
-
-    // const isAuthor = dummyUser.userId === dummyAnalysis.userId;
+    const isAuthor = me && analysis && Number(analysis.userId) === Number(me.userId);
 
     return (
         <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
@@ -89,7 +71,7 @@ export default function AnalysisDetail() {
                 <AnalysisDetailHeader analysis={analysis} />
                 <AnalysisDetailContent analysis={analysis} />
                 {/* <AnalysisDetailButtons onBack={() => navigate(`/companies/${companyId}/detail/`)}  */}
-                <AnalysisDetailButtons isAuthor={isAuthor} />
+                <AnalysisDetailButtons isAuthor={isAuthor} analysisId={analysisId} />
             </Paper>
         </Box>
 
