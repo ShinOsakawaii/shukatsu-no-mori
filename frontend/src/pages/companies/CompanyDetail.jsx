@@ -7,8 +7,13 @@ import { CompanyDetailReview } from '../../companies/CompanyDetailAnalysis';
 import { ErrorMessage } from '../../common/ErrorMessage';
 import { Loader } from '../../common/Loader';
 //기업정보 상세조회, 삭제
+<<<<<<< HEAD:frontend/src/pages/companies/CompanyContent.jsx
 function CompanyContent() {
 
+=======
+function CompanyDetail() {
+    
+>>>>>>> 5bd39c53caa26aa73c7373d75709f4a94147e94f:frontend/src/pages/companies/CompanyDetail.jsx
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
     const queryClient = useQueryClient();
@@ -58,4 +63,4 @@ function CompanyContent() {
     );
 }
 
-export default CompanyContent;
+export default CompanyDetail;

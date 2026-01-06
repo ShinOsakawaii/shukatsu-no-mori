@@ -1,6 +1,8 @@
 package com.shinosaka.shukatsunomori.backend.domain;
 
+import com.shinosaka.shukatsunomori.backend.dto.request.auth.SignupRequest;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,5 +44,17 @@ public class User {
     @CreationTimestamp
     @Column(name = "created_at",  nullable = false,  updatable = false)
     private LocalDateTime createdAt;
+
+
+    public void updateNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void updateProfileImage(String profileImage){
+        this.profileImage = profileImage;
+    }
+    public void updatePassword(String password){
+        this.password = password;
+    }
 
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 //리뷰 목록 조회, 삭제
-function ReviewContent(props) {
+function ReviewDetail(props) {
 
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
@@ -35,4 +35,4 @@ function ReviewContent(props) {
     );
 }
 
-export default ReviewContent;
+export default ReviewDetail;
