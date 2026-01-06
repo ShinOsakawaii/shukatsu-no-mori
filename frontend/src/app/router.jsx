@@ -35,7 +35,9 @@ export const router = createBrowserRouter([
                         path: ':companyId/detail',
                         children: [
                             { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                            { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
+                            // { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
+                            { path: 'edit', element: <AnalysisForm mode="edit" /> },
+                            { path: 'dummy/analysis', element: <AnalysisDetail /> } // 테스트용 더미 주소
                         ]
                     },
 
@@ -50,14 +52,15 @@ export const router = createBrowserRouter([
                 ]
             },
 
-            // 3. 마이페이지
+            // 3. 마이페이지 (유저아이디로 하는 거 없앴다고 해서 수정했습니다)
             {
-                path: 'mypage/:userId',
+                path: 'mypage',
                 children: [
-                    { index: true, element: <MyPage /> }, // 마이 페이지 
+                    { index: true, element: <MyPage /> }, // 마이 페이지
                     { path: 'edit', element: <MyPageEdit /> }, // 개인정보 수정
                 ]
-            },
+            }
+
         ]
     }
     // },

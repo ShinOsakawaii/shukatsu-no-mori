@@ -1,29 +1,25 @@
-import React from 'react';
-//내가 쓴 글 조회
-function MyPage(userId) {
-    
-    //Api 관련 TanStaks Query=============
-    //1. 내 기본 정보
-    const myPageQuery = useQuery({
-        queryKey: ['mypage', 'me'],
-        queryFn: () => fetchMyPage(userId)
-    });
+// src/pages/mypage/MyPage.jsx
+import MyPageHeader from "../../components/mypage/MyPageHeader";
+import { useMe } from "../../hooks/useMe";
 
-    //2. 내가 쓴 기업 분석
-    const myDetailsQuery = useQuery({
-        queryKey: ['mypage', 'details'],
-        queryFn: () => fetchMyDetails()
-    });
+function MyPage() {
+    // 로그인한 유저 정보 가져오기
+    const { data: user, isLoading, isError } = useMe();
 
-    //3. 내가 쓴 리뷰
-    const myReviewsQuery = useQuery({
-        queryKey: ['mypage', 'reviews'],
-        queryFn: () => fetchMyReviews()
-    });
+    // 로딩 중 처리
+    if (isLoading) return <div>Loading...</div>;
 
+    // 에러 또는 user가 없을 때 처리
+    if (isError || !user) return <div>유저 정보를 불러오지 못했습니다.</div>;
 
     return (
         <div>
+            <MyPageHeader
+                username={user.nickname || "Guest"} // nickname 없으면 기본값
+                profileImage={user.profileImage || "/images/default-avatar.png"} // 이미지 없으면 기본 이미지
+            />
+
+            {/* 기업 분석, 후기 리스트 부분은 강상이 담당 */}
 
         </div>
     );

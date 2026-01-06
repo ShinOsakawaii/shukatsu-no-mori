@@ -2,9 +2,9 @@ package com.shinosaka.shukatsunomori.backend.service.implement;
 
 import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Location;
-import com.shinosaka.shukatsunomori.backend.dto.request.CompanyCreateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.request.CompanyUpdateRequest;
-import com.shinosaka.shukatsunomori.backend.dto.response.CompanyResponse;
+import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyCreateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyUpdateRequest;
+import com.shinosaka.shukatsunomori.backend.dto.response.company.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.PageResponse;
 import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.repository.LocationRepository;
