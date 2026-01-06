@@ -14,6 +14,8 @@ function CompanyDetail() {
 
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const { detailId: detailIdParam } = useParams();
     const detailId = Number(detailIdParam);
     const [tab, setTab] = useState("analysis");

@@ -23,14 +23,13 @@ export function clearAuth() {
 // 로그인한 사용자 정보 가져오기
 // ❗ 명세서에 없으면 일단 그대로 두거나 주석 처리해도 됨
 export async function fetchMe() {
-    // const res = await api.get("/api/user/myinfo");
-    // return res.data;
-    return null;
+    const res = await api.get("/user/myinfo");
+    return res.data;
 }
 
 // 로그인
 export async function login({ email, password }) {
-    const res = await api.post("/api/user/login", {
+    const res = await api.post("/user/login", {
         email,
         password
     });
@@ -39,7 +38,7 @@ export async function login({ email, password }) {
 
 // 회원가입
 export async function register({ email, password, rePassword, nickname, profileImage }) {
-    const res = await api.post("/api/user/signup", {
+    const res = await api.post("/user/signup", {
         email,
         password,
         rePassword,

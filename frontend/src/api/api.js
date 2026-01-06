@@ -1,4 +1,3 @@
-
 // api.js
 import axios from 'axios'
 import { clearAuth, getToken } from '../api/authApi';
