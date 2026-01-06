@@ -1,5 +1,5 @@
 import React from 'react';
-import { deleteCompany, fetchCompany } from '../../api/companyApi';
+import { fetchCompany } from '../../api/companyApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 //기업정보 상세조회, 삭제
@@ -18,6 +18,7 @@ function CompanyDetail() {
         enabled: !!companyId
     });
 
+    /*
     // 2. 삭제 
     const deleteMutation = useMutation({
         mutationFn: () => deleteCompany(companyId),
@@ -30,7 +31,7 @@ function CompanyDetail() {
             alert('기업 정보 삭제에 실패했습니다.');
         }
     });
-
+    */
 
 
 
