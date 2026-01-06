@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
-import AnalysisFormSubmit from '../../components/analysis/AnalysisFormFields';
-import AnalysisFormButtons from '../../components/analysis/AnalysisFormSubmit';
+import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
+import AnalysisFormButtons from '../../components/analysis/AnalysisDetailButtons';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 
@@ -14,10 +14,9 @@ function AnalysisForm({ mode }) {
     const isEdit = mode === 'edit';
 
     const queryClient = useQueryClient();
-    const { companyId: companyIdParam } = useParams();
+    const { companyId: companyIdParam, detailId: detailIdParam } = useParams();
     const companyId = Number(companyIdParam);
-    const { detailId: detailIdParam } = useParams();
-    const analysisId = Number(detailIdParam);
+    const analysisId = detailIdParam ? Number(detailIdParam) : null;
 
     const navigate = useNavigate();
 
@@ -43,37 +42,38 @@ function AnalysisForm({ mode }) {
     const { data: analysis, isLoading, isError, error } = useQuery({
         queryKey: ['analysis', companyId, analysisId],
         queryFn: () => fetchAnalysisDetail(companyId, analysisId),
-        enabled: isEdit
+        enabled: isEdit && !!analysisId
     });
 
-    // // 수정 mutation
-    // const updateMutation = useMutation({
-    //     mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
-    //     onSuccess: () => {
-    //         // 목록 캐시 무효화
-    //         queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-    //         // 상세 내용 무효화
-    //         queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
-    //         // 이동
-    //         navigate(`/companies/${companyId}/detail/${analysisId}`);
-    //     },
-    //     onError: () => {
-    //         alert('게시글 수정에 실패했습니다.')
-    //     }
+    // 수정 mutation
+    const updateMutation = useMutation({
+        mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
+        onSuccess: () => {
+            // 목록 캐시 무효화
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
+            // 상세 내용 무효화
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
+            // 이동
+            navigate(`/companies/${companyId}/detail/${analysisId}`);
+        },
+        onError: () => {
+            alert('게시글 수정에 실패했습니다.')
+        }
 
-    // })
+    })
 
-    // // 삭제
-    // const deleteMutation = useMutation({
-    //     mutationFn: () => deleteAnalysis(companyId),
-    //     onSuccessL: () => {
-    //         queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-    //         navigate(`/companies/${companyId}/detail/`);
-    //     },
-    //     onError: () => {
-    //         alert('게시글 삭제에 실패했습니다.');
-    //     }
-    // });
+
+    // 삭제
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteAnalysis(companyId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
+            navigate(`/companies/${companyId}/detail/`);
+        },
+        onError: () => {
+            alert('게시글 삭제에 실패했습니다.');
+        }
+    });
 
     // if (isEdit && isLoading) return <Loader />
     // if (isEdit && isError) return <ErrorMessage error={error} />
@@ -126,6 +126,26 @@ function AnalysisForm({ mode }) {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
+
+        const payload = {
+            title: title.trim(),
+            position: position.trim(),
+            content: content.trim()
+        }
+
+        //검증
+        if (!title.trim() || !position.trim() || !content.trim()) {
+            alert('모든 내용은 필수입니다.');
+            return;
+        }
+
+        // props에 따라 생성/수정 mutation 호출
+        if (isEdit) {
+            updateMutation.mutate({ companyId, analysisId, payload });   // 수정
+        } else {
+            createMutation.mutate(payload); // 작성
+        }
+
     }
 
     return (
@@ -206,23 +226,13 @@ function AnalysisForm({ mode }) {
                         onChangeContent={setContent}
                     />
 
-                    {/* 버튼
+                    버튼
                     <AnalysisFormButtons
-                        isEdit={isEdit}
-                        onDelete={() => {
-                            if (window.confirm('해당 글을 정말 삭제하겠습니까?')) {
-                                deleteMutation.mutate();
-                            }
-                        }} /> */}
+                        isEdit={isEdit} />
 
-                    {/* 버튼 */}
-                    <AnalysisFormButtons
-                        isEdit={isEdit && isAuthor}
-                    />
-
-                </Box>
-            </Paper>
-        </Box>
+                </Box >
+            </Paper >
+        </Box >
     );
 }
 export default AnalysisForm;
