@@ -1,7 +1,20 @@
 import { Button, Box, Grid, Card, CardContent, CardMedia, Typography, CardActionArea } from '@mui/material';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { getToken } from '../../api/authApi';
 
 function CompanyTable({ companies = [] }) {
+    const navigate = useNavigate();
+
+    const handleCreateClick = () => {
+        const token = getToken?.();
+
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/auth/login');
+            return;
+        }
+        navigate('new'); 
+    };
 
     return (
         <Box sx={{ p: 3 }}>
@@ -10,8 +23,7 @@ function CompanyTable({ companies = [] }) {
             <Box sx={{ maxWidth: 1100, mx: "auto" }}>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
                     <Button
-                        component={Link}
-                        to="new"
+                        onClick={handleCreateClick}
                         variant="contained"
                         size="small"
                         sx={{ my: 2, px: 2, fontWeight: 600 }}
@@ -20,7 +32,7 @@ function CompanyTable({ companies = [] }) {
                     </Button>
                 </Box>
                 {!companies.length && (
-                    <Box sx={{ p: 3 }}>
+                    <Box sx={{ p: 3, textAlign: 'center' }}>
                         등록된 기업이 없습니다.
                     </Box>
                 )}

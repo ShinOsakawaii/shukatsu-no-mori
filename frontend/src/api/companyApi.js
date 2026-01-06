@@ -16,7 +16,7 @@ export async function fetchCompany(companyId) {
 
 // 기업 등록
 export async function createCompany(payload) {
-    const res = await api.post('/companies/new', payload);
+    const res = await api.post('/companies', payload);
     return res.data;
 }
 
