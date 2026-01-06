@@ -13,7 +13,6 @@ import { useMe } from '../../hooks/useMe';
 function AnalysisForm({ mode }) {
 
     const isEdit = mode === 'edit';
-    const { user, isLoading: isUserLoading } = useMe();
 
 
     const queryClient = useQueryClient();
@@ -93,13 +92,6 @@ function AnalysisForm({ mode }) {
             setContent(analysis.content);
         }
     }, [analysis]);
-
-    useEffect(() => {
-        if (!isUserLoading && !user) {
-            alert('로그인이 필요합니다.');
-            navigate('/auth/login');
-        }
-    }, [user, isUserLoading, navigate]);
 
 
     // 이벤트 핸들러 ==============
