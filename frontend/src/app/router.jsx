@@ -27,9 +27,10 @@ export const router = createBrowserRouter([
             {
                 path: 'companies',
                 children: [
-                    { path: 'new', element: <CompanyForm mode="create" /> }, // 기업 등록 화면, 기업 등록 수정 화면 == CompanyForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
+                    { path: 'new', element: <CompanyForm mode="create" /> }, // 기업 등록 화면, 기업 등록 수정 화면 == CompanyForm 컴포넌트가 mode를 props로 받아 edit면 새 글 작성
                     { path: ':companyId', element: <CompanyContent /> }, // 기업 상세 조회 화면 
-
+                    { path: ':companyId/edit', element: <CompanyForm mode="edit" /> },
+                
                     // 2-1. 기업 분석 (Detail)
                     {
                         path: ':companyId/detail',
@@ -60,8 +61,4 @@ export const router = createBrowserRouter([
             },
         ]
     },
-    {
-        path: '*',
-        element: <NotFound /> // 404 페이지
-    }
 ]);

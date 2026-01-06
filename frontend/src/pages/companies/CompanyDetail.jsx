@@ -2,6 +2,8 @@ import React from 'react';
 import { deleteCompany, fetchCompany } from '../../api/companyApi';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
+import { useQuery, useMutation } from '@tanstack/react-query';
+
 //기업정보 상세조회, 삭제
 function CompanyDetail() {
     

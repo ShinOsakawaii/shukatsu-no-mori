@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 //수정
 function MyPageEdit(props) {
