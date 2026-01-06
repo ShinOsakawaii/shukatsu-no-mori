@@ -1,97 +1,121 @@
-import { Container, Stack, Typography } from "@mui/material";
+// src/pages/mypage/MyPageEdit.jsx
+import { Container, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMe } from "../../hooks/useMe";
-import { useMutation } from "@tanstack/react-query";
-import { updateMyProfile } from "../../api/mypageApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateMyProfile, changePassword } from "../../api/mypageApi";
 
+import PasswordChangeModal from "../../components/mypage/PasswordChangeModal";
 import MyPageEditImage from "../../components/mypage/MyPageEditImage";
 import MyPageEditContents from "../../components/mypage/MyPageEditContents";
 import MyPageEditButtons from "../../components/mypage/MyPageEditButtons";
 
-
 function MyPageEdit() {
-    const navigate = useNavigate();
-    const { data: me, isLoading } = useMe(); //로그인한 회원 정보 가져오기
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { data: me, isLoading } = useMe();
 
+  // 비밀번호 변경 모달 상태
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
+  const passwordMutation = useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      alert("비밀번호가 변경되었습니다.");
+      setPasswordModalOpen(false);
+    },
+    onError: () => {
+      alert("비밀번호 변경에 실패했습니다.");
+    },
+  });
 
-    const [form, setForm] = useState({
-        password: "",
-        rePassword: "",
-        nickname: ""
-    });
+  // 프로필 수정 상태
+  const [form, setForm] = useState({ nickname: "", email: "" });
+  const [profileImage, setProfileImage] = useState(null);
 
+  // me가 바뀌면 form 초기화
+  useEffect(() => {
+    if (me) {
+      setForm({
+        nickname: me.nickname || "",
+        email: me.email || "",
+      });
+    }
+  }, [me]);
 
-    const [profileImage, setProfileImage] = useState(null);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
-    // useEffect
-    useEffect(() => {
-        if (me && me.nickname) {
-            setForm(prev => ({ ...prev, nickname: me.nickname }));
-        }
-    }, [me, setForm]);
+  const profileMutation = useMutation({
+    mutationFn: updateMyProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["me"]);
+      alert("정보가 수정되었습니다.");
+      navigate("/mypage");
+    },
+    onError: () => {
+      alert("정보 수정에 실패했습니다.");
+    },
+  });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+  const handleSave = () => {
+    const formData = new FormData();
+    formData.append("nickname", form.nickname);
+    if (profileImage) formData.append("profileImage", profileImage);
 
-    const mutation = useMutation({
-        mutationFn: (formData) => updateMyProfile(formData),
-        onSuccess: () => {
-            alert("정보가 수정되었습니다.");
-            navigate("/mypage");
-        }
-    });
+    profileMutation.mutate(formData);
+  };
 
-    const handleSave = () => {
+  // 변경 여부 판단
+  const isNicknameChanged = me ? form.nickname !== me.nickname : false;
+  const isImageChanged = !!profileImage;
+  const isChanged = isNicknameChanged || isImageChanged;
 
-        if (form.password !== form.rePassword) {
-            alert("비밀번호가 일치하지 않습니다.");
-            return;
-        }
+  // 로딩 또는 데이터 없음 처리
+  if (isLoading) return <div>로딩중...</div>;
+  if (!me) return <div>유저 정보 없음</div>;
 
-        const formData = new FormData();
-        formData.append("password", form.password);
-        formData.append("nickname", form.nickname);
+  return (
+    <Container maxWidth="sm">
+      <Stack spacing={4} alignItems="center">
+        <Typography variant="h5">개인 정보 수정</Typography>
 
-        if (profileImage) {
-            formData.append("profileImage", profileImage);
-        }
+        {/* 프로필 이미지 */}
+        <MyPageEditImage
+          imageUrl={me.profileImageUrl || "/images/default-avatar.png"}
+          onChangeImage={setProfileImage}
+        />
 
-        mutation.mutate(formData);
-    };
+        {/* 이메일 / 닉네임 */}
+        <MyPageEditContents
+          email={form.email}   // me.email 대신 form.email 사용
+          form={form}
+          onChange={handleChange}
+        />
 
-    if (isLoading) return null;
+      
 
-    return (
-        <Container maxWidth="sm">
-            <Stack spacing={4} alignItems="center">
-                <Typography variant="h5">개인 정보 수정</Typography>
+        {/* 저장 / 취소 버튼 */}
+        <MyPageEditButtons
+          onSave={handleSave}
+          onCancel={() => navigate("/mypage")}
+          disabled={!isChanged || profileMutation.isPending}
+          sx={{ alignSelf: "stretch" }}
+        />
+      </Stack>
 
-                <MyPageEditImage
-                    imageUrl={me?.profileImageUrl}
-                    onChangeImage={setProfileImage}
-                />
-
-                <MyPageEditContents
-                    email={me?.email}
-                    form={form}
-                    onChange={handleChange}
-                />
-
-                <MyPageEditButtons
-                    onSave={handleSave}
-                    onCancel={() => navigate("/mypage")} // <- 여기 명시적 이동
-                />
-
-            </Stack>
-        </Container>
-    );
+      {/* 비밀번호 변경 모달 */}
+      <PasswordChangeModal
+        open={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+        onSubmit={(form) => passwordMutation.mutate(form)}
+        isLoading={passwordMutation.isPending}
+      />
+    </Container>
+  );
 }
 
 export default MyPageEdit;

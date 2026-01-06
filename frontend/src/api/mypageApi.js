@@ -1,5 +1,13 @@
 // frontend/src/api/mypageApi.js
 import { api } from './api';
+import axios from "axios";
+
+//비밀번호 수정
+export const changePassword = async (data) => {
+  const res = await axios.patch("/mypage/password", data);
+  return res.data;
+};
+
 
 // 내가 작성한 기업 분석 목록
 export async function fetchMyDetails(params) {
@@ -22,9 +30,5 @@ export async function fetchMyPage(userId) {
 //마이페이지 수정 api
 
 export function updateMyProfile(formData) {
-    return api.patch("/api/user/myinfo", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    });
+    return api.patch("/api/user/myinfo", formData);
 }
