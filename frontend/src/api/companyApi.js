@@ -3,10 +3,10 @@ import { api } from './api';
 
 // 기업 목록 조회
 
-export async function fetchCompanies({ page, size }) {
-    const res = await api.get('/api/companies', {
-        params: { page, size }
-    });
+export async function fetchCompanies(params) {
+    const params = { page, size };
+
+    const res = await api.get('/api/companies', { params });
     return res.data;
 }
 
