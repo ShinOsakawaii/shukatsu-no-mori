@@ -1,20 +1,16 @@
 import { Link, useNavigate } from "react-router";
-import { useState, useEffect } from "react";
 import { useMe } from "../hooks/useMe";
+import { useQueryClient } from "@tanstack/react-query";
 
-import ForestIcon from '@mui/icons-material/Forest';
+import ForestIcon from "@mui/icons-material/Forest";
 import { Button } from "@mui/material";
 
 function NavBar() {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
-    // 로그인 상태
+    // 로그인 상태 (useMe 기준)
     const { data: user, isLoading: userIsLoading } = useMe();
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user"); // 로그인 시 user 정보 저장한다고 가정
-        if (storedUser) setUser(JSON.parse(storedUser));
-    }, []);
 
     const handleLogout = () => {
         // 토큰 제거
@@ -27,7 +23,14 @@ function NavBar() {
     };
 
     return (
-        <nav style={{ display: "flex", justifyContent: "space-between", padding: "10px 20px", background: "#c5da89ff" }}>
+        <nav
+            style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "10px 20px",
+                background: "#c5da89ff",
+            }}
+        >
             {/* 왼쪽 타이틀 */}
             <div style={{ fontWeight: "bold", fontSize: "20px" }}>
                 <ForestIcon style={{ color: "#4caf50" }} />
@@ -37,11 +40,13 @@ function NavBar() {
             </div>
 
             {/* 오른쪽 메뉴 */}
-            <div style={{ display: "flex", gap: "15px" }}>
+            <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
                 {!userIsLoading && user ? (
                     <>
-                        <span>{user.nickname}님 환영합니다. </span>
-                        <Link to="/mypage" style={{ textDecoration: "none" }}>마이페이지</Link>
+                        <span>{user.nickname}님 환영합니다.</span>
+                        <Link to="/mypage" style={{ textDecoration: "none" }}>
+                            마이페이지
+                        </Link>
                         <Button
                             variant="text"
                             onClick={handleLogout}
@@ -52,8 +57,12 @@ function NavBar() {
                     </>
                 ) : (
                     <>
-                        <Link to="/auth/login" style={{ textDecoration: "none" }}>로그인</Link>
-                        <Link to="/auth/register" style={{ textDecoration: "none" }}>회원가입</Link>
+                        <Link to="/auth/login" style={{ textDecoration: "none" }}>
+                            로그인
+                        </Link>
+                        <Link to="/auth/register" style={{ textDecoration: "none" }}>
+                            회원가입
+                        </Link>
                     </>
                 )}
             </div>
