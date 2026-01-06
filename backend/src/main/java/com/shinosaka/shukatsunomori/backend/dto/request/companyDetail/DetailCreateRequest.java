@@ -1,5 +1,8 @@
-package com.shinosaka.shukatsunomori.backend.dto.request.CompanyDetail;
+package com.shinosaka.shukatsunomori.backend.dto.request.companyDetail;
 
+import com.shinosaka.shukatsunomori.backend.domain.Company;
+import com.shinosaka.shukatsunomori.backend.domain.Detail;
+import com.shinosaka.shukatsunomori.backend.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -9,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DetailUpdateRequest {
+public class DetailCreateRequest {
 
     @NotBlank(message = "제목 작성 필수입니다.")
     @Size(max = 200, message = "200자 이하로 작성해 주세요.")
@@ -22,5 +25,15 @@ public class DetailUpdateRequest {
     @NotBlank(message = "내용 작성 필수입니다.")
     @Size(max = 4000, message = "4000자 이하로 작성해 주세요.")
     private String content;
+
+    public Detail toEntity(Company company, User user) {
+        return Detail.builder()
+                .user(user)
+                .company(company)
+                .title(title)
+                .position(position)
+                .content(content)
+                .build();
+    }
 
 }
