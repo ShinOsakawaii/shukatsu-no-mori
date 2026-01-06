@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
-import AnalysisFormSubmit from '../../components/analysis/AnalysisFormFields';
-import AnalysisFormButtons from '../../components/analysis/AnalysisFormSubmit';
+import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
+import AnalysisFormButtons from '../../components/analysis/AnalysisDetailButtons';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 
@@ -14,10 +14,9 @@ function AnalysisForm({ mode }) {
     const isEdit = mode === 'edit';
 
     const queryClient = useQueryClient();
-    const { companyId: companyIdParam } = useParams();
+    const { companyId: companyIdParam, detailId: detailIdParam } = useParams();
     const companyId = Number(companyIdParam);
-    const { detailId: detailIdParam } = useParams();
-    const analysisId = Number(detailIdParam);
+    const analysisId = detailIdParam ? Number(detailIdParam) : null;
 
     const navigate = useNavigate();
 
@@ -64,7 +63,7 @@ function AnalysisForm({ mode }) {
     const { data: analysis, isLoading, isError, error } = useQuery({
         queryKey: ['analysis', companyId, analysisId],
         queryFn: () => fetchAnalysisDetail(companyId, analysisId),
-        enabled: isEdit
+        enabled: isEdit && !!analysisId
     });
 
     // 수정 mutation
@@ -72,7 +71,7 @@ function AnalysisForm({ mode }) {
         mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
         onSuccess: () => {
             // 목록 캐시 무효화
-            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
             // 상세 내용 무효화
             queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
             // 이동
@@ -87,8 +86,8 @@ function AnalysisForm({ mode }) {
     // 삭제
     const deleteMutation = useMutation({
         mutationFn: () => deleteAnalysis(companyId),
-        onSuccessL: () => {
-            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
             navigate(`/companies/${companyId}/detail/`);
         },
         onError: () => {
@@ -119,7 +118,7 @@ function AnalysisForm({ mode }) {
 
         // props에 따라 생성/수정 mutation 호출
         if (isEdit) {
-            updateMutation.mutate(payload);   // 수정
+            updateMutation.mutate({ companyId, analysisId, payload });   // 수정
         } else {
             createMutation.mutate(payload); // 작성
         }
@@ -204,9 +203,9 @@ function AnalysisForm({ mode }) {
                         onChangeContent={setContent}
                     />
 
-                    {/* 버튼 */}
+                    버튼
                     <AnalysisFormButtons
-                        isEdit={isEdit}/>
+                        isEdit={isEdit} />
 
                 </Box>
             </Paper>
