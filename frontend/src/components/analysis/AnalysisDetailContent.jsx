@@ -1,11 +1,16 @@
-import React from 'react';
+import React from "react";
+import { Typography } from "@mui/material";
 
-function AnalysisDetailContent(props) {
+export default function AnalysisDetailContent({ dummyAnalysis }) {
     return (
-        <div>
-
-        </div>
+        <Typography
+            variant="body1"
+            sx={{
+                mb: 3,
+                color: "#6C584C",
+                lineHeight: 1.6
+            }}>
+            {dummyAnalysis.content}
+        </Typography>
     );
 }
-
-export default AnalysisDetailContent;
