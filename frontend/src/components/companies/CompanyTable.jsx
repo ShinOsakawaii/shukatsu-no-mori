@@ -2,9 +2,6 @@ import { Button, Box, Grid, Card, CardContent, CardMedia, Typography, CardAction
 import { Link } from 'react-router';
 
 function CompanyTable({ companies = [] }) {
-    if (!companies.length) {
-        return <Box sx={{ p: 3 }}>등록된 기업이 없습니다.</Box>;
-    }
 
     return (
         <Box sx={{ p: 3 }}>
@@ -22,9 +19,14 @@ function CompanyTable({ companies = [] }) {
                         작성하기
                     </Button>
                 </Box>
-
+                {!companies.length && (
+                    <Box sx={{ p: 3 }}>
+                        등록된 기업이 없습니다.
+                    </Box>
+                )}
                 <Grid container spacing={4} justifyContent="flex-start">
                     {companies.map((company) => (
+
                         <Grid item key={company.companyId} xs={12} sm={6} md={4}>
                             <Card sx={{ width: 345, borderRadius: '10px' }}>
                                 <CardActionArea component={Link} to={`${company.companyId}`}>
