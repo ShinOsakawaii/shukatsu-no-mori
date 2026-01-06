@@ -9,7 +9,7 @@ export async function fetchCompanies(params) {
 
 // 기업 상세 조회
 export async function fetchCompany(companyId) {
-    const res = await api.get(`/companies/${companyId}`);
+    const res = await api.get(`/api/companies/${companyId}`);
     return res.data;
 }
 
