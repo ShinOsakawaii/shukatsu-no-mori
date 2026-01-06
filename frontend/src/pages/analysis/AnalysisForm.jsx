@@ -30,7 +30,7 @@ function AnalysisForm({ mode }) {
     const createMutation = useMutation({
         mutationFn: (payload) => createAnalysis(companyId, payload),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
             navigate(`/companies/${companyId}/detail/${data.detailId}`);
         },
         onError: () => {
@@ -48,11 +48,18 @@ function AnalysisForm({ mode }) {
     // 수정 mutation
     const updateMutation = useMutation({
         mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
-        onSuccess: () => {
+        onSuccess: (updatedData) => {
+            // 상세 내용 무효화
+            queryClient.setQueryData(['analysis', companyId, analysisId],
+                (prev) => ({
+                    ...prev,
+                    ...updatedData,
+                    isOwner: true, 
+                }));
+
             // 목록 캐시 무효화
             queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
-            // 상세 내용 무효화
-            queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
+
             // 이동
             navigate(`/companies/${companyId}/detail/${analysisId}`);
         },
@@ -65,10 +72,10 @@ function AnalysisForm({ mode }) {
 
     // 삭제
     const deleteMutation = useMutation({
-        mutationFn: () => deleteAnalysis(companyId),
+        mutationFn: () => deleteAnalysis(companyId, analysisId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
-            navigate(`/companies/${companyId}/detail/`);
+            navigate(`/companies/${companyId}`);
         },
         onError: () => {
             alert('게시글 삭제에 실패했습니다.');

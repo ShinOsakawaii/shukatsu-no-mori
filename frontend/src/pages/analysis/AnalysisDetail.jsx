@@ -22,7 +22,7 @@ export default function AnalysisDetail() {
     // TanStack Query============
     // 상세 데이터 조회
     const { data: analysis, isLoading, isError, error } = useQuery({
-        queryKey: ["companyDetail", companyId, analysisId],
+        queryKey: ['analysis', companyId, analysisId],
         queryFn: () => fetchAnalysisDetail(companyId, analysisId),
         enabled: !!companyId && !!analysisId
     });
