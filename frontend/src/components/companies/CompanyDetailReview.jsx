@@ -8,9 +8,9 @@ function CompanyDetailReview({ companyId, review, isLoading, isError }) {
 
     const lists = review ? review : []
     return (
-        <Box sx={{ maxWidth: 1100, mx: "auto" }}>
+        <Box sx={{ maxWidth: 1100, mx: "auto", backgroundColor: '#ADC178' }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button component={Link} to={`/companies/${companyId}/review`} variant="contained" sx={{ mb: 2 }}>
+                <Button component={Link} to={`/companies/${companyId}/review`} variant="contained" sx={{ mb: 2, backgroundColor: '#A98467' }}>
                     기업 후기 등록
                 </Button>
             </Box>

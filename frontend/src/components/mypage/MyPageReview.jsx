@@ -6,7 +6,7 @@ function MyPageReview({ review }) {
 
     const lists = review ? review : []
     return (
-        <TableContainer sx={{ mt: 3 }}>
+        <TableContainer sx={{ mt: 3, backgroundColor: '#DDE5B6' }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
@@ -25,7 +25,7 @@ function MyPageReview({ review }) {
                 </TableHead>
 
                 {/* 테이블 본문 */}
-                <TableBody>
+                <TableBody sx={{ color: "#222831" }}>
                     {lists.length > 0 ? (
                         lists.map(({ id, title, createAt, companyId, reviewId }) => (
                             <TableRow
