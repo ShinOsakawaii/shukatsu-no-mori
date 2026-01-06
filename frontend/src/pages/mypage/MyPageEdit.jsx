@@ -2,73 +2,115 @@ import { Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMe } from "../../hooks/useMe";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateMyProfile } from "../../api/mypageApi";
+import { uploadImage } from "../../api/uploadApi";
 
 import MyPageEditImage from "../../components/mypage/MyPageEditImage";
 import MyPageEditContents from "../../components/mypage/MyPageEditContents";
 import MyPageEditButtons from "../../components/mypage/MyPageEditButtons";
 
-
 function MyPageEdit() {
     const navigate = useNavigate();
-    const { data: me, isLoading } = useMe(); //로그인한 회원 정보 가져오기
+    const queryClient = useQueryClient();
+    const { data: me, isLoading } = useMe();
 
-
-
+    // ✅ form 하나로 통일 (백엔드 DTO 필드명과 동일)
     const [form, setForm] = useState({
-        password: "",
-        rePassword: "",
-        nickname: ""
+        newPassword: "",
+        confirmPassword: "",
+        nickname: "",
+        profileImage: null, // URL string or null
     });
 
-
-    const [profileImage, setProfileImage] = useState(null);
-
-    // useEffect
+    // me 로딩되면 초기값 채우기
     useEffect(() => {
-        if (me && me.nickname) {
-            setForm(prev => ({ ...prev, nickname: me.nickname }));
-        }
-    }, [me, setForm]);
+        if (!me) return;
+        setForm((prev) => ({
+            ...prev,
+            nickname: me.nickname ?? "",
+            profileImage: toAbs(me.profileImage),
+        }));
+    }, [me]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((prev) => ({
-            ...prev,
-            [name]: value
-        }));
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const mutation = useMutation({
-        mutationFn: (formData) => updateMyProfile(formData),
+        mutationFn: updateMyProfile,
         onSuccess: () => {
             alert("정보가 수정되었습니다.");
+            queryClient.invalidateQueries({ queryKey: ["me"] });
             navigate("/mypage");
-        }
+        },
+        onError: (e) => {
+            alert(e.response?.data?.message ?? "수정에 실패했습니다.");
+        },
     });
 
     const handleSave = () => {
-        if (!form.password || !form.rePassword) {
-            alert("비밀번호 입력은 필수 입니다.");
-            return;
-        }
+        const wantsPasswordChange =
+            form.newPassword.length > 0 || form.confirmPassword.length > 0;
 
-        if (form.password !== form.rePassword) {
+        if (wantsPasswordChange && form.newPassword !== form.confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
 
-        const formData = new FormData();
-        formData.append("password", form.password);
-        formData.append("nickname", form.nickname);
+        const payload = {
+            nickname: form.nickname,
+            profileImage: form.profileImage,
+            ...(wantsPasswordChange
+                ? {
+                    newPassword: form.newPassword,
+                    confirmPassword: form.confirmPassword,
+                }
+                : {}),
+        };
 
-        if (profileImage) {
-            formData.append("profileImage", profileImage);
+        mutation.mutate(payload);
+    };
+
+    const normalizeImageUrl = (url) => {
+        if (!url) return null;
+        if (typeof url !== "string") return null;
+
+        // 이미 절대 URL이면 그대로
+        if (url.startsWith("http")) return url;
+
+        // "/image/xxx.jpg" → "http://localhost:8080/image/xxx.jpg"
+        const base = import.meta.env.VITE_API_BASE_URL;
+        return url.startsWith("/") ? `${base}${url}` : `${base}/${url}`;
+    };
+
+    const handleChangeImage = async (file) => {
+        if (!file) {
+            setForm((prev) => ({ ...prev, profileImage: null }));
+            return;
         }
 
-        mutation.mutate(formData);
+        try {
+
+            const res = await uploadImage(file);
+            const raw = res?.imageUrl ?? res?.url ?? res;
+            const imageUrl = normalizeImageUrl(raw);
+
+            setForm((prev) => ({ ...prev, profileImage: imageUrl }));
+        } catch (e) {
+            alert("이미지 업로드 실패");
+        }
     };
+
+
+    //이미지 저장 경로 수정
+    const toAbs = (path) => {
+        if (!path) return null;
+        if (path.startsWith("http")) return path;
+        return `${import.meta.env.VITE_API_BASE_URL}${path}`;
+    };
+
 
     if (isLoading) return null;
 
@@ -78,8 +120,8 @@ function MyPageEdit() {
                 <Typography variant="h5">개인 정보 수정</Typography>
 
                 <MyPageEditImage
-                    imageUrl={me?.profileImageUrl}
-                    onChangeImage={setProfileImage}
+                    imageUrl={form.profileImage}
+                    onChangeImage={handleChangeImage}
                 />
 
                 <MyPageEditContents
@@ -90,9 +132,9 @@ function MyPageEdit() {
 
                 <MyPageEditButtons
                     onSave={handleSave}
-                    onCancel={() => navigate("/mypage")} // <- 여기 명시적 이동
+                    onCancel={() => navigate("/mypage")}
+                    isSaving={mutation.isPending}
                 />
-
             </Stack>
         </Container>
     );

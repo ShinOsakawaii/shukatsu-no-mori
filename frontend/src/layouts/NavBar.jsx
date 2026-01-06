@@ -17,9 +17,12 @@ function NavBar() {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("user");
+        // 토큰 제거
         localStorage.removeItem("accessToken");
-        setUser(null);
+        localStorage.removeItem("user");
+        // me 캐시 제거
+        queryClient.removeQueries({ queryKey: ["me"] });
+        // 메인 페이지 이동
         navigate("/companies");
     };
 
@@ -40,13 +43,10 @@ function NavBar() {
                         <span>{user.nickname}님 환영합니다. </span>
                         <Link to="/mypage" style={{ textDecoration: "none" }}>마이페이지</Link>
                         <Button
-                            variant='text'
+                            variant="text"
                             onClick={handleLogout}
-                            sx={{
-                                cursor: "pointer",
-                                textDecoration: "none",
-                                color: "inherit",
-                            }}>
+                            sx={{ color: "inherit" }}
+                        >
                             로그아웃
                         </Button>
                     </>

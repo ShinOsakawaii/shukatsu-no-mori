@@ -21,10 +21,24 @@ export async function fetchMyPage(userId) {
 
 //마이페이지 수정 api
 
-export function updateMyProfile(formData) {
-    return api.put("/mypage/edit", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    });
+
+// 마이페이지 수정 API
+export async function updateMyProfile({
+    nickname,
+    newPassword,
+    confirmPassword,
+    profileImage,
+}) {
+    const payload = {
+        nickname,
+        profileImage, // URL string or null
+        ...(newPassword
+            ? { newPassword, confirmPassword }
+            : {}),
+    };
+
+    console.log("➡️ updateMyProfile payload:", payload);
+
+    const res = await api.patch("/api/user/myinfo", payload);
+    return res.data;
 }
