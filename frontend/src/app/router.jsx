@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router';
 import AppLayout from '../layouts/AppLayout';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
@@ -46,17 +46,8 @@ export const router = createBrowserRouter([
                     {
                         path: ':companyId/review',
                         children: [
-                            // 1. 후기 목록 조회 (경로: /companies/:companyId/review)
-                            { index: true, element: <ReviewList /> },
-
-                            // 2. 후기 등록 (경로: /companies/:companyId/review/new)
-                            { path: 'new', element: <ReviewForm mode="create" /> },
-
-                            // 3. 후기 상세 조회 (경로: /companies/:companyId/review/:reviewId)
-                            { path: ':reviewId', element: <ReviewDetail /> },
-
-                            // 4. 후기 수정 (경로: /companies/:companyId/review/:reviewId/edit)
-                            { path: ':reviewId/edit', element: <ReviewForm mode="edit" /> },
+                            { path: 'new', element: <ReviewForm mode="create" /> }, // 후기 등록 화면, 수정 화면 == ReviewForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
+                            { path: ':reviewId', element: <ReviewDetail /> }, // 후기 조회 (작성자/비작성자 공통)
                         ]
                     }
                 ]
