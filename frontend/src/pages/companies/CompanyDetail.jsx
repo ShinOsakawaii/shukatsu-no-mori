@@ -5,7 +5,7 @@ import CompanyDetailAnalysis from "../../components/companies/CompanyDetailAnaly
 import CompanyDetailReview from '../../components/companies/CompanyDetailReview';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import Loader from '../../components/common/Loader';
-import { Box, Button, Paper, Tab, Tabs } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
 
 //기업정보 상세조회, 삭제

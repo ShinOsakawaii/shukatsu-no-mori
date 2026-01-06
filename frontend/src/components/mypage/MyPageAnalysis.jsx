@@ -53,12 +53,12 @@ function MyPageAnalysis({ detail }) {
                     {/* 게시글이 하나도 없을 때*/}
                     {
                         lists.length === 0 && (
-                            <TableRow>
-                                <TableCell colSpan={3}
+                            <Box>
+                                <Typography colSpan={3}
                                     align='center' sx={{ py: 5 }}>
                                     게시글이 없습니다.
-                                </TableCell>
-                            </TableRow>
+                                </Typography>
+                            </Box>
                         )
                     }
                 </TableBody>
