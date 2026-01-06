@@ -14,7 +14,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* 브라우저 기본 스타일 초기화 */}
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </ThemeProvider>
   );
 }
