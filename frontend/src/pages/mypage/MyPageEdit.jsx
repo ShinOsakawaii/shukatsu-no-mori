@@ -111,6 +111,7 @@ function MyPageEdit() {
         return `${import.meta.env.VITE_API_BASE_URL}${path}`;
     };
 
+    console.log("🛠️ MyPageEdit rendered");
 
     if (isLoading) return null;
 

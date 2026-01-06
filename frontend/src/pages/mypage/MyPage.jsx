@@ -3,6 +3,8 @@ import MyPageHeader from "../../components/mypage/MyPageHeader";
 import { useMe } from "../../hooks/useMe";
 
 function MyPage() {
+    console.log("✅ MyPage rendered");
+
     // 로그인한 유저 정보 가져오기
     const { data: user, isLoading, isError } = useMe();
 
