@@ -29,7 +29,7 @@ export default function CompanyFormFields({ info, onChangeInfo }) {
         >
             <TextField
                 name="name"
-                placeholder="기업명"
+                placeholder="기업명을 입력해줏세요"
                 value={name}
                 onChange={(evt) => onChangeInfo(prev => ({ ...prev, name: evt.target.value }))
                 }
@@ -38,7 +38,7 @@ export default function CompanyFormFields({ info, onChangeInfo }) {
 
             <TextField
                 name="industry"
-                placeholder="업계"
+                placeholder="업계를 입력해주세요"
                 value={industry}
                 onChange={(evt) => onChangeInfo(prev => ({ ...prev, industry: evt.target.value }))
                 }
@@ -47,7 +47,7 @@ export default function CompanyFormFields({ info, onChangeInfo }) {
 
             <TextField
                 name="city"
-                placeholder="기업 위치"
+                placeholder="기업 위치를 입력해주세요"
                 value={city}
                 onChange={(evt) => onChangeInfo(prev => ({ ...prev, city: evt.target.value }))
                 }
@@ -56,7 +56,7 @@ export default function CompanyFormFields({ info, onChangeInfo }) {
 
             <TextField
                 name="website"
-                placeholder="홈페이지 주소"
+                placeholder="홈페이지 주소를 입력해주세요"
                 value={website}
                 onChange={(evt) => onChangeInfo(prev => ({ ...prev, website: evt.target.value }))
                 }
@@ -65,7 +65,7 @@ export default function CompanyFormFields({ info, onChangeInfo }) {
 
             <TextField
                 name="description"
-                placeholder="회사 설명"
+                placeholder="회사 설명을 입력해주세요"
                 value={description}
                 onChange={(evt) => onChangeInfo(prev => ({ ...prev, description: evt.target.value }))
                 }

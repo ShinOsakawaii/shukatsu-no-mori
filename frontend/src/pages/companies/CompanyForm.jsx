@@ -141,12 +141,6 @@ function CompanyForm({ mode }) {
     return (
         <Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
-                <Typography variant="h4" sx={{ color: COLORS.dark }}>
-                    {isEdit ? '기업 정보 수정' : '기업 정보 등록'}
-                </Typography>
-            </Box>
-
             <Box
                 component="form"
                 onSubmit={handleSubmit}
@@ -157,6 +151,12 @@ function CompanyForm({ mode }) {
                     py: 6,
                 }}
             >
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                    <Typography variant="h4" sx={{ color: COLORS.dark }}>
+                        {isEdit ? '기업 정보 수정' : '기업 정보 등록'}
+                    </Typography>
+                </Box>
+
                 <Box sx={{ 
                     display: 'flex', justifyContent: 'center', 
                     gap: 6 }}>
