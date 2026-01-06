@@ -8,11 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Value("${file.upload-dir}")
-    private String uploadDir;
+    private  String uploadDir;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -20,7 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
         String uploadPathWithPrefix = "file:" + uploadPath.toString() + "/";
 
-        //브라우저에서 /image/xx로 접근하면 로컬 uploadDir 폴더에서 파일을 찾도록 매핑
+        // 브라우저에서 /image/xx로 접근하면 로컬 uploadDir 폴더에서 파일을 찾도록 매핑
         registry.addResourceHandler("/image/**")
                 .addResourceLocations(uploadPathWithPrefix);
     }

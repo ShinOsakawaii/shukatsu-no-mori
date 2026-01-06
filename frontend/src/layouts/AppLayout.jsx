@@ -4,6 +4,7 @@ import NavBar from './NavBar';
 function AppLayout() {
     return (
         <>
+
             <NavBar />
             <main>
                 <Outlet />
