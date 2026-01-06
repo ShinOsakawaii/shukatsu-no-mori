@@ -1,6 +1,6 @@
 # shukatsu-no-mori
 
-
+* 강동희 : 분석, 후기 리스트 UI
 신한 GYC 7기 오사카반 프로젝트
 
 - 김현정 : 회원 관리 API
@@ -10,4 +10,3 @@
 - 이승이 : API 모듈(axios) + React Query
 - 강동희 : 라우터 레이아웃
 - 손큰솔 : 기업 후기 API
-

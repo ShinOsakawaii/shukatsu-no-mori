@@ -13,7 +13,7 @@ public interface CompanyService {
 
     CompanyResponse getCompanyDetail(Long companyId);
 
-    CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest);
+    CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest, Long userId);
 
-    CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest);
+    CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest, Long userId);
 }

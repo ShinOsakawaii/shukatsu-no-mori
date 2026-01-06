@@ -2,12 +2,14 @@ package com.shinosaka.shukatsunomori.backend.service.implement;
 
 import com.shinosaka.shukatsunomori.backend.domain.Company;
 import com.shinosaka.shukatsunomori.backend.domain.Location;
+import com.shinosaka.shukatsunomori.backend.domain.User;
 import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.company.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
 import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.repository.LocationRepository;
+import com.shinosaka.shukatsunomori.backend.repository.UserRepository;
 import com.shinosaka.shukatsunomori.backend.service.CompanyService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -28,6 +30,14 @@ import org.springframework.web.server.ResponseStatusException;
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyRepository companyRepository;
     private final LocationRepository locationRepository;
+    private final UserRepository userRepository;
+
+    // 공통 로그인 체크
+    private void requiredLogin(Long userId) {
+        if(userId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -46,7 +56,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest) {
+    public CompanyResponse createCompany(@Valid CompanyCreateRequest companyCreateRequest, Long userId) {
+        requiredLogin(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."));
         Location location = locationRepository.findByCity(companyCreateRequest.getCity())
                 .orElseGet(() -> locationRepository.save(Location.builder().city(companyCreateRequest.getCity()).build()));
         Company company = companyCreateRequest.toEntity(location);
@@ -54,11 +67,16 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest) {
+    public CompanyResponse updateCompany(Long companyId, CompanyUpdateRequest companyUpdateRequest, Long userId) {
+        // requiredLogin(userId);
+        // User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."));
+
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업을 찾을 수 없습니다."));
+
         Location location = locationRepository.findByCity(companyUpdateRequest.getCity())
                 .orElseGet(() -> locationRepository.save(Location.builder().city(companyUpdateRequest.getCity()).build()));
+
         company.update(
                 location,
                 companyUpdateRequest.getName(),
