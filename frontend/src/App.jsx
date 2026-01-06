@@ -12,16 +12,10 @@ const theme = createTheme({
 
 function App() {
   return (
-<<<<<<< HEAD
-    <>
-
-    </>
-=======
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* 브라우저 기본 스타일 초기화 */}
       <RouterProvider router={router} />
     </ThemeProvider>
->>>>>>> 5bd39c53caa26aa73c7373d75709f4a94147e94f
   );
 }
 

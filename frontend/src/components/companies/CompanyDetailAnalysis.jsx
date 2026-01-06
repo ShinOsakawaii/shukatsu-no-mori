@@ -32,6 +32,17 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
                     )
                 })
             }
+            {
+                lists.length === 0 && (
+                    <Box>
+                        <Typography colSpan={3}
+                            align='center' sx={{ py: 5 }}>
+                            게시글이 없습니다.
+                        </Typography>
+                    </Box>
+                )
+            }
+
             <Divider sx={{ mt: 2 }} />
         </Box>
     );
