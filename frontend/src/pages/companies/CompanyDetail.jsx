@@ -14,6 +14,8 @@ function CompanyDetail() {
 
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
+    const { detailId: detailIdParam } = useParams();
+    const detailId = Number(detailIdParam);
     const [tab, setTab] = useState("analysis");
 
 
@@ -28,6 +30,7 @@ function CompanyDetail() {
 
     if (isLoading) return <Loader />;
     if (isError) return <ErrorMessage error={error} />
+    if (!company) return <Loader />;
 
     const { detail, review } = company;
     /*
@@ -66,6 +69,7 @@ function CompanyDetail() {
                     <CompanyDetailAnalysis
                         companyId={companyId}
                         detail={detail}
+                        detailId={detailId}
                         isLoading={isLoading}
                         isError={isError}
                     />

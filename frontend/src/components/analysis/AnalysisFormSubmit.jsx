@@ -1,20 +1,21 @@
 import React from 'react';
 import { Box, Button, Stack } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 function AnalysisFormSubmit({ isEdit }) {
 
     const navigate = useNavigate();
+    const { companyId } = useParams();
 
     return (
         <>
 
         {/* 하단 버튼 */ }
-        < Stack direction = "row" spacing = { 1.5} justifyContent = "center" mt = { 4} >
+        < Stack direction = "row" spacing = {1.5} justifyContent = "center" mt = { 4} >
                 <Button
                     variant="outlined"
                     size="small"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate(`/companies/${companyId}`)}
                     sx={{
                         borderColor: '#6C584C',
                         color: '#6C584C',

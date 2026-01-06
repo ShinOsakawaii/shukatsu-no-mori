@@ -1,10 +1,15 @@
 import React from "react";
 import { Stack, Button } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router";
 
 export default function AnalysisDetailButtons({ isAuthor }) {
+    const { companyId } = useParams();
+    if (!companyId) return null; 
+
     return (
         <Stack direction="row" spacing={1.5} justifyContent="flex-end">
             <Button
+            component={Link} to={`/companies/${companyId}`}
                 variant="outlined"
                 size="small"
                 sx={{
@@ -12,8 +17,7 @@ export default function AnalysisDetailButtons({ isAuthor }) {
                     color: "#6C584C",
                     border: "1px solid #6C584C",
                     "&:hover": {backgroundColor: "#e0e7c6"}
-                }}
-                onClick={() => navigate(-1)}>
+                }}>
                 뒤로
             </Button>
 

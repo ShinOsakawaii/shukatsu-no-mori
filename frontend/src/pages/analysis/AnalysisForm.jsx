@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
-import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
-import AnalysisFormButtons from '../../components/analysis/AnalysisDetailButtons';
+import AnalysisFormFields from '../../components/analysis/AnalysisFormFields';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
 
 //기업 분석 등록, 삭제
 function AnalysisForm({ mode }) {
@@ -20,23 +20,23 @@ function AnalysisForm({ mode }) {
 
     const navigate = useNavigate();
 
-    // const [title, setTitle] = useState("");
-    // const [position, setPosition] = useState("");
-    // const [content, setContent] = useState("");
+    const [title, setTitle] = useState("");
+    const [position, setPosition] = useState("");
+    const [content, setContent] = useState("");
 
 
-    // // TanStack Query=============
-    // // 기업 분석 등록
-    // const createMutation = useMutation({
-    //     mutationFn: (payload) => createAnalysis(companyId, payload),
-    //     onSuccess: (data) => {
-    //         queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-    //         navigate(`/companies/${companyId}/detail/${data.detailId}`);
-    //     },
-    //     onError: () => {
-    //         alert('게시글 등록에 실패했습니다.');
-    //     }
-    // });
+    // TanStack Query=============
+    // 기업 분석 등록
+    const createMutation = useMutation({
+        mutationFn: (payload) => createAnalysis(companyId, payload),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            navigate(`/companies/${companyId}/detail/${data.detailId}`);
+        },
+        onError: () => {
+            alert('게시글 등록에 실패했습니다.');
+        }
+    });
 
     // 수정 모드일 때 기존 데이터 가져오기 
     const { data: analysis, isLoading, isError, error } = useQuery({
@@ -75,12 +75,12 @@ function AnalysisForm({ mode }) {
         }
     });
 
-    // if (isEdit && isLoading) return <Loader />
-    // if (isEdit && isError) return <ErrorMessage error={error} />
+    if (isEdit && isLoading) return <Loader />
+    if (isEdit && isError) return <ErrorMessage error={error} />
 
-    // // 이벤트 핸들러 ==============
+    // 이벤트 핸들러 ==============
 
-    // // 폼 전송 =========
+    // 폼 전송 =========
     // const handleSubmit = (evt) => {
     //     evt.preventDefault();
 
@@ -104,25 +104,25 @@ function AnalysisForm({ mode }) {
     //     }
     // }
 
-    // 데스트용 더미 데이터
-    const dummyAnalysis = {
-        title: "스타트업 분석",
-        position: "개발",
-        content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
-        userId: 1,
-        nickname: "토마토님",
-        createdDate: "2025/11/14",
-        updatedDate: "2025/12/04"
-    };
+    // // 데스트용 더미 데이터
+    // const dummyAnalysis = {
+    //     title: "스타트업 분석",
+    //     position: "개발",
+    //     content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
+    //     userId: 1,
+    //     nickname: "토마토님",
+    //     createdDate: "2025/11/14",
+    //     updatedDate: "2025/12/04"
+    // };
 
-    // 테스트용 더미 데이터
-    // 로그인 여부/작성자 여부
-    const dummyUser = { userId: 1, nickname: "토마토님" }; // 로그인 사용자 더미
-    const isAuthor = dummyUser.userId === dummyAnalysis.userId;
+    // // 테스트용 더미 데이터
+    // // 로그인 여부/작성자 여부
+    // const dummyUser = { userId: 1, nickname: "토마토님" }; // 로그인 사용자 더미
+    // const isAuthor = dummyUser.userId === dummyAnalysis.userId;
 
-    const [title, setTitle] = useState(dummyAnalysis.title);
-    const [position, setPosition] = useState(dummyAnalysis.position);
-    const [content, setContent] = useState(dummyAnalysis.content);
+    // const [title, setTitle] = useState(dummyAnalysis.title);
+    // const [position, setPosition] = useState(dummyAnalysis.position);
+    // const [content, setContent] = useState(dummyAnalysis.content);
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -217,7 +217,8 @@ function AnalysisForm({ mode }) {
                 }}
             >
                 <Box component="form" onSubmit={handleSubmit}>
-                    <AnalysisFormSubmit
+
+                    <AnalysisFormFields
                         title={title}
                         content={content}
                         position={position}
@@ -226,8 +227,7 @@ function AnalysisForm({ mode }) {
                         onChangeContent={setContent}
                     />
 
-                    버튼
-                    <AnalysisFormButtons
+                    <AnalysisFormSubmit
                         isEdit={isEdit} />
 
                 </Box >

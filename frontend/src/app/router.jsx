@@ -31,15 +31,15 @@ export const router = createBrowserRouter([
                     { path: ':companyId', element: <CompanyDetail /> }, // 기업 상세 조회 화면 
 
                     // 2-1. 기업 분석 (Detail)
-                    {
-                        path: ':companyId/detail',
-                        children: [
-                            { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                            // { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
-                            { path: ':detailId/edit', element: <AnalysisForm mode="edit" /> },
-                            { path: 'dummy/analysis', element: <AnalysisDetail /> } // 테스트용 더미 주소
-                        ]
-                    },
+                    { path: ':companyId/detail/new', element: <AnalysisForm mode="create" /> },
+                    { path: ':companyId/detail/:detailId', element: <AnalysisDetail /> },
+                    { path: ':companyId/detail/:detailId/edit', element: <AnalysisForm mode="edit" /> },
+                    // path: ':companyId/detail',
+                    // children: [
+                    //     { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
+                    //     { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
+                    //     { path: ':detailId/edit', element: <AnalysisForm mode="edit" /> }
+                    // ]
 
                     // 2-2. 기업 후기 (Review)
                     {
