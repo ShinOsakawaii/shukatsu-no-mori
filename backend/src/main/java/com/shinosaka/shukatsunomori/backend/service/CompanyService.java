@@ -4,7 +4,6 @@ import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyCreateReq
 import com.shinosaka.shukatsunomori.backend.dto.request.company.CompanyUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.company.CompanyResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

@@ -1,11 +1,29 @@
-import React from 'react';
+// src/pages/mypage/MyPage.jsx
+import MyPageHeader from "../../components/mypage/MyPageHeader";
+import { useMe } from "../../hooks/useMe";
 
-function MyPage(props) {
-    return (
-        <div>
+function MyPage() {
+    // 로그인한 유저 정보 가져오기
+    const { data: user, isLoading, isError } = useMe();
 
-        </div>
-    );
-}
+    // 로딩 중 처리
+    if (isLoading) return <div>Loading...</div>;
 
-export default MyPage;
+    // 에러 또는 user가 없을 때 처리
+    if (isError || !user) return <div>유저 정보를 불러오지 못했습니다.</div>;
+
+    function MyPage(props) {
+        return (
+            <div>
+                <MyPageHeader
+                    username={user.nickname || "Guest"} // nickname 없으면 기본값
+                    profileImage={user.profileImage || "/images/default-avatar.png"} // 이미지 없으면 기본 이미지
+                />
+
+                {/* 기업 분석, 후기 리스트 부분은 강상이 담당 */}
+
+            </div>
+        );
+    }
+
+    export default MyPage;

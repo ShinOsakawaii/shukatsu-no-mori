@@ -9,34 +9,32 @@ import MyPageEditImage from "../../components/mypage/MyPageEditImage";
 import MyPageEditContents from "../../components/mypage/MyPageEditContents";
 import MyPageEditButtons from "../../components/mypage/MyPageEditButtons";
 
-
 function MyPageEdit() {
     const navigate = useNavigate();
-    const { data: me, isLoading } = useMe(); //로그인한 회원 정보 가져오기
-
-
+    const { data: me, isLoading } = useMe(); // 로그인한 회원 정보
 
     const [form, setForm] = useState({
         password: "",
         rePassword: "",
-        nickname: ""
+        nickname: "",
     });
-
 
     const [profileImage, setProfileImage] = useState(null);
 
-    // useEffect
     useEffect(() => {
-        if (me && me.nickname) {
-            setForm(prev => ({ ...prev, nickname: me.nickname }));
+        if (me?.nickname) {
+            setForm((prev) => ({
+                ...prev,
+                nickname: me.nickname,
+            }));
         }
-    }, [me, setForm]);
+    }, [me]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -45,11 +43,10 @@ function MyPageEdit() {
         onSuccess: () => {
             alert("정보가 수정되었습니다.");
             navigate("/mypage");
-        }
+        },
     });
 
     const handleSave = () => {
-
         if (form.password !== form.rePassword) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
@@ -66,7 +63,7 @@ function MyPageEdit() {
         mutation.mutate(formData);
     };
 
-    if (isLoading) return null;
+    if (isLoading || !me) return null;
 
     return (
         <Container maxWidth="sm">
@@ -74,21 +71,20 @@ function MyPageEdit() {
                 <Typography variant="h5">개인 정보 수정</Typography>
 
                 <MyPageEditImage
-                    imageUrl={me?.profileImageUrl}
+                    imageUrl={me.profileImageUrl}
                     onChangeImage={setProfileImage}
                 />
 
                 <MyPageEditContents
-                    email={me?.email}
+                    email={me.email}
                     form={form}
                     onChange={handleChange}
                 />
 
                 <MyPageEditButtons
                     onSave={handleSave}
-                    onCancel={() => navigate("/mypage")} // <- 여기 명시적 이동
+                    onCancel={() => navigate("/mypage")}
                 />
-
             </Stack>
         </Container>
     );
