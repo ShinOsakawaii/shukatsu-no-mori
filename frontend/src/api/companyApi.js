@@ -9,7 +9,7 @@ export async function fetchCompanies(params) {
 
 // 기업 상세 조회
 export async function fetchCompany(companyId) {
-    const res = await api.get(`/api/companies/${companyId}`);
+    const res = await api.get(`/companies/${companyId}`);
     return res.data;
 }
 
@@ -36,7 +36,7 @@ export async function uploadImage(file) {
     return res.data; // { imageUrl: "..." }
 }
 
-// //기업 이미지 수정
+// 기업 이미지 수정
 // export async function updateCompanyImage(file) {
 //     const formData = new FormData();
 //     formData.append('file', file);
@@ -45,7 +45,8 @@ export async function uploadImage(file) {
 //     return res.data; // { "imageUrl" : "" }
 // }
 
-// 기업 삭제
-export async function deleteCompany(companyId) {
-    await api.delete(`/companies/${companyId}`);
-}
+
+// // 기업 삭제
+// export async function deleteCompany(companyId) {
+//     await api.delete(`/api/companies/${companyId}`);
+// }
