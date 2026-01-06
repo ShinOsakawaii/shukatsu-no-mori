@@ -7,11 +7,14 @@ import AnalysisFormFields from '../../components/analysis/AnalysisFormFields';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
+import { useMe } from '../../hooks/useMe';
 
 //기업 분석 등록, 삭제
 function AnalysisForm({ mode }) {
 
     const isEdit = mode === 'edit';
+    const { user, isLoading: isUserLoading } = useMe();
+
 
     const queryClient = useQueryClient();
     const { companyId: companyIdParam, detailId: detailIdParam } = useParams();
@@ -54,7 +57,7 @@ function AnalysisForm({ mode }) {
                 (prev) => ({
                     ...prev,
                     ...updatedData,
-                    isOwner: true, 
+                    isOwner: true,
                 }));
 
             // 목록 캐시 무효화
@@ -91,7 +94,12 @@ function AnalysisForm({ mode }) {
         }
     }, [analysis]);
 
-
+    useEffect(() => {
+        if (!isUserLoading && !user) {
+            alert('로그인이 필요합니다.');
+            navigate('/auth/login');
+        }
+    }, [user, isUserLoading, navigate]);
 
 
     // 이벤트 핸들러 ==============
