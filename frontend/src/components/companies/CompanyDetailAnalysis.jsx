@@ -8,8 +8,12 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
 
     const lists = detail ? detail : []
     return (
-        <Box sx={{ mb: 4 }}>
-            <Button component={Link} to={`/companies/${companyId}/detail`} variant="contained" sx={{ mb: 2 }}>기업 분석 등록</Button>
+        <Box sx={{ maxWidth: 1100, mx: "auto" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                <Button component={Link} to={`/companies/${companyId}/detail/new`} variant="contained" sx={{ mb: 2 }}>
+                    기업 분석 등록
+                </Button>
+            </Box>
 
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}

@@ -5,7 +5,7 @@ import CompanyDetailAnalysis from "../../components/companies/CompanyDetailAnaly
 import CompanyDetailReview from '../../components/companies/CompanyDetailReview';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import Loader from '../../components/common/Loader';
-import { Box, Button, Tab, Tabs } from '@mui/material';
+import { Box, Button, Paper, Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 
 //기업정보 상세조회, 삭제
@@ -30,7 +30,7 @@ function CompanyDetail() {
     const { detail, review } = company;
 
     return (
-        <>
+        <Box sx={{ m: 3 }}>
             <Box sx={{ justifyContent: "center", display: "flex", gap: 2, mb: 2 }}>
                 <Button variant={tab === "analysis" ? "contained" : "outlined"}
                     onClick={() => setTab("analysis")}>
@@ -43,22 +43,27 @@ function CompanyDetail() {
                 </Button>
             </Box >
 
-            {/* 기업 분석 테이블 */}
-            {tab === "analysis" && <CompanyDetailAnalysis
-                companyId={companyId}
-                detail={detail}
-                isLoading={isLoading}
-                isError={isError}
-            />}
+            <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
+                {/* 기업 분석 테이블 */}
+                {tab === "analysis" ? (
+                    <CompanyDetailAnalysis
+                        companyId={companyId}
+                        detail={detail}
+                        isLoading={isLoading}
+                        isError={isError}
+                    />
+                ) : (
+                    <CompanyDetailReview
+                        companyId={companyId}
+                        review={review}
+                        isLoading={isLoading}
+                        isError={isError}
+                    />
+                )}
+            </Paper>
 
-            {/* 기업 후기 테이블 */}
-            {tab === "review" && <CompanyDetailReview
-                companyId={companyId}
-                review={review}
-                isLoading={isLoading}
-                isError={isError}
-            />}
-        </>
+
+        </Box>
     );
 }
 

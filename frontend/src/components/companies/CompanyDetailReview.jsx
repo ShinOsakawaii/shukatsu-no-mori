@@ -8,8 +8,12 @@ function CompanyDetailReview({ companyId, review, isLoading, isError }) {
 
     const lists = review ? review : []
     return (
-        <Box sx={{ mb: 4 }}>
-            <Button component={Link} to={`/companies/${companyId}/review`} variant="contained" sx={{ mb: 2 }}>기업 후기 등록</Button>
+        <Box sx={{ maxWidth: 1100, mx: "auto" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                <Button component={Link} to={`/companies/${companyId}/review`} variant="contained" sx={{ mb: 2 }}>
+                    기업 후기 등록
+                </Button>
+            </Box>
 
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
@@ -32,16 +36,6 @@ function CompanyDetailReview({ companyId, review, isLoading, isError }) {
                         </Paper>
                     )
                 })
-            }
-            {
-                lists.length === 0 && (
-                    <Box>
-                        <Typography colSpan={3}
-                            align='center' sx={{ py: 5 }}>
-                            게시글이 없습니다.
-                        </Typography>
-                    </Box>
-                )
             }
             {
                 lists.length === 0 && (
