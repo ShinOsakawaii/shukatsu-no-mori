@@ -20,13 +20,15 @@ public class ReviewResponse {
     private String content;
     private String stage;
     private String result;
+    private String nickname;
+    private boolean isOwner;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     /*
      * Entity -> DTO 변환 메서드
      */
-    public static ReviewResponse from(Review review) {
+    public static ReviewResponse from(Review review, Long currentUserId) {
         return ReviewResponse.builder()
                 .reviewId(review.getReviewId())
                 .companyId(review.getCompany().getCompanyId())
@@ -36,6 +38,8 @@ public class ReviewResponse {
                 .content(review.getContent())
                 .stage(review.getStage())
                 .result(review.getResult())
+                .nickname(review.getUser().getNickname())
+                .isOwner(currentUserId != null && currentUserId.equals(review.getUser().getUserId()))
                 .createdAt(review.getCreatedAt())
                 .updatedAt(review.getUpdateAt())
                 .build();

@@ -20,7 +20,7 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "review_id", nullable = false)
     private Long reviewId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,6 +34,7 @@ public class Review {
     @Column(name = "title", nullable = false, length = 200)
     private String title;
 
+    //oracle 예약어(자체 명령어)로 인해 db오류가 심해 position 대신 다른 단어로 대체 하였습니다.
     @Column(name = "job_position", nullable = false, length = 50) // "position" 대신 변경
     private String position;
 
@@ -43,7 +44,8 @@ public class Review {
     @Column(name = "stage", nullable = false, length = 20)
     private String stage;
 
-    @Column(name = "test_result", nullable = false, length = 20)   // "result" 대신 변경
+    //oracle 예약어(자체 명령어)로 인해 db오류가 심해 result 대신 다른 단어로 대체 하였습니다.
+    @Column(name = "job_result", nullable = false, length = 20)   // "result" 대신 변경
     private String result;
 
     @CreationTimestamp

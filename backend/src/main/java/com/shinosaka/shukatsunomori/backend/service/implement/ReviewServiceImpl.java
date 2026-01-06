@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -57,22 +58,18 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 저장 및 결과 반환
         Review saved = reviewRepository.save(review);
-        return ReviewResponse.from(saved);
+        return ReviewResponse.from(saved, userId);
     }
 
     // 리뷰 목록 조회 + 페이징 + 검색
-    @Override
-    @Transactional(readOnly = true)
-    public PageResponse<ReviewResponse> getReviewList(int page, int size, String keyword) {
-        // Pageable 객체 생성. 페이지 번호, 한 페이지 안에 데이터 수, 정렬 기준 (reviewId 기준)
+    public PageResponse<ReviewResponse> getReviews(int page, int size, String keyword, Long userId) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "reviewId"));
-
         // 검색
         Page<Review> reviewPage = findReviewPage(keyword, pageable);
 
         // DTO로 반환
         // reviewPage 안에 있는 entity 목록을 ReviewListResponse DTO로 변환 -> PageResponse 형태로 반환
-        return PageResponse.from(reviewPage, ReviewResponse::from);
+        return PageResponse.from(reviewPage, (review) -> ReviewResponse.from(review, userId));
     }
 
     private Page<Review> findReviewPage(String keyword, Pageable pageable) {
@@ -91,22 +88,22 @@ public class ReviewServiceImpl implements ReviewService {
 
     // 리뷰 상세 조회
     @Override
-    public ReviewResponse getReviewDetail(Long id) {
+    public ReviewResponse getReview(Long ReviewId, Long userId) {
         // id 조회, 없으면 예외 처리
-        Review review = reviewRepository.findById(id)
+        Review review = reviewRepository.findById(ReviewId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 글을 찾을 수 없습니다."));
 
         // 상세정보를 DTO 변환 반환
-        return ReviewResponse.from(review);
+        return ReviewResponse.from(review, userId);
     }
 
     // 리뷰 수정
     @Override
-    public ReviewResponse updateReview(Long userId, Long id, ReviewUpdateRequest request) {
+    public ReviewResponse updateReview(Long userId, Long ReviewId, ReviewUpdateRequest request) {
 
         requiredLogin(userId);
 
-        Review review = reviewRepository.findById(id)
+        Review review = reviewRepository.findById(ReviewId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 글을 찾을 수 없습니다."));
 
         // 작성자 체크
@@ -117,17 +114,17 @@ public class ReviewServiceImpl implements ReviewService {
         // 엔티티 업데이트 메서드
         review.update(request.getTitle(), request.getPosition(), request.getContent(), request.getStage(), request.getResult());
         // response DTO 변환 후 반환
-        return ReviewResponse.from(review);
+        return ReviewResponse.from(review, userId);
     }
 
     // 리뷰 삭제
     @Override
-    public void deleteReview(Long userId, Long id) {
+    public void deleteReview(Long userId, Long ReviewId) {
 
         requiredLogin(userId);
 
         // 아이디 조회
-        Review review = reviewRepository.findById(id)
+        Review review = reviewRepository.findById(ReviewId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 글을 찾을 수 없습니다."));
 
         if (!review.getUser().getUserId().equals(userId)) {

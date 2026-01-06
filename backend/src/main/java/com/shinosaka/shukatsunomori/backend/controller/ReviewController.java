@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,35 +22,35 @@ public class ReviewController {
 
     // 기업 후기 목록 조회 + 검색 + 페이지
     @GetMapping
-    public ResponseEntity<PageResponse<ReviewResponse>> getReviewList(
-            @PathVariable Long companyId,
+    public ResponseEntity<PageResponse<ReviewResponse>> getReviews(
+            @PathVariable Long companyId, // URL 경로는 받지만 서비스 호출 시 사용 안 함 (서비스 사양에 맞춤)
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String keyword) {
+            @RequestParam(required = false) String keyword,
+            @AuthenticationPrincipal Long userId) {
 
-        return ResponseEntity.ok(reviewService.getReviewList(page, size, keyword));
+
+        return ResponseEntity.ok(reviewService.getReviews(page, size, keyword, userId));
     }
 
     // 기업 후기 개별 조회
     @GetMapping("/{reviewId}")
-    public ResponseEntity<ReviewResponse> getReviewDetail(
+    public ResponseEntity<ReviewResponse> getReview(
             @PathVariable Long companyId,
-            @PathVariable Long reviewId) {
+            @PathVariable Long reviewId,
+            @AuthenticationPrincipal Long userId) {
 
-        return ResponseEntity.ok(reviewService.getReviewDetail(reviewId));
+
+        return ResponseEntity.ok(reviewService.getReview(reviewId, userId));
     }
 
     // 기업 후기 등록
     @PostMapping
     public ResponseEntity<ReviewResponse> createReview(
             @PathVariable Long companyId,
-            @Valid @RequestBody ReviewCreateRequest request) {
+            @Valid @RequestBody ReviewCreateRequest request,
+            @AuthenticationPrincipal Long userId) {
 
-        // DTO에 URL로 받은 companyId를 넣어줍니다.
-        request.setCompanyId(companyId);
-
-        // userId는 임시로 1L로 설정 (나중에 로그인 세션 적용 시 수정)
-        Long userId = 1L;
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(reviewService.createReview(userId, request));
@@ -60,9 +61,10 @@ public class ReviewController {
     public ResponseEntity<ReviewResponse> updateReview(
             @PathVariable Long companyId,
             @PathVariable Long reviewId,
-            @Valid @RequestBody ReviewUpdateRequest request) {
+            @Valid @RequestBody ReviewUpdateRequest request,
+            @AuthenticationPrincipal Long userId) {
 
-        Long userId = 1L; // 임시 userId
+
         return ResponseEntity.ok(reviewService.updateReview(userId, reviewId, request));
     }
 
@@ -70,9 +72,9 @@ public class ReviewController {
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(
             @PathVariable Long companyId,
-            @PathVariable Long reviewId) {
+            @PathVariable Long reviewId,
+            @AuthenticationPrincipal Long userId) {
 
-        Long userId = 1L; // 임시 userId
         reviewService.deleteReview(userId, reviewId);
         return ResponseEntity.noContent().build();
     }
