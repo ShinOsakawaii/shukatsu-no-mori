@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
-import AnalysisFormSubmit from '../../components/analysis/AnalysisFormFields';
+// import AnalysisFormSubmit from '../../components/analysis/AnalysisFormFields';
 import AnalysisFormButtons from '../../components/analysis/AnalysisFormSubmit';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
