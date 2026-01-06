@@ -43,7 +43,7 @@ public class DetailController {
     }
 
     // 기업 분석 등록
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<DetailResponse> createDetail(
             @PathVariable Long companyId,
             @Valid @RequestBody DetailCreateRequest request,
