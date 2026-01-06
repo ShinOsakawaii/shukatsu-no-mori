@@ -14,17 +14,17 @@ import java.nio.file.Paths;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Value("${file.upload-dir}")
-    private  String uploadDir;
+    private String uploadDir;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 실제 물리적인 경로(절대 경로) 설정
-        // Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-        // String uploadPathWithPrefix = "file:" + uploadPath.toString() + "/";
+        //실제 물리적인 경로(절대 경로) 설정
+        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+        String uploadPathWithPrefix = "file:" + uploadPath.toString() + "/";
 
-        // 브라우저에서 /image/xx로 접근하면 로컬 uploadDir 폴더에서 파일을 찾도록 매핑
+        //브라우저에서 /image/xx로 접근하면 로컬 uploadDir 폴더에서 파일을 찾도록 매핑
         registry.addResourceHandler("/image/**")
-                .addResourceLocations("file:" + uploadDir + "/");
+                .addResourceLocations(uploadPathWithPrefix);
     }
 
     @Override
