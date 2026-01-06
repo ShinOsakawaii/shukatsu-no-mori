@@ -3,7 +3,6 @@ import { router } from './app/router';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-
 // MUI 테마 만들기
 const theme = createTheme({
   typography: {
@@ -13,7 +12,6 @@ const theme = createTheme({
 
 function App() {
   return (
-    
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* 브라우저 기본 스타일 초기화 */}
       <RouterProvider router={router}/>
