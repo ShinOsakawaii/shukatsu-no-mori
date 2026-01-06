@@ -17,8 +17,8 @@ function MyPageEdit() {
 
     // ✅ form 하나로 통일 (백엔드 DTO 필드명과 동일)
     const [form, setForm] = useState({
-        newPassword: "",
-        confirmPassword: "",
+        password: "",
+        rePassword: "",
         nickname: "",
         profileImage: null, // URL string or null
     });
@@ -52,9 +52,9 @@ function MyPageEdit() {
 
     const handleSave = () => {
         const wantsPasswordChange =
-            form.newPassword.length > 0 || form.confirmPassword.length > 0;
+            form.password.length > 0 || form.rePassword.length > 0;
 
-        if (wantsPasswordChange && form.newPassword !== form.confirmPassword) {
+        if (wantsPasswordChange && form.password !== form.rePassword) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
@@ -64,13 +64,13 @@ function MyPageEdit() {
             profileImage: form.profileImage,
             ...(wantsPasswordChange
                 ? {
-                    newPassword: form.newPassword,
-                    confirmPassword: form.confirmPassword,
+                    password: form.password,
+                    rePassword: form.rePassword,
                 }
                 : {}),
         };
-
         mutation.mutate(payload);
+
     };
 
     const normalizeImageUrl = (url) => {
@@ -110,8 +110,6 @@ function MyPageEdit() {
         if (path.startsWith("http")) return path;
         return `${import.meta.env.VITE_API_BASE_URL}${path}`;
     };
-
-    console.log("🛠️ MyPageEdit rendered");
 
     if (isLoading) return null;
 
