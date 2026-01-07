@@ -1,51 +1,44 @@
-import React from 'react';
+import React from "react";
+import { Stack, Button } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router";
 
-const ReviewDetailButtons = ({ isAuthor, onEditClick, onBackClick }) => {
+export default function ReviewDetailButtons({ isAuthor, reviewId }) {
+
+    const { companyId } = useParams();
+
+    if (!companyId || !reviewId) return null;
+
+    const navigate = useNavigate();
+
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '20px',
-            marginTop: '40px'
-        }}>
-            {/* 1. 언제나 보이는 취소/뒤로 버튼 */}
-            <button
-                onClick={onBackClick}
-                style={{
-                    backgroundColor: '#A68A71', // 이미지와 동일한 갈색
-                    color: 'white',
-                    border: 'none',
-                    padding: '12px 45px',
-                    borderRadius: '12px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    fontSize: '18px'
-                }}
-            >
-                {isAuthor ? "취소" : "뒤로"}
-            </button>
+        <Stack direction="row" spacing={1.5} justifyContent="flex-end">
+            <Button
+                component={Link} to={`/companies/${companyId}`}
+                variant="outlined"
+                size="small"
+                sx={{
+                    px: 2.5,
+                    color: "#6C584C",
+                    border: "1px solid #6C584C",
+                    "&:hover": { backgroundColor: "#e0e7c6" }
+                }}>
+                뒤로
+            </Button>
 
-            {/* 2. 작성자일 때만 보이는 수정 버튼 */}
-            {isAuthor && (
-                <button
-                    onClick={onEditClick}
-                    style={{
-                        backgroundColor: '#A2AD7E', // 이미지와 동일한 연두색
-                        color: 'white',
-                        border: 'none',
-                        padding: '12px 45px',
-                        borderRadius: '12px',
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                        fontSize: '18px'
+            {isAuthor &&
+                <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                        px: 2.5,
+                        color: "#6C584C",
+                        bgcolor: "#ABC178"
                     }}
-                >
+                    onClick={() => navigate(
+                        `/companies/${companyId}/review/${reviewId}/edit`)}>
                     수정
-                </button>
-            )}
-        </div>
-    );
-};
+                </Button>}
 
-// ❗ 이 부분이 누락되어 에러가 발생한 것입니다.
-export default ReviewDetailButtons;
+        </Stack>
+    );
+}

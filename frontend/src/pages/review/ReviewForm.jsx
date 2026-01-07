@@ -1,180 +1,222 @@
-import React, { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { createReview, deleteReview, fetchReview, updateReview } from '../../api/companyReviewApi';
+import { Box, Typography, Button, Stack, Paper } from '@mui/material';
+import ReviewFormFields from '../../components/review/ReviewFormFields';
+import Loader from '../../components/common/Loader';
+import ErrorMessage from '../../components/common/ErrorMessage';
+import ReviewFormSubmit from '../../components/review/ReviewFormSubmit';
+import { useMe } from '../../hooks/useMe';
 
-const ReviewForm = ({ mode = "create" }) => {
+//기업 후기 등록, 삭제
+function ReviewForm({ mode }) {
+
+    const isEdit = mode === 'edit';
+
+    const queryClient = useQueryClient();
+    const { companyId: companyIdParam, reviewId: reviewIdParam } = useParams();
+    const companyId = Number(companyIdParam);
+    const reviewId = reviewIdParam ? Number(reviewIdParam) : null;
+
     const navigate = useNavigate();
-    const { companyId, reviewId } = useParams();
-    const isEdit = mode === "edit";
 
-    // 1. 현재 사용자 정보 가져오기
-    const { me, isLoading: meLoading } = useMe();
+    const [title, setTitle] = useState("");
+    const [position, setPosition] = useState("");
+    const [stage, setStage] = useState("");
+    const [result, setResult] = useState("");
+    const [content, setContent] = useState("");
 
-    const [formData, setFormData] = useState({
-        title: "",
-        position: "",
-        stage: "",
-        result: "",
-        content: ""
+
+    // TanStack Query=============
+    // 기업 후기 등록
+    const createMutation = useMutation({
+        mutationFn: (payload) => createReview(companyId, payload),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['review', companyId] });
+            navigate(`/companies/${companyId}/review/${data.reviewId}`);
+        },
+        onError: () => {
+            alert('게시글 등록에 실패했습니다.');
+        }
     });
 
-    // 2. 권한 및 데이터 로드 로직
+    // 수정 모드일 때 기존 데이터 가져오기 
+    const { data: review, isLoading, isError, error } = useQuery({
+        queryKey: ['review', companyId, reviewId],
+        queryFn: () => fetchReview(companyId, reviewId),
+        enabled: isEdit && !!reviewId
+    });
+
+    // 수정 mutation
+    const updateMutation = useMutation({
+        mutationFn: ({ companyId, reviewId, payload }) => updateReview(companyId, reviewId, payload),
+        onSuccess: (updatedData) => {
+            // 상세 내용 무효화
+            queryClient.setQueryData(['review', companyId, reviewId],
+                (prev) => ({
+                    ...prev,
+                    ...updatedData,
+                    isOwner: true,
+                }));
+
+            // 목록 캐시 무효화
+            queryClient.invalidateQueries({ queryKey: ['review', companyId] });
+
+            // 이동
+            navigate(`/companies/${companyId}/review/${reviewId}`);
+        },
+        onError: () => {
+            alert('게시글 수정에 실패했습니다.')
+        }
+
+    })
+
+
+    // 삭제
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteReview(companyId, reviewId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['review', companyId] });
+            navigate(`/companies/${companyId}`);
+        },
+        onError: () => {
+            alert('게시글 삭제에 실패했습니다.');
+        }
+    });
+
+    // useEffect
     useEffect(() => {
-        // [강력 차단] 토큰이 아예 없으면 로그인 페이지로 보냄
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-            alert("로그인이 필요한 서비스입니다.");
-            navigate("/auth/login", { replace: true });
-            return;
+        if (review) {
+            setTitle(review.title);
+            setPosition(review.position);
+            setStage(review.stage);
+            setResult(review.result);
+            setContent(review.content);
         }
+    }, [review]);
 
-        // 수정 모드일 때 기존 데이터 불러오기
-        if (isEdit && reviewId) {
-            const getDetail = async () => {
-                try {
-                    const data = await fetchReview(companyId, reviewId);
 
-                    // [보안] 작성자와 현재 로그인 유저가 다르면 차단 (me 로딩 완료 후 체크)
-                    if (!meLoading && me && data.nickname !== me.nickname) {
-                        alert("수정 권한이 없습니다.");
-                        navigate(`/companies/${companyId}`);
-                        return;
-                    }
+    // 이벤트 핸들러 ==============
+    // 폼 전송 =========
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
 
-                    // 데이터 바인딩 (입력창에 값 채우기)
-                    setFormData({
-                        title: data.title || "",
-                        position: data.position || "",
-                        stage: data.stage || "",
-                        result: data.result || "",
-                        content: data.content || ""
-                    });
-                } catch (err) {
-                    console.error("데이터 로드 실패:", err);
-                    alert("정보를 불러오지 못했습니다.");
-                    navigate(-1);
-                }
-            };
-            getDetail();
-        }
-    }, [isEdit, reviewId, companyId, navigate, me, meLoading]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    // 3. 저장 및 수정 실행 로직
-    const handleSave = async () => {
-        // 필수값 검증 (간단히)
-        if (!formData.title || !formData.content) {
-            alert("제목과 내용을 모두 입력해주세요.");
-            return;
-        }
-
-        const numericCompanyId = Number(companyId);
+        // [핵심!] 백엔드 DTO(ReviewCreateRequest) 명세에 딱 맞춘 데이터 구조입니다.
         const payload = {
-            ...formData,
-            companyId: numericCompanyId
+            companyId: companyId, // 서버가 "회사 ID는 필수입니다."라고 했던 바로 그 부분!
+            title: title.trim(),
+            position: position.trim(),
+            stage: stage.trim(),
+            result: result.trim(),
+            content: content.trim()
         };
 
-        try {
-            if (isEdit) {
-                // 수정 처리
-                await updateReview(numericCompanyId, reviewId, payload);
-                alert("수정되었습니다.");
-                navigate(`/companies/${numericCompanyId}/review/${reviewId}`);
-            } else {
-                // 등록 처리
-                const response = await createReview(numericCompanyId, payload);
-                alert("등록되었습니다.");
+        console.log("서버로 보내는 최종 데이터:", payload);
 
-                // 생성된 새 ID로 이동 (서버 응답 구조에 맞춤)
-                const newReviewId = response.reviewId || response.id;
-                if (newReviewId) {
-                    navigate(`/companies/${numericCompanyId}/review/${newReviewId}`);
-                } else {
-                    navigate(`/companies/${numericCompanyId}`);
-                }
-            }
-        } catch (err) {
-            console.error("저장 실패:", err.response?.data);
-            alert("저장에 실패했습니다. 다시 시도해주세요.");
+        // 필수 값 검증 (클라이언트 측)
+        if (!payload.title || !payload.position || !payload.stage || !payload.result || !payload.content) {
+            alert('모든 항목을 입력해야 저장이 가능합니다.');
+            return;
+        }
+
+        if (isEdit) {
+            updateMutation.mutate({ companyId, reviewId, payload });
+        } else {
+            createMutation.mutate(payload);
         }
     };
 
-    // --- 디자인 스타일 (CSS-in-JS) ---
-    const labelStyle = { display: 'block', fontWeight: 'bold', color: '#6B6040', marginBottom: '8px', fontSize: '15px' };
-    const inputStyle = { width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #C2C5A8', boxSizing: 'border-box', outline: 'none', backgroundColor: 'white' };
-    const selectStyle = { ...inputStyle, appearance: 'none', background: 'white url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236B6040%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center' };
+    if (isEdit && isLoading) return <Loader />
+    if (isEdit && isError) return <ErrorMessage error={error} />
 
     return (
-        <div style={{ backgroundColor: '#F2F2E4', minHeight: '100vh', padding: '40px 20px' }}>
-            <div style={{ maxWidth: '900px', margin: '0 auto', backgroundColor: '#DDE5B6', borderRadius: '40px', padding: '50px' }}>
+        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
+            {/* 상단 제목 */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                <Typography
+                    sx={{
+                        width: 340,
+                        height: 48,
+                        backgroundColor: '#A98467',
+                        color: '#F0EAD2',
+                        borderRadius: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '16px',
+                        fontWeight: 500,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                    }}
+                >
+                    기업 후기
+                </Typography>
+            </Box>
+            <Paper elevation={0}
+                sx={{
+                    position: 'relative',
+                    maxWidth: 900,
+                    mx: 'auto'
+                }}>
+                {/* 수정일 때만 삭제 버튼 (우측 상단) */}
+                {isEdit && (
+                    <Button
+                        color="error"
+                        variant="contained"
+                        sx={{
+                            position: 'absolute',
+                            px: 4,
+                            borderRadius: 2,
+                            top: 550,
+                            left: 730,
+                            backgroundColor: '#f00',
+                            color: '#fff',
+                            '&:hover': { backgroundColor: '#d00' }
+                        }}
+                        onClick={() => {
+                            if (window.confirm('해당 글을 정말 삭제하겠습니까?')) {
+                                deleteMutation.mutate();
+                            }
+                        }}
+                    >
+                        삭제
+                    </Button>
+                )}
+            </Paper>
 
-                {/* 제목 섹션 */}
-                <div style={{ marginBottom: '25px' }}>
-                    <label style={labelStyle}>후기 제목</label>
-                    <input name="title" value={formData.title} onChange={handleChange} style={inputStyle} placeholder="예: 2026 상반기 개발직군 면접 후기" />
-                </div>
+            {/* 입력 카드 */}
+            <Paper
+                elevation={0}
+                sx={{
+                    maxWidth: 900,
+                    mx: 'auto',
+                    p: 5,
+                    borderRadius: 6,
+                    backgroundColor: '#DDE5B6',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                }}
+            >
+                <Box component="form" onSubmit={handleSubmit}>
 
-                {/* 직무 섹션 */}
-                <div style={{ marginBottom: '25px' }}>
-                    <label style={labelStyle}>지원 직무</label>
-                    <input name="position" value={formData.position} onChange={handleChange} style={inputStyle} placeholder="예: 프론트엔드 개발자" />
-                </div>
-
-                {/* 단계 및 결과 섹션 */}
-                <div style={{ display: 'flex', gap: '20px', marginBottom: '25px' }}>
-                    <div style={{ flex: 1 }}>
-                        <label style={labelStyle}>전형 단계</label>
-                        <select name="stage" value={formData.stage} onChange={handleChange} style={selectStyle}>
-                            <option value="">선택하세요</option>
-                            <option value="서류전형">서류전형</option>
-                            <option value="1차면접">1차면접</option>
-                            <option value="최종면접">최종면접</option>
-                        </select>
-                    </div>
-                    <div style={{ flex: 1 }}>
-                        <label style={labelStyle}>결과</label>
-                        <select name="result" value={formData.result} onChange={handleChange} style={selectStyle}>
-                            <option value="">선택하세요</option>
-                            <option value="합격">합격</option>
-                            <option value="불합격">불합격</option>
-                            <option value="대기중">대기중</option>
-                        </select>
-                    </div>
-                </div>
-
-                {/* 내용 섹션 */}
-                <div style={{ marginBottom: '40px' }}>
-                    <label style={labelStyle}>상세 내용</label>
-                    <textarea
-                        name="content"
-                        value={formData.content}
-                        onChange={handleChange}
-                        style={{ ...inputStyle, height: '300px', resize: 'none' }}
-                        placeholder="면접 질문이나 분위기 등 자유로운 후기를 남겨주세요."
+                    <ReviewFormFields
+                        title={title}
+                        position={position}
+                        stage={stage}
+                        result={result}
+                        content={content}
+                        onChangeTitle={setTitle}
+                        onChangePosition={setPosition}
+                        onChangeStage={setStage}
+                        onChangeResult={setResult}
+                        onChangeContent={setContent}
                     />
-                </div>
 
-                {/* 하단 버튼 */}
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-                    <button
-                        onClick={() => navigate(-1)}
-                        style={{ backgroundColor: '#A68A71', color: 'white', border: 'none', padding: '12px 45px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', fontSize: '18px' }}
-                    >
-                        취소
-                    </button>
-                    <button
-                        onClick={handleSave}
-                        style={{ backgroundColor: '#A2AD7E', color: 'white', border: 'none', padding: '12px 45px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', fontSize: '18px' }}
-                    >
-                        {isEdit ? "수정하기" : "등록하기"}
-                    </button>
-                </div>
-            </div>
-        </div>
+                    <ReviewFormSubmit
+                        isEdit={isEdit} />
+
+                </Box >
+            </Paper >
+        </Box >
     );
-};
-
+}
 export default ReviewForm;

@@ -43,19 +43,9 @@ export const router = createBrowserRouter([
                     // ]
 
                     // 2-2. 기업 후기 (Review)
-                    {
-                        path: ':companyId/review',
-                        children: [
-                            // 1. 등록: /companies/1/review/new
-                            { path: 'new', element: <ReviewForm mode="create" /> },
-
-                            // 2. 상세조회: /companies/1/review/10
-                            { path: ':reviewId', element: <ReviewDetail /> },
-
-                            // 3. 수정: /companies/1/review/10/edit
-                            { path: ':reviewId/edit', element: <ReviewForm mode="edit" /> }
-                        ]
-                    }
+                    { path: ':companyId/review/new', element: <ReviewForm mode="create" /> },
+                    { path: ':companyId/review/:reviewId', element: <ReviewDetail /> },
+                    { path: ':companyId/review/:reviewId/edit', element: <ReviewForm mode="edit" /> }
                 ]
             },
 
