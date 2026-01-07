@@ -3,13 +3,13 @@ import { api } from './api';
 
 // 내가 작성한 기업 분석 목록
 export async function fetchMyDetails(companyId) {
-    const res = await api.get(`/api/companies/${companyId}/details/me`);
+    const res = await api.get(`/api/companies/${companyId}/detail/me`);
     return res.data;
 }
 
 // 내가 작성한 기업 후기 목록
-export async function fetchMyReviews(params) {
-    const res = await api.get('/api/mypage/reviews', { params });
+export async function fetchMyReviews(companyId) {
+    const res = await api.get(`/api/companies/${companyId}/review/me`, { companyId });
     return res.data;
 }
 

@@ -37,8 +37,8 @@ function MyPageContent({ userId }) {
         isError: isMyReviewsError,
         error: myReviewsError,
     } = useQuery({
-        queryKey: ['mypage', 'reviews', userId],
-        queryFn: () => fetchMyReviews(userId),
+        queryKey: ['mypage', 'reviews', companyId],
+        queryFn: () => fetchMyReviews(companyId),
         enabled: !!userId
     });
 
@@ -65,7 +65,10 @@ function MyPageContent({ userId }) {
                         />
                     </>
                 ) : (
-                    <MyPageReview myReviews={myReviews} />
+                    <MyPageReview 
+                    myReviews={myReviews}
+                    isLoading={isMyReviewsLoading}
+                    isError={isMyReviewsError} />
                 )}
 
             </Paper>

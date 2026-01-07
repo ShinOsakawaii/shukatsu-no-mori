@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Paper, Typography } from '@mui/material';
 import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import dayjs from 'dayjs';
 import { getToken } from '../../api/authApi';
 
@@ -11,9 +11,6 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
     const lists = Array.isArray(detail?.content)
         ? detail.content
         : [];
-
-    console.log('detail:', detail);
-
 
     if (isLoading) return <Loader />;
     if (isError && !detail?.length) {
@@ -56,7 +53,7 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
                         <Paper key={detailId} variant='outlined'
                             sx={{ p: 2, mb: 1.5, cursor: "pointer" }}
                             onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}>
-                              
+
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
 
                                 <Typography sx={{ fontWeight: 'bold' }}>{nickname}님의 기업 분석</Typography>

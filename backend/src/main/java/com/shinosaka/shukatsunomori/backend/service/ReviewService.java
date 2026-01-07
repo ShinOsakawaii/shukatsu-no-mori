@@ -22,5 +22,6 @@ public interface ReviewService {
 
     // 게시글 삭제 (회원)
     void deleteReview(Long UserId, Long ReviewId);
+
+    PageResponse<ReviewResponse> getMyReviewList(int page, int size, String keyword, Long companyId, Long userId);
 }
-    // 후기

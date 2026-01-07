@@ -78,7 +78,8 @@ public class DetailController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/details/me")
+    // 마이페이지 기업 분석 조회
+    @GetMapping("/detail/me")
     public PageResponse<DetailResponse> getMyDetailList(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Max(10) int size,
