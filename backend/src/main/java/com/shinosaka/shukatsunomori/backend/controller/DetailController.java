@@ -1,5 +1,6 @@
 package com.shinosaka.shukatsunomori.backend.controller;
 
+import com.shinosaka.shukatsunomori.backend.domain.User;
 import com.shinosaka.shukatsunomori.backend.dto.request.companyDetail.DetailCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.companyDetail.DetailUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.companyDetail.DetailResponse;
@@ -77,4 +78,16 @@ public class DetailController {
         return ResponseEntity.noContent().build();
     }
 
+    //
+    @GetMapping("/details/me")
+    public PageResponse<DetailResponse> getMyDetailList(
+            @PathVariable Long companyId,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Max(10) int size,
+            @RequestParam(required = false) String keyword,
+            @AuthenticationPrincipal User user
+    ) {
+        Long userId = user.getUserId();
+        return detailService.getMyDetailList(page, size, keyword, companyId, userId);
+    }
 }

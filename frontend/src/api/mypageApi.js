@@ -3,7 +3,7 @@ import { api } from './api';
 
 // 내가 작성한 기업 분석 목록
 export async function fetchMyDetails(params) {
-    const res = await api.get('/mypage/details', { params });
+    const res = await api.get('/companies/{companyId}/detail/me', { params });
     return res.data;
 }
 
