@@ -36,7 +36,7 @@ function CompanyList() {
     }
 
     return (
-        <Box>
+        <Box sx={{ backgroundColor: '#DDE5B6' }}>
             <CompanyTable companies={companies} />
 
             <CompanyPagination
