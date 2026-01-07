@@ -2,11 +2,11 @@ import { Link } from 'react-router'
 import dayjs from 'dayjs';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 
-function MyPageAnalysis({ detail }) {
+function MyPageAnalysis({ myDetails }) {
 
-    const lists = detail ? detail : []
+    const lists = myDetails ? myDetails : []
     return (
-        <TableContainer sx={{ mt: 3 }}>
+        <TableContainer sx={{ mt: 3, backgroundColor: '#DDE5B6' }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
@@ -25,42 +25,43 @@ function MyPageAnalysis({ detail }) {
                 </TableHead>
 
                 {/* 테이블 본문 */}
-                <TableBody>
-                    {
-                        lists.map(({
-                            id, title, createAt, companyId, detailId }) =>
-                        (
-                            <TableRow key={id}
-                                hover sx={{
-                                    '& td': {
-                                        fontSize: 15,
-                                        borderBottom: '1px solid #eeeeee'
-                                    }
-                                }}
+                <TableBody sx={{ color: "#222831" }}>
+                    {lists.length > 0 ? (
+                        lists.map(({ id, title, createAt, companyId, detailId }) => (
+                            <TableRow
+                                key={id}
+                                hover
+                                sx={{ '& td': { fontSize: 15, borderBottom: '1px solid #eeeeee' } }}
                             >
                                 <TableCell align='center'>{id}</TableCell>
                                 <TableCell>
-                                    <Typography component={Link} to={`/companies/${companyId}/detail/${detailId}`}
-                                        sx={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit', '&:hover': { color: 'primary.main' } }}>
+                                    <Typography
+                                        component={Link}
+                                        to={`/companies/${companyId}/detail/${detailId}`}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            textDecoration: 'none',
+                                            color: 'inherit',
+                                            '&:hover': { color: 'primary.main' }
+                                        }}
+                                    >
                                         {title}
                                     </Typography>
                                 </TableCell>
-                                <TableCell align='center'>{dayjs(createAt).format('YY년MM월DD일HH.mm')}</TableCell>
+                                <TableCell align='center'>
+                                    {dayjs(createAt).format('YY년MM월DD일 HH:mm')}
+                                </TableCell>
                             </TableRow>
                         ))
-                    }
-
-                    {/* 게시글이 하나도 없을 때*/}
-                    {
-                        lists.length === 0 && (
-                            <Box>
-                                <Typography colSpan={3}
-                                    align='center' sx={{ py: 5 }}>
-                                    게시글이 없습니다.
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={3} align='center' sx={{ py: 5 }}>
+                                <Typography color="text.secondary">
+                                    등록된 게시글이 없습니다.
                                 </Typography>
-                            </Box>
-                        )
-                    }
+                            </TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>
