@@ -8,6 +8,8 @@ import ErrorMessage from '../../components/common/ErrorMessage';
 import Loader from '../../components/common/Loader';
 import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
+import CompanyDetailHeader from '../../components/companies/CompanyDetailHeader';
+import { Outlet } from "react-router";
 
 //기업정보 상세조회, 삭제
 function CompanyDetail() {
@@ -18,6 +20,7 @@ function CompanyDetail() {
     const navigate = useNavigate();
     const [tab, setTab] = useState("analysis");
 
+    
 
     // TanStack Query=============
     // 1. 상세 내용 조회
@@ -27,6 +30,8 @@ function CompanyDetail() {
         enabled: !!companyId
     });
 
+
+    console.log('company:', company);
 
     if (isLoading) return <Loader />;
     if (isError) return <ErrorMessage error={error} />
@@ -52,6 +57,11 @@ function CompanyDetail() {
 
     return (
         <Box sx={{ m: 3 }}>
+            <Box sx={{ maxWidth: 1100, mx: "auto" }}>
+                <CompanyDetailHeader company={company}/>
+                <Outlet />
+            </Box>
+
             <Box sx={{ justifyContent: "center", display: "flex", gap: 2, mb: 2 }}>
                 <Button variant={tab === "analysis" ? "contained" : "outlined"}
                     onClick={() => setTab("analysis")}>
