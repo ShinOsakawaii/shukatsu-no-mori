@@ -23,6 +23,7 @@ const theme = createTheme({
       default: '#F0EAD2', // 배경
       box: '#DDE5B6',
       paper: '#F0EAD2', // 카드나 테이블 배경
+      button: '#A98467' // 버튼
     },
     text: {
       primary: '#6C584C', // 아주 짙은 녹색 (검정 대신 사용)

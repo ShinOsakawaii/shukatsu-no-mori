@@ -65,7 +65,11 @@ function CompanyDetail() {
                 </Button>
             </Box >
 
-            <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
+            <Paper sx={{
+                borderRadius: 4,
+                p: "20px 20px 35px 20px",
+                bgcolor: 'background.box'
+            }}>
                 {/* 기업 분석 테이블 */}
                 {tab === "analysis" ? (
                     <CompanyDetailAnalysis
