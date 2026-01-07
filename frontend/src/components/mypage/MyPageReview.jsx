@@ -2,9 +2,9 @@ import { Link } from 'react-router'
 import dayjs from 'dayjs';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 
-function MyPageReview({ review }) {
+function MyPageReview({ myReview }) {
 
-    const lists = review ? review : []
+    const lists = myReviews ? myReview : []
     return (
         <TableContainer sx={{ mt: 3, backgroundColor: '#DDE5B6' }}>
             <Table>
