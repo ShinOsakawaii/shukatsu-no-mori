@@ -13,18 +13,19 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#606C38', // 이끼색
+      main: '#606C38',
       contrastText: '#fff',
     },
     secondary: {
       main: '#DDA15E', // 나무색
     },
     background: {
-      default: '#FEFAE0', // 연한 베이지색 (숲의 흙/햇살 느낌)
-      paper: '#ffffff', // 카드나 테이블 배경
+      default: '#F0EAD2', // 배경
+      box: '#DDE5B6',
+      paper: '#F0EAD2', // 카드나 테이블 배경
     },
     text: {
-      primary: '#2C3639', // 아주 짙은 녹색 (검정 대신 사용)
+      primary: '#6C584C', // 아주 짙은 녹색 (검정 대신 사용)
     },
   },
   shape: {

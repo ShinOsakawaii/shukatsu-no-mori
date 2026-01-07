@@ -58,7 +58,7 @@ function CompanyList() {
                             gap: 1,
                         }}
                     >
-                        🌿 기업 정보 파트너스
+                        🌳 기업 정보 파트너스
                     </Typography>
                     <Typography variant='body1' sx={{ color: 'text.secondary', mt: 1 }}>
                         숲처럼 함계 성장하는 기업들의 목록입니다.
@@ -72,7 +72,7 @@ function CompanyList() {
                         p: 3,
                         borderRadius: 4,
                         boxShadow: '0px 10px 30px rgba(96, 108, 56, 0.05)', // 은은한 이끼색 그림자
-                        bgcolor: 'background.paper'// 하얀색 배경
+                        bgcolor: 'background.box'
                     }}
                 >
                     <CompanyTable companies={companies} />
