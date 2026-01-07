@@ -10,10 +10,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/companies")
+@RequestMapping("api/companies")
 @RequiredArgsConstructor
 public class CompanyController {
 
@@ -40,18 +41,20 @@ public class CompanyController {
     public ResponseEntity<CompanyResponse> createCompany(
             @Valid
             @RequestBody
-            CompanyCreateRequest companyCreateRequest
+            CompanyCreateRequest companyCreateRequest,
+            @AuthenticationPrincipal Long userId
     ) {
-        return ResponseEntity.ok(companyService.createCompany(companyCreateRequest));
+        return ResponseEntity.ok(companyService.createCompany(companyCreateRequest, userId));
     }
 
     // 기업 수정
     @PutMapping("/{companyId}")
     public ResponseEntity<CompanyResponse> updateCompany(
             @PathVariable Long companyId,
-            @RequestBody CompanyUpdateRequest companyUpdateRequest
+            @RequestBody CompanyUpdateRequest companyUpdateRequest,
+            @AuthenticationPrincipal Long userId
     ) {
-        return ResponseEntity.ok(companyService.updateCompany(companyId, companyUpdateRequest));
+        return ResponseEntity.ok(companyService.updateCompany(companyId, companyUpdateRequest, userId));
     }
 
     // 기업 삭제 (없음)

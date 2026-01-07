@@ -15,6 +15,7 @@ public class DetailResponse {
     private Long detailId;
     private Long companyId;
     private Long userId;
+    private String nickname;
     private String title;
     private String position;
     private String content;
@@ -26,6 +27,7 @@ public class DetailResponse {
     public static DetailResponse from(Detail detail) {
         return DetailResponse.builder()
                 .detailId(detail.getDetailId())
+                .nickname(detail.getUser().getNickname())
                 .title(detail.getTitle())
                 .position(detail.getPosition())
                 .content(detail.getContent())
@@ -41,6 +43,7 @@ public class DetailResponse {
                 .detailId(detail.getDetailId())
                 .companyId(detail.getCompany().getCompanyId())
                 .userId(detail.getUser().getUserId())
+                .nickname(detail.getUser().getNickname())
                 .title(detail.getTitle())
                 .position(detail.getPosition())
                 .content(detail.getContent())

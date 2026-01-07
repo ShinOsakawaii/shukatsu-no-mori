@@ -4,8 +4,8 @@ import axios from 'axios'
 import { clearAuth, getToken } from '../api/authApi';
 
 export const api = axios.create({
-    
-    baseURL: import.meta.env.VITE_API_BASE_URL
+    baseURL: import.meta.env.VITE_API_BASE_URL,
+    withCredentials: true
 });
 
 // Request Interceptor : 서버로 나가는 모든 요청에 JWT 자동 추가

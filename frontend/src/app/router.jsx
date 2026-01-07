@@ -27,19 +27,20 @@ export const router = createBrowserRouter([
             {
                 path: 'companies',
                 children: [
-                    { path: 'new', element: <CompanyForm mode="create" /> }, // 기업 등록 화면, 기업 등록 수정 화면 == CompanyForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                    { path: ':companyId', element: <CompanyContent /> }, // 기업 상세 조회 화면 
+                    { path: 'new', element: <CompanyForm mode="create" /> }, // 기업 등록 화면, 기업 등록 수정 화면 == CompanyForm 컴포넌트가 mode를 props로 받아 edit면 새 글 작성
+                    { path: ':companyId', element: <CompanyContent /> }, // 기업 상세 조회 화면
+                    { path: ':companyId/edit', element: <CompanyForm mode="edit" /> },
 
                     // 2-1. 기업 분석 (Detail)
-                    {
-                        path: ':companyId/detail',
-                        children: [
-                            { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                            // { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
-                            { path: 'edit', element: <AnalysisForm mode="edit" /> },
-                            { path: 'dummy/analysis', element: <AnalysisDetail /> } // 테스트용 더미 주소
-                        ]
-                    },
+                    { path: ':companyId/detail/new', element: <AnalysisForm mode="create" /> },
+                    { path: ':companyId/detail/:detailId', element: <AnalysisDetail /> },
+                    { path: ':companyId/detail/:detailId/edit', element: <AnalysisForm mode="edit" /> },
+                    // path: ':companyId/detail',
+                    // children: [
+                    //     { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
+                    //     { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
+                    //     { path: ':detailId/edit', element: <AnalysisForm mode="edit" /> }
+                    // ]
 
                     // 2-2. 기업 후기 (Review)
                     {
@@ -63,4 +64,9 @@ export const router = createBrowserRouter([
 
         ]
     }
+    // },
+    // {
+    //     path: '*',
+    //     element: <NotFound /> // 404 페이지
+    // }
 ]);

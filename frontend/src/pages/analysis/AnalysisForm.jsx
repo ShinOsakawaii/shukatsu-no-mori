@@ -1,23 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { createAnalysis, deleteAnalysis, fetchAnalysisDetail, updateAnalysis } from '../../api/companyAnalysisApi';
 import { Box, Typography, Button, Stack, Paper } from '@mui/material';
-import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
-import AnalysisFormButtons from '../../components/analysis/AnalysisDetailButtons';
+import AnalysisFormFields from '../../components/analysis/AnalysisFormFields';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import AnalysisFormSubmit from '../../components/analysis/AnalysisFormSubmit';
 
 //기업 분석 등록, 삭제
 function AnalysisForm({ mode }) {
 
     const isEdit = mode === 'edit';
 
+
     const queryClient = useQueryClient();
-    const { companyId: companyIdParam } = useParams();
+    const { companyId: companyIdParam, detailId: detailIdParam } = useParams();
     const companyId = Number(companyIdParam);
-    const { detailId: detailIdParam } = useParams();
-    const analysisId = Number(detailIdParam);
+    const analysisId = detailIdParam ? Number(detailIdParam) : null;
 
     const navigate = useNavigate();
 
@@ -26,33 +26,12 @@ function AnalysisForm({ mode }) {
     const [content, setContent] = useState("");
 
 
-    // // 데스트용 더미 데이터
-    // const dummyAnalysis = {
-    //     title: "스타트업 분석",
-    //     position: "개발",
-    //     content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
-    //     userId: 1,
-    //     nickname: "토마토님",
-    //     createdDate: "2025/11/14",
-    //     updatedDate: "2025/12/04"
-    // };
-
-    // // 테스트용 더미 데이터
-    // // 로그인 여부/작성자 여부
-    // const dummyUser = { userId: 1, nickname: "토마토님" }; // 로그인 사용자 더미
-    // const isAuthor = dummyUser.userId === dummyAnalysis.userId;
-
-    // const [title, setTitle] = useState(dummyAnalysis.title);
-    // const [position, setPosition] = useState(dummyAnalysis.position);
-    // const [content, setContent] = useState(dummyAnalysis.content);
-
-
     // TanStack Query=============
     // 기업 분석 등록
     const createMutation = useMutation({
         mutationFn: (payload) => createAnalysis(companyId, payload),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
             navigate(`/companies/${companyId}/detail/${data.detailId}`);
         },
         onError: () => {
@@ -64,17 +43,24 @@ function AnalysisForm({ mode }) {
     const { data: analysis, isLoading, isError, error } = useQuery({
         queryKey: ['analysis', companyId, analysisId],
         queryFn: () => fetchAnalysisDetail(companyId, analysisId),
-        enabled: isEdit
+        enabled: isEdit && !!analysisId
     });
 
     // 수정 mutation
     const updateMutation = useMutation({
         mutationFn: ({ companyId, analysisId, payload }) => updateAnalysis(companyId, analysisId, payload),
-        onSuccess: () => {
-            // 목록 캐시 무효화
-            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
+        onSuccess: (updatedData) => {
             // 상세 내용 무효화
-            queryClient.invalidateQueries({ queryKey: ['analysis', companyId, analysisId] });
+            queryClient.setQueryData(['analysis', companyId, analysisId],
+                (prev) => ({
+                    ...prev,
+                    ...updatedData,
+                    isOwner: true,
+                }));
+
+            // 목록 캐시 무효화
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
+
             // 이동
             navigate(`/companies/${companyId}/detail/${analysisId}`);
         },
@@ -84,23 +70,30 @@ function AnalysisForm({ mode }) {
 
     })
 
+
     // 삭제
     const deleteMutation = useMutation({
-        mutationFn: () => deleteAnalysis(companyId),
-        onSuccessL: () => {
-            queryClient.invalidateQueries({ queryKey: ['analyses', companyId] });
-            navigate(`/companies/${companyId}/detail/`);
+        mutationFn: () => deleteAnalysis(companyId, analysisId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['analysis', companyId] });
+            navigate(`/companies/${companyId}`);
         },
         onError: () => {
             alert('게시글 삭제에 실패했습니다.');
         }
     });
 
-    if (isEdit && isLoading) return <Loader />
-    if (isEdit && isError) return <ErrorMessage error={error} />
+    // useEffect
+    useEffect(() => {
+        if (analysis) {
+            setTitle(analysis.title);
+            setPosition(analysis.position);
+            setContent(analysis.content);
+        }
+    }, [analysis]);
+
 
     // 이벤트 핸들러 ==============
-
     // 폼 전송 =========
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -119,11 +112,15 @@ function AnalysisForm({ mode }) {
 
         // props에 따라 생성/수정 mutation 호출
         if (isEdit) {
-            updateMutation.mutate(payload);   // 수정
+            updateMutation.mutate({ companyId, analysisId, payload });   // 수정
         } else {
             createMutation.mutate(payload); // 작성
         }
+
     }
+
+    if (isEdit && isLoading) return <Loader />
+    if (isEdit && isError) return <ErrorMessage error={error} />
 
     return (
         <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
@@ -151,8 +148,7 @@ function AnalysisForm({ mode }) {
                 sx={{
                     position: 'relative',
                     maxWidth: 900,
-                    mx: 'auto',
-
+                    mx: 'auto'
                 }}>
                 {/* 수정일 때만 삭제 버튼 (우측 상단) */}
                 {isEdit && (
@@ -163,8 +159,8 @@ function AnalysisForm({ mode }) {
                             position: 'absolute',
                             px: 4,
                             borderRadius: 2,
-                            bottom: 15,
-                            left: 720,
+                            top: 550,
+                            left: 730,
                             backgroundColor: '#f00',
                             color: '#fff',
                             '&:hover': { backgroundColor: '#d00' }
@@ -195,7 +191,8 @@ function AnalysisForm({ mode }) {
                 }}
             >
                 <Box component="form" onSubmit={handleSubmit}>
-                    <AnalysisFormSubmit
+
+                    <AnalysisFormFields
                         title={title}
                         content={content}
                         position={position}
@@ -204,13 +201,12 @@ function AnalysisForm({ mode }) {
                         onChangeContent={setContent}
                     />
 
-                    {/* 버튼 */}
-                    <AnalysisFormButtons
+                    <AnalysisFormSubmit
                         isEdit={isEdit} />
 
-                </Box>
-            </Paper>
-        </Box>
+                </Box >
+            </Paper >
+        </Box >
     );
 }
 export default AnalysisForm;

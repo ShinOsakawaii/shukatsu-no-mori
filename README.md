@@ -1,5 +1,6 @@
 # shukatsu-no-mori
 
+* 강동희 : 분석, 후기 리스트 UI
 신한 GYC 7기 오사카반 프로젝트
 
 - 김현정 : 회원 관리 API
