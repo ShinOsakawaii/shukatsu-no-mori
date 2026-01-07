@@ -103,9 +103,9 @@ public class AuthServiceImpl implements AuthService {
             user.updateProfileImage(request.getProfileImage());
         }
         //비밀번호 변경
-        if(request.getNewPassword() != null && request.getNewPassword().equals(request.getConfirmPassword())
+        if(request.getPassword() != null && request.getPassword().equals(request.getRePassword())
         ){
-            String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+            String encodedPassword = passwordEncoder.encode(request.getPassword());
             user.updatePassword(encodedPassword);
         }
     }

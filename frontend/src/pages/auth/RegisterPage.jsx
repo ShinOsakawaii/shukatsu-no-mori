@@ -9,6 +9,8 @@ import { register } from "../../api/authApi";
 function RegisterPage() {
     const navigate = useNavigate();
 
+    
+
     const [form, setForm] = useState({
         email: "",
         password: "",
@@ -22,6 +24,8 @@ function RegisterPage() {
             navigate("/auth/login");
         }
     });
+
+    
 
     // 입력값 변경
     const handleChange = (evt) => {

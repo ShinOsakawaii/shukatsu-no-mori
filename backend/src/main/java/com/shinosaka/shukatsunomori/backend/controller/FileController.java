@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.Controller;
+package com.shinosaka.shukatsunomori.backend.controller;
 
 import com.shinosaka.shukatsunomori.backend.service.FileService;
 import lombok.RequiredArgsConstructor;

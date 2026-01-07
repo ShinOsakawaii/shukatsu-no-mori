@@ -21,7 +21,7 @@ function MyPageHeader({ username, profileImage }) {
             }}
         >
             <Avatar
-                src={profileImage || "/images/default-avatar.png"} // 없으면기본 이미지
+                src={profileImage || "/images/default-avatar.png"} // 없으면 기본 이미지
                 sx={{ width: 80, height: 80 }}
             />
             <Box sx={{ flexGrow: 1 }}>
