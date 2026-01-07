@@ -17,7 +17,7 @@ function MyPage() {
         <div>
             <MyPageHeader
                 username={user.nickname || "Guest"}
-                profileImage={user.profileImageUrl || "/images/default-avatar.png"}
+                profileImage={user.profileImage || "/images/default-avatar.png"}
             />
 
 

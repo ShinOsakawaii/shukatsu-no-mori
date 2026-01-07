@@ -49,7 +49,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .subject(user.getUserId().toString()) //식별
                 .claim("email", user.getEmail()) //부가정보
-                .claim("role", user.getRole().name())
+//                .claim("role", user.getRole().name())
                 .issuedAt(now) //발급 시간
                 .expiration(expriry) //만료 시간
                 .signWith(secretKey) //비밀키 서명

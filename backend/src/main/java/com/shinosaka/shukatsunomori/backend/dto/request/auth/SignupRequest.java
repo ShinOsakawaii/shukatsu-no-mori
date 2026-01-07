@@ -38,7 +38,7 @@ public class SignupRequest {
                 .email(this.email)
                 .password(encodedPassword)
                 .nickname(this.nickname)
-                .role(role.USER)
+//                .role(role.USER)
                 .profileImage(this.profileImage)
                 .build();
     }

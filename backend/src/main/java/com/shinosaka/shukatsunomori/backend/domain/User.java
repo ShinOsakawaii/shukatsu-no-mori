@@ -36,11 +36,11 @@ public class User {
 
     @Column(name = "profile_image", nullable = true)
     private String profileImage;
-
+/*
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role = Role.USER;
-
+*/
     @CreationTimestamp
     @Column(name = "created_at",  nullable = false,  updatable = false)
     private LocalDateTime createdAt;
