@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchCompany } from '../../api/companyApi';
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
 import CompanyDetailAnalysis from "../../components/companies/CompanyDetailAnalysis";
 import CompanyDetailReview from '../../components/companies/CompanyDetailReview';
@@ -11,11 +11,13 @@ import { useState } from 'react';
 
 //기업정보 상세조회, 삭제
 function CompanyDetail() {
-    
+
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const { detailId: detailIdParam } = useParams();
+    const detailId = Number(detailIdParam);
     const [tab, setTab] = useState("analysis");
 
 
@@ -30,10 +32,11 @@ function CompanyDetail() {
 
     if (isLoading) return <Loader />;
     if (isError) return <ErrorMessage error={error} />
+    if (!company) return <Loader />;
 
     const { detail, review } = company;
     /*
-    // 2. 삭제
+    // 2. 삭제 
     const deleteMutation = useMutation({
         mutationFn: () => deleteCompany(companyId),
         onSuccess: () => {
@@ -45,9 +48,7 @@ function CompanyDetail() {
             alert('기업 정보 삭제에 실패했습니다.');
         }
     });
-*/
-
-
+    */
 
 
     return (
@@ -70,6 +71,7 @@ function CompanyDetail() {
                     <CompanyDetailAnalysis
                         companyId={companyId}
                         detail={detail}
+                        detailId={detailId}
                         isLoading={isLoading}
                         isError={isError}
                     />

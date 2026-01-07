@@ -8,46 +8,33 @@ import ErrorMessage from "../../components/common/ErrorMessage";
 import AnalysisDetailHeader from "../../components/analysis/AnalysisDetailHeader";
 import AnalysisDetailContent from "../../components/analysis/AnalysisDetailContent";
 import AnalysisDetailButtons from "../../components/analysis/AnalysisDetailButtons";
+import { useMe } from "../../hooks/useMe";
 
 export default function AnalysisDetail() {
 
-    // const { companyId: companyIdParam } = useParams();
-    // const companyId = Number(companyIdParam);
-    // const { detailId: detailIdParam } = useParams();
-    // const analysisId = Number(detailIdParam);
+    const { data: me } = useMe();
 
-    const navigate = useNavigate();
+    const { companyId: companyIdParam } = useParams();
+    const companyId = Number(companyIdParam);
+    const { detailId: detailIdParam } = useParams();
+    const analysisId = Number(detailIdParam);
 
-    // // TanStack Query============
-    // // 상세 데이터 조회
-    // const { data: analysis, isLoading, isError, error } = useQuery({
-    //     queryKey: ["companyDetail", companyId, analysisId],
-    //     queryFn: () => fetchAnalysisDetail(companyId, analysisId),
-    //     enabled: !!companyId && !!analysisId
-    // });
+    // TanStack Query============
+    // 상세 데이터 조회
+    const { data: analysis, isLoading, isError, error } = useQuery({
+        queryKey: ['analysis', companyId, analysisId],
+        queryFn: () => fetchAnalysisDetail(companyId, analysisId),
+        enabled: !!companyId && !!analysisId
+    });
 
-    // if (isLoading) return <Loader />;
-    // if (isError || !analysis) return <ErrorMessage error={error} />;
+    if (!companyId || !analysisId) {
+        return <ErrorMessage error={{ message: "잘못된 접근입니다." }} />;
+    }
 
-    // 테스트용 더미 유저 데이터
-    const dummyUser = {
-        userId: 1,
-        nickname: "토마토"
-    };
+    if (isLoading) return <Loader />;
+    if (isError || !analysis) return <ErrorMessage error={error} />;
 
-    // 테스트용 더미 데이터
-    const dummyAnalysis = {
-        detailId: 1,
-        userId: 2,
-        title: "스타트업 분석",
-        position: "개발",
-        content: "이 회사는 AI 기술을 중심으로 서비스를 운영하고 있습니다.",
-        nickname: "홍길동",
-        createdDate: "2026-01-06T01:00:00",
-        updatedDate: "2026-01-06T02:00:00"
-    };
-
-    const isAuthor = dummyUser.userId === dummyAnalysis.userId;
+    const isAuthor = me && analysis && Number(analysis.userId) === Number(me.userId);
 
     return (
         <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
@@ -81,10 +68,10 @@ export default function AnalysisDetail() {
                     backgroundColor: '#e4efc3',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                 }}>
-                <AnalysisDetailHeader dummyAnalysis={dummyAnalysis} />
-                <AnalysisDetailContent dummyAnalysis={dummyAnalysis} />
+                <AnalysisDetailHeader analysis={analysis} />
+                <AnalysisDetailContent analysis={analysis} />
                 {/* <AnalysisDetailButtons onBack={() => navigate(`/companies/${companyId}/detail/`)}  */}
-                <AnalysisDetailButtons isAuthor={isAuthor} />
+                <AnalysisDetailButtons isAuthor={isAuthor} analysisId={analysisId} />
             </Paper>
         </Box>
 

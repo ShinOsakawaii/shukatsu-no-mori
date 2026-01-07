@@ -15,14 +15,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/companies/{companyId}/detail")
+@RequestMapping("api/companies/{companyId}")
 @RequiredArgsConstructor
 public class DetailController {
 
     private final DetailService detailService;
 
     // 기업 분석 목록 조회 + 검색 + 페이징
-    @GetMapping
+    @GetMapping("/detail")
     public ResponseEntity<PageResponse<DetailResponse>> getDetailList(
             @PathVariable Long companyId,
             @RequestParam(defaultValue = "0") @Min(0) int page,
@@ -33,7 +33,7 @@ public class DetailController {
     }
 
     // 기업 분석 개별 조회
-    @GetMapping("/{detailId}")
+    @GetMapping("/detail/{detailId}")
     public ResponseEntity<DetailResponse> getDetail(
             @PathVariable Long companyId,
             @PathVariable Long detailId,
@@ -43,7 +43,7 @@ public class DetailController {
     }
 
     // 기업 분석 등록
-    @PostMapping("/new")
+    @PostMapping("/detail")
     public ResponseEntity<DetailResponse> createDetail(
             @PathVariable Long companyId,
             @Valid @RequestBody DetailCreateRequest request,
@@ -56,7 +56,7 @@ public class DetailController {
     }
 
     // 기업 분석 수정
-    @PutMapping("/{detailId}")
+    @PutMapping("/detail/{detailId}")
     public ResponseEntity<DetailResponse> updateDetail(
             @PathVariable Long companyId,
             @PathVariable Long detailId,
@@ -67,7 +67,7 @@ public class DetailController {
     }
 
     // 기업 분석 삭제
-    @DeleteMapping("/{detailId}")
+    @DeleteMapping("/detail/{detailId}")
     public ResponseEntity<Void> deleteDetail(
             @PathVariable Long companyId,
             @PathVariable Long detailId,
