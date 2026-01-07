@@ -7,22 +7,16 @@ import { useState } from 'react';
 import MyPageButtons from '../../components/mypage/MyPageButtons';
 import Loader from '../../components/common/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import { useParams } from 'react-router';
 
 //내가 쓴 글 조회
 function MyPageContent({ userId }) {
     const [tab, setTab] = useState("analysis");
+    const companyId = 1252;
 
     //Api 관련 TanStaks Query=============
     //1. 내 기본 정보
-    const {
-        data: myPage,
-        isLoading: isMyPageLoading,
-        isError: isMyPageError,
-        error: myPageError,
-    } = useQuery({
-        queryKey: ['mypage', 'me', userId],
-        queryFn: () => fetchMyPage(userId)
-    });
+
 
     //2. 내가 쓴 기업 분석
     const {
@@ -31,8 +25,9 @@ function MyPageContent({ userId }) {
         isError: isMyDetailsError,
         error: myDetailsError,
     } = useQuery({
-        queryKey: ['mypage', 'details', userId],
-        queryFn: () => fetchMyDetails(userId)
+        queryKey: ['mypage', 'details', companyId],
+        queryFn: () => fetchMyDetails(companyId),
+        enabled: !!userId,
     });
 
     //3. 내가 쓴 리뷰
@@ -47,32 +42,32 @@ function MyPageContent({ userId }) {
         enabled: !!userId
     });
 
-    if (isMyPageLoading || isMyDetailsLoading || isMyReviewsLoading) {
+    /*
+    if (isMyDetailsLoading || isMyReviewsLoading) {
         return <Loader />;
     }
-    if (isMyPageError || isMyDetailsError || isMyReviewsError) {
-        const error = myPageError || myDetailsError || myReviewsError;
+    if (isMyDetailsError || isMyReviewsError) {
+        const error = myDetailsError || myReviewsError;
         return <ErrorMessage error={error} />;
     }
-
-    const { detail, review } = data;
+    */
 
     return (
         <Box sx={{ m: 3 }}>
-            <Box sx={{ justifyContent: "center", display: "flex", gap: 2, mb: 2 }}>
-                <Button variant={tab === "analysis" ? "contained" : "outlined"}
-                    onClick={() => setTab("analysis")}>
-                    기업 분석
-                </Button>
-
-                <Button variant={tab === "review" ? "contained" : "outlined"}
-                    onClick={() => setTab("review")}>
-                    기업 후기
-                </Button>
-            </Box >
-
             <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
                 <MyPageButtons tab={tab} setTab={setTab} />
+                {tab === "analysis" ? (
+                    <>
+                        <MyPageAnalysis
+                            myDetails={myDetails}
+                            isLoading={isMyDetailsLoading}
+                            isError={isMyDetailsError}
+                        />
+                    </>
+                ) : (
+                    <MyPageReview myReviews={myReviews} />
+                )}
+
             </Paper>
         </Box>
     );

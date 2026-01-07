@@ -78,16 +78,14 @@ public class DetailController {
         return ResponseEntity.noContent().build();
     }
 
-    //
     @GetMapping("/details/me")
     public PageResponse<DetailResponse> getMyDetailList(
-            @PathVariable Long companyId,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Max(10) int size,
             @RequestParam(required = false) String keyword,
-            @AuthenticationPrincipal User user
+            @PathVariable Long companyId,
+            @AuthenticationPrincipal Long userId
     ) {
-        Long userId = user.getUserId();
         return detailService.getMyDetailList(page, size, keyword, companyId, userId);
     }
 }

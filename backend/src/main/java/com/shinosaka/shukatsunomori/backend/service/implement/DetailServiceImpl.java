@@ -149,29 +149,23 @@ public class DetailServiceImpl implements DetailService {
     // 마이페이지 기업 분석 조회
     @Transactional(readOnly = true)
     public PageResponse<DetailResponse> getMyDetailList(
-            int page, int size, String keyword, Long companyId, Long userId
+            int page, int size, String keyword,Long companyId, Long userId
     ) {
         // 로그인 체크
         requiredLogin(userId);
 
-        // 기업 존재 여부 확인
-        companyRepository.findById(companyId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 기업을 찾을 수 없습니다."));
-
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "detailId"));
 
         Page<Detail> detailPage;
-
-        if (keyword == null || keyword.isBlank()) {
+        if (keyword != null && !keyword.isBlank()) {
             detailPage = detailRepository
-                    .findByCompanyCompanyIdAndUserUserId(companyId, userId, pageable);
-        } else {
-            detailPage = detailRepository
-                    .findByCompanyCompanyIdAndUserUserIdAndTitleContainingIgnoreCaseOrCompanyCompanyIdAndUserUserIdAndContentContainingIgnoreCase(
-                            companyId, userId, keyword,
-                            companyId, userId, keyword,
+                    .findByUserUserIdAndTitleContainingIgnoreCaseOrUserUserIdAndContentContainingIgnoreCase(
+                            userId, keyword,
+                            userId, keyword,
                             pageable
                     );
+        } else {
+            detailPage = detailRepository.findByUserUserId(userId, pageable);
         }
 
         // 어차피 전부 본인 글이라 isOwner는 전부 true
