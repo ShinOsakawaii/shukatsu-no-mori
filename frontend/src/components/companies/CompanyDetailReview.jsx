@@ -16,7 +16,7 @@ function CompanyDetailReview({ companyId, review, isLoading, isError }) {
             navigate('/auth/login');
             return;
         }
-        navigate('new');
+        navigate('/companies/${companyId}/review/new');
     };
 
     return (

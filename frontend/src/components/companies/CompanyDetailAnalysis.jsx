@@ -18,7 +18,7 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
             navigate('/auth/login');
             return;
         }
-        navigate('new');
+        navigate('/companies/${companyId}/detail/new');
     };
 
     return (
