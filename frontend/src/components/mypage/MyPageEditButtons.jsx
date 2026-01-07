@@ -7,7 +7,7 @@ function MyPageEditButtons({ onSave, onCancel }) {
       <Button variant="outlined" onClick={onCancel}>
         취소
       </Button>
-      <Button variant="contained" onClick={onSave}>
+      <Button variant="contained" onClick={onSave} sx={{ bgcolor: 'background.button' }}>
         저장
       </Button>
     </Stack>

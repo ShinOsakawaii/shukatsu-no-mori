@@ -16,7 +16,7 @@ function MyPageHeader({ username, profileImage }) {
                 alignItems: "center",
                 gap: 2,
                 padding: 2,
-                backgroundColor: "#f5f2e9",
+                bgcolor: 'background.default',
                 borderRadius: 2
             }}
         >
@@ -30,14 +30,13 @@ function MyPageHeader({ username, profileImage }) {
                 </Typography>
                 <Button
                     variant="contained"
-                    color="success"
-                    sx={{ mt: 1 }}
+                    sx={{ mt: 1, bgcolor: 'background.button' }}
                     onClick={handleEditProfile}
                 >
                     개인정보 수정
                 </Button>
             </Box>
-        </Box>
+        </Box >
     );
 }
 

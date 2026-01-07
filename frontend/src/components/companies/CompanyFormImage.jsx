@@ -46,10 +46,10 @@ export default function CompanyFormImage({ handleChangeImage, uploading, imageNa
                 <Button
                     component="label"
                     disabled={uploading}
+                    variant="outliend"
                     sx={{
-                        backgroundColor: COLORS.primary,
-                        color: COLORS.dark,
-                        "&:hover": { backgroundColor: COLORS.primary },
+                        backgroundColor: 'background.box2',
+                        "&:hover": { backgroundColor: 'background.box' },
                     }}
                 >
                     이미지 업로드

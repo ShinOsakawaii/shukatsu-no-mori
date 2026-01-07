@@ -22,6 +22,7 @@ const theme = createTheme({
     background: {
       default: '#F0EAD2', // 배경
       box: '#DDE5B6',
+      box2: '#ADC178',
       paper: '#F0EAD2', // 카드나 테이블 배경
       button: '#A98467' // 버튼
     },
@@ -31,6 +32,7 @@ const theme = createTheme({
   },
   shape: {
     borderRadius: 12, // 딱딱한 직각보다 둥근 모서리가 자연 친화적입니다.
+    borderColor: '#6C584C'
   },
 });
 

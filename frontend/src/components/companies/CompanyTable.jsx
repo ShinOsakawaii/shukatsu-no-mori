@@ -26,10 +26,10 @@ function CompanyTable({ companies = [] }) {
                     <Button
                         onClick={handleCreateClick}
                         variant="contained"
-                        size="small"
+                        size="big"
                         sx={{ my: 2, px: 2, fontWeight: 600 }}
                     >
-                        작성하기
+                        등록
                     </Button>
                 </Box>
                 {!companies.length && (
@@ -54,10 +54,10 @@ function CompanyTable({ companies = [] }) {
                                             {company.name}
                                         </Typography>
 
-                                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                        <Typography variant="body2" >
                                             업계&nbsp;&nbsp;{company.industry}
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                        <Typography variant="body2" >
                                             위치&nbsp;&nbsp;{company.location?.city}
                                         </Typography>
                                     </CardContent>
