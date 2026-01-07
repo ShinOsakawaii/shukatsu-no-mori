@@ -14,7 +14,7 @@ export default function ReviewDetailButtons({ isAuthor, reviewId }) {
         <Stack direction="row" spacing={1.5} justifyContent="flex-end">
             <Button
                 component={Link}
-                to={`/companies/${companyId}`}
+                to={`/companies/${companyId}?tab=review`}
                 variant="outlined"
                 size="small"
                 sx={{
