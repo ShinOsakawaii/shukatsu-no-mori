@@ -2,8 +2,8 @@ import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import dayjs from "dayjs";
 
-export default function AnalysisDetailHeader({ dummyAnalysis }) {
-    const { title, position, nickname, createdDate, updatedDate } = dummyAnalysis;
+export default function AnalysisDetailHeader({ analysis }) {
+    const { title, position, nickname, createdDate, updatedDate } = analysis;
 
     return (
         <>
