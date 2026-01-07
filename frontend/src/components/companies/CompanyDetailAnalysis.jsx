@@ -3,6 +3,7 @@ import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
 import { Link, useNavigate } from 'react-router';
 import dayjs from 'dayjs';
+import { getToken } from '../../api/authApi';
 
 function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
 
@@ -20,10 +21,21 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
     }
 
 
+    const handleCreateClick = () => {
+        const token = getToken?.();
+
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/auth/login');
+            return;
+        }
+        navigate('/companies/${companyId}/detail/new');
+    };
+
     return (
         <Box sx={{ maxWidth: 1100, mx: "auto", backgroundColor: '#ADC178', p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button component={Link} to={`/companies/${companyId}/detail/new`} variant="contained" sx={{ mb: 2, backgroundColor: '#A98467' }} >
+                <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2 }}>
                     기업 분석 등록
                 </Button>
             </Box>
@@ -44,7 +56,7 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
                         <Paper key={detailId} variant='outlined'
                             sx={{ p: 2, mb: 1.5, cursor: "pointer" }}
                             onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}>
-
+                              
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
 
                                 <Typography sx={{ fontWeight: 'bold' }}>{nickname}님의 기업 분석</Typography>

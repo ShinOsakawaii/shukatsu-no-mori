@@ -1,16 +1,33 @@
 import { Box, Button, Divider, Paper, Typography } from '@mui/material';
 import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router-dom'; // 1. useNavigate를 임포트합니다.
 import dayjs from 'dayjs';
+import { getToken } from '../../api/authApi';
 
 function CompanyDetailReview({ companyId, review, isLoading, isError }) {
+    // 2. 컴포넌트 내부 최상단에서 navigate 함수를 초기화합니다.
+    const navigate = useNavigate();
 
-    const lists = review ? review : []
+    const lists = review ? review : [];
+
+    const handleCreateClick = () => {
+        const token = getToken?.();
+
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/auth/login');
+            return;
+        }
+
+        // 수정된 부분: 라우터 설정(/companies/:companyId/review/new)과 일치시킴
+        navigate(`/companies/${companyId}/review/new`);
+    };
+
     return (
         <Box sx={{ maxWidth: 1100, mx: "auto", backgroundColor: '#ADC178' }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button component={Link} to={`/companies/${companyId}/review`} variant="contained" sx={{ mb: 2, backgroundColor: '#A98467' }}>
+                <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2 }}>
                     기업 후기 등록
                 </Button>
             </Box>
