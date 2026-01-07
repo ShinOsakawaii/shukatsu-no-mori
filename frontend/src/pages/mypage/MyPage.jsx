@@ -16,12 +16,12 @@ function MyPage() {
     return (
         <div>
             <MyPageHeader
-                username={user.nickname || "Guest"} // nickname 없으면 기본값
-                profileImage={user.profileImage || "/images/default-avatar.png"} // 이미지 없으면 기본 이미지
+                username={user.nickname || "Guest"}
+                profileImage={user.profileImage || "/images/default-avatar.png"}
             />
 
             {/* 기업 분석, 후기 리스트 부분은 강상이 담당 */}
-        
+
         </div>
     );
 }
