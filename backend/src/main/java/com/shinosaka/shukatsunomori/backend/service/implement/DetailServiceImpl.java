@@ -56,7 +56,7 @@ public class DetailServiceImpl implements DetailService {
         if (keyword == null || keyword.isBlank()) {
             detailPage = detailRepository.findByCompanyCompanyId(companyId, pageable);
         } else {
-            detailPage = detailRepository.findByCompanyIdAndTitleContainingIgnoreCaseOrCompanyIdAndContentContainingIgnoreCase (
+            detailPage = detailRepository.findByCompanyCompanyIdAndTitleContainingIgnoreCaseOrCompanyCompanyIdAndContentContainingIgnoreCase (
                     companyId, keyword,
                     companyId, keyword,
                     pageable
