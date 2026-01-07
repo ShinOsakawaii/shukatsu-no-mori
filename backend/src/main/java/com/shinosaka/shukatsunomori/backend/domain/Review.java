@@ -53,8 +53,8 @@ public class Review {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public void update(String title,String position, String content,String stage,String result){
         this.title = title;

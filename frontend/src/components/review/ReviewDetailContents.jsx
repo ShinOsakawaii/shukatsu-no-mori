@@ -1,80 +1,37 @@
-import React from "react";
-// 현재 위치: src/components/review/ReviewDetailContents.jsx
-// 목적지: src/constants/colors.js (두 단계 위로 이동)
-import { COLORS } from "../../constants/colors";
+import React from 'react';
+// 1. 설치한 dayjs를 불러옵니다.
+import dayjs from 'dayjs';
 
 const ReviewDetailContents = ({ data }) => {
-    if (!data) return <p>데이터를 불러오는 중입니다...</p>;
-
-    // 날짜 포맷팅 함수
-    const formatDate = (dateString) => {
-        if (!dateString) return "";
-        const date = new Date(dateString);
-        return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
-    };
-
-    // 스타일 정의
-    const sectionStyle = {
-        marginBottom: "25px",
-        paddingBottom: "15px",
-        borderBottom: `1px solid ${COLORS.primary}44` // 투명도 추가
-    };
-
-    const labelStyle = {
-        fontSize: "14px",
-        color: COLORS.brown,
-        fontWeight: "bold",
-        display: "block",
-        marginBottom: "5px"
-    };
-
-    const contentStyle = {
-        fontSize: "18px",
-        color: COLORS.dark,
-        lineHeight: "1.6"
-    };
-
     return (
-        <div style={{ padding: "10px" }}>
-            {/* 제목 섹션 */}
-            <div style={sectionStyle}>
-                <span style={labelStyle}>제목</span>
-                <div style={{ ...contentStyle, fontSize: "22px", fontWeight: "bold" }}>
-                    {data.title}
+        <div style={{ color: '#4A4A4A' }}>
+            <h2 style={{ fontSize: '26px', marginBottom: '35px', fontWeight: 'bold' }}>
+                {data.nickname}님의 기업 후기
+            </h2>
+
+            {/* 제목과 직군 */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{data.title}</span>
+                <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{data.position}</span>
+            </div>
+
+            {/* 2. 날짜 표시 부분: dayjs().format()을 사용합니다. */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', gap: '25px', fontWeight: '600' }}>
+                    <span>{data.stage}</span>
+                    <span>{data.result}</span>
+                </div>
+                <div style={{ display: 'flex', gap: '20px', color: '#666', fontSize: '14px' }}>
+                    {/* 이미지처럼 YYYY/MM/DD 형식으로 출력 */}
+                    <span>등록일: {dayjs(data.createdAt).format('YYYY/MM/DD')}</span>
+                    <span>수정일: {dayjs(data.updatedAt).format('YYYY/MM/DD')}</span>
                 </div>
             </div>
 
-            <div style={{ display: "flex", gap: "40px", ...sectionStyle }}>
-                {/* 직무 */}
-                <div>
-                    <span style={labelStyle}>지원 직무</span>
-                    <div style={contentStyle}>{data.position}</div>
-                </div>
-                {/* 전형 단계 */}
-                <div>
-                    <span style={labelStyle}>전형 단계</span>
-                    <div style={contentStyle}>{data.stage}</div>
-                </div>
-                {/* 결과 */}
-                <div>
-                    <span style={labelStyle}>결과</span>
-                    <div style={{ ...contentStyle, color: data.result === "합격" ? COLORS.primary : COLORS.dark }}>
-                        {data.result}
-                    </div>
-                </div>
-            </div>
+            <hr style={{ border: '0', height: '1.5px', backgroundColor: '#A2AD7E', margin: '10px 0 45px' }} />
 
-            {/* 상세 내용 */}
-            <div style={{ ...sectionStyle, borderBottom: "none" }}>
-                <span style={labelStyle}>후기 상세 내용</span>
-                <div style={{ ...contentStyle, whiteSpace: "pre-wrap" }}>
-                    {data.content}
-                </div>
-            </div>
-
-            {/* 작성일 */}
-            <div style={{ textAlign: "right", color: "#999", fontSize: "12px" }}>
-                작성일: {formatDate(data.createdAt)}
+            <div style={{ minHeight: '280px', lineHeight: '1.9', fontSize: '17px', whiteSpace: 'pre-wrap' }}>
+                {data.content}
             </div>
         </div>
     );

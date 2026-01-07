@@ -6,7 +6,7 @@ import com.shinosaka.shukatsunomori.backend.domain.User;
 import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
-import com.shinosaka.shukatsunomori.backend.dto.response.review.ReviewResponse;
+import com.shinosaka.shukatsunomori.backend.dto.response.companyReview.ReviewResponse;
 import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.repository.ReviewRepository;
 import com.shinosaka.shukatsunomori.backend.repository.UserRepository;

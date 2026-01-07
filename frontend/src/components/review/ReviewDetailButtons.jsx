@@ -1,58 +1,31 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-// 경로 수정: 두 단계 위(src/)로 올라가서 constants 폴더로 진입
-import { COLORS } from "../../constants/colors";
+import React from 'react';
 
-const ReviewDetailButtons = ({ isAuthor, onEditClick }) => {
-    const navigate = useNavigate();
-
-    // 버튼 공통 스타일
-    const btnStyle = {
-        padding: "10px 25px",
-        borderRadius: "10px",
-        border: "none",
-        fontWeight: "bold",
-        cursor: "pointer",
-        fontSize: "15px",
-        transition: "all 0.2s ease"
-    };
-
+const ReviewDetailButtons = ({ isAuthor, onEditClick, onBackClick }) => {
     return (
-        <div
-            style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "15px",
-                marginTop: "40px"
-            }}
-        >
-            {/* 목록으로 버튼: 누구나 볼 수 있음 */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '30px' }}>
+            {/* 뒤로 가기 버튼 (이미지의 연한 베이지색 버튼) */}
             <button
-                onClick={() => navigate(-1)}
+                onClick={onBackClick}
                 style={{
-                    ...btnStyle,
-                    backgroundColor: COLORS.brown,
-                    color: "white"
+                    backgroundColor: '#E8EAD5', border: '1px solid #C2C5A8',
+                    padding: '12px 35px', borderRadius: '12px', cursor: 'pointer',
+                    fontWeight: 'bold', color: '#4A4A4A', fontSize: '16px'
                 }}
-                onMouseOver={(e) => (e.currentTarget.style.filter = "brightness(0.9)")}
-                onMouseOut={(e) => (e.currentTarget.style.filter = "brightness(1)")}
             >
-                목록으로
+                뒤로
             </button>
 
-            {/* 수정 버튼: 작성자(isAuthor)인 경우에만 렌더링 */}
+            {/* 수정 버튼 (이미지의 진한 녹색 버튼 / 작성자일 때만 표시) */}
             {isAuthor && (
                 <button
                     onClick={onEditClick}
                     style={{
-                        ...btnStyle,
-                        backgroundColor: COLORS.primary,
-                        color: "white"
+                        backgroundColor: '#A2AD7E', border: 'none', color: 'white',
+                        padding: '12px 35px', borderRadius: '12px', cursor: 'pointer',
+                        fontWeight: 'bold', fontSize: '16px'
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.filter = "brightness(0.9)")}
-                    onMouseOut={(e) => (e.currentTarget.style.filter = "brightness(1)")}
                 >
-                    수정하기
+                    수정
                 </button>
             )}
         </div>

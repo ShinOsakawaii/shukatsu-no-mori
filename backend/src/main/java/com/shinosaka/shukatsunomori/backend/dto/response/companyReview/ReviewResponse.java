@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.dto.response.review;
+package com.shinosaka.shukatsunomori.backend.dto.response.companyReview;
 
 import com.shinosaka.shukatsunomori.backend.domain.Review;
 import lombok.*;
@@ -41,7 +41,7 @@ public class ReviewResponse {
                 .nickname(review.getUser().getNickname())
                 .isOwner(currentUserId != null && currentUserId.equals(review.getUser().getUserId()))
                 .createdAt(review.getCreatedAt())
-                .updatedAt(review.getUpdateAt())
+                .updatedAt(review.getUpdatedAt())
                 .build();
     }
 }
