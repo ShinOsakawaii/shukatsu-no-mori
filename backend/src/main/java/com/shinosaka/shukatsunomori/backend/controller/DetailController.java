@@ -15,7 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/companies/{companyId}")
+@RequestMapping("/api/companies/{companyId}")
 @RequiredArgsConstructor
 public class DetailController {
 
