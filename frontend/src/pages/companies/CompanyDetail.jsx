@@ -37,10 +37,7 @@ function CompanyDetail() {
 
     console.log('company:', company);
 
-    if (isLoading) return <Loader />;
-    if (isError) return <ErrorMessage error={error} />
-
-    const { detail, review } = company;
+    // const { review } = company;
     /*
     // 2. 삭제
     const deleteMutation = useMutation({
