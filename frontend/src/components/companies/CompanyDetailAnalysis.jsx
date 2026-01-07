@@ -8,7 +8,18 @@ import { getToken } from '../../api/authApi';
 function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
 
     const navigate = useNavigate();
-    const lists = detail ? detail : []
+    const lists = Array.isArray(detail?.content)
+        ? detail.content
+        : [];
+
+    console.log('detail:', detail);
+
+
+    if (isLoading) return <Loader />;
+    if (isError && !detail?.length) {
+        return <ErrorMessage message="기업 분석 목록을 불러오지 못했습니다." />;
+    }
+
 
     const handleCreateClick = () => {
         const token = getToken?.();
@@ -29,9 +40,6 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
                 </Button>
             </Box>
 
-            {isLoading && <Loader />}
-            {isError && <ErrorMessage />}
-
             {!isLoading && !isError && lists.length === 0 && (
                 <Box>
                     <Typography align='center' sx={{ py: 5 }}>
@@ -42,19 +50,24 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
             {/* 분석 목록 */}
             {!isLoading && !isError && lists.length > 0
                 && lists.map((item) => {
-                    const { id, content, createAt, nickname } = item;
+                    const { detailId, content, createdAt, nickname } = item;
 
                     return (
-                        <Paper key={id} variant='outlined'
+                        <Paper key={detailId} variant='outlined'
                             sx={{ p: 2, mb: 1.5, cursor: "pointer" }}
-                            onClick={() => navigate(`/companies/${companyId}/detail/${id}`)}>
+                            onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}>
+                              
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+
                                 <Typography sx={{ fontWeight: 'bold' }}>{nickname}님의 기업 분석</Typography>
-                                <Typography>{dayjs(createAt).format('YY년MM월DD일HH:mm')}</Typography>
+
+                                <Typography>{createdAt && dayjs(createdAt).format('YY년 MM월 DD일 HH:mm')}</Typography>
                             </Box>
+
                             <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
                                 {content}
                             </Typography>
+
                         </Paper>
                     )
                 })

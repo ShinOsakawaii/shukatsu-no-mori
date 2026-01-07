@@ -8,7 +8,9 @@ import ErrorMessage from '../../components/common/ErrorMessage';
 import Loader from '../../components/common/Loader';
 import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
+import { fetchAnalysis } from '../../api/companyAnalysisApi';
 import CompanyDetailButtons from '../../components/companies/CompanyDetailButtons';
+
 
 //기업정보 상세조회, 삭제
 function CompanyDetail() {
@@ -21,7 +23,6 @@ function CompanyDetail() {
     const detailId = Number(detailIdParam);
     const [tab, setTab] = useState("analysis");
 
-
     // TanStack Query=============
     // 1. 상세 내용 조회
     const { data: company, isLoading, isError, error } = useQuery({
@@ -30,12 +31,6 @@ function CompanyDetail() {
         enabled: !!companyId
     });
 
-
-    if (isLoading) return <Loader />;
-    if (isError) return <ErrorMessage error={error} />
-    if (!company) return <Loader />;
-
-    const { detail, review } = company;
     /*
     // 2. 삭제 
     const deleteMutation = useMutation({
@@ -51,6 +46,18 @@ function CompanyDetail() {
     });
     */
 
+    // 기업 분석 목록 조회
+    const { data: analysisList = [], isLoading: isAnalysisLoading, isError: isAnalysisError } = useQuery({
+        queryKey: ['analysis', companyId],
+        queryFn: () => fetchAnalysis(companyId),
+        enabled: !!companyId
+    });
+
+    if (isLoading) return <Loader />;
+    if (isError) return <ErrorMessage error={error} />
+    if (!company) return <Loader />;
+
+    const { review } = company;
 
     return (
         <Box sx={{ m: 3 }}>
@@ -63,11 +70,11 @@ function CompanyDetail() {
                 {tab === "analysis" ? (
                     <CompanyDetailAnalysis
                         companyId={companyId}
-                        detail={detail}
-                        detailId={detailId}
-                        isLoading={isLoading}
-                        isError={isError}
+                        detail={analysisList}
+                        isLoading={isAnalysisLoading}
+                        isError={isAnalysisError}
                     />
+
                 ) : (
                     <CompanyDetailReview
                         companyId={companyId}
