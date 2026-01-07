@@ -8,11 +8,15 @@ function CompanyDetailHeader({ company }) {
     const {
         name,
         industry,
-        city,
         website,
         description,
         companyImage,
+        location,
     } = company;
+
+    const city = location?.city;
+
+
 
 
     return (
@@ -29,7 +33,8 @@ function CompanyDetailHeader({ company }) {
         >
             {/* 상단: 이미지 + 기본 정보 */}
             <Box sx={{ display: "flex", gap: 3 }}>
-                <Box
+               
+                    <Box
                     component="img"
                     src={companyImage}
                     alt={name}
@@ -41,16 +46,25 @@ function CompanyDetailHeader({ company }) {
                         backgroundColor: "#fff",
                     }}
                 />
+                
                 <Box sx={{ flex: 1 }}>
                     <Typography variant="h5" fontWeight="bold">
-                        {name}
+                        기업명: {name}
                     </Typography>
 
                     <Typography variant="body2" sx={{ mt: 0.5 }}>
-                        {industry}{city ? ` · ${city}` : ""}
+                        업계: {industry}
                     </Typography>
 
+                    {city &&(
+                    <Typography variant="body2">
+                    기업위치: {city}
+                    </Typography>
+                    )}
+
                     {website && (
+                        <Typography variant="body2" sx={{ mt: 0.5 }}>
+                            웹사이트:{" "}
                         <Link
                             href={website}
                             target="_blank"
@@ -60,6 +74,7 @@ function CompanyDetailHeader({ company }) {
                         >
                             {website}
                         </Link>
+                        </Typography>
                     )}
                 </Box>
                
