@@ -10,6 +10,9 @@ import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
 import CompanyDetailHeader from '../../components/companies/CompanyDetailHeader';
 import { Outlet } from "react-router";
+import { fetchAnalysis } from '../../api/companyAnalysisApi';
+import CompanyDetailButtons from '../../components/companies/CompanyDetailButtons';
+
 
 //기업정보 상세조회, 삭제
 function CompanyDetail() {
@@ -18,9 +21,10 @@ function CompanyDetail() {
     const companyId = Number(companyIdParam);
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const { detailId: detailIdParam } = useParams();
+    const detailId = Number(detailIdParam);
     const [tab, setTab] = useState("analysis");
 
-    
 
     // TanStack Query=============
     // 1. 상세 내용 조회
@@ -52,8 +56,18 @@ function CompanyDetail() {
     });
 */
 
+    // 기업 분석 목록 조회
+    const { data: analysisList = [], isLoading: isAnalysisLoading, isError: isAnalysisError } = useQuery({
+        queryKey: ['analysis', companyId],
+        queryFn: () => fetchAnalysis(companyId),
+        enabled: !!companyId
+    });
 
+    if (isLoading) return <Loader />;
+    if (isError) return <ErrorMessage error={error} />
+    if (!company) return <Loader />;
 
+    const { review } = company;
 
     return (
         <Box sx={{ m: 3 }}>
@@ -63,15 +77,7 @@ function CompanyDetail() {
             </Box>
 
             <Box sx={{ justifyContent: "center", display: "flex", gap: 2, mb: 2 }}>
-                <Button variant={tab === "analysis" ? "contained" : "outlined"}
-                    onClick={() => setTab("analysis")}>
-                    기업 분석
-                </Button>
-
-                <Button variant={tab === "review" ? "contained" : "outlined"}
-                    onClick={() => setTab("review")}>
-                    기업 후기
-                </Button>
+                <CompanyDetailButtons tab={tab} setTab={setTab} />
             </Box >
 
             <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
@@ -79,9 +85,9 @@ function CompanyDetail() {
                 {tab === "analysis" ? (
                     <CompanyDetailAnalysis
                         companyId={companyId}
-                        detail={detail}
-                        isLoading={isLoading}
-                        isError={isError}
+                        detail={analysisList}
+                        isLoading={isAnalysisLoading}
+                        isError={isAnalysisError}
                     />
                 ) : (
                     <CompanyDetailReview

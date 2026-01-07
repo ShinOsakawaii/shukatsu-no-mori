@@ -4,6 +4,9 @@ import MyPageAnalysis from '../../components/mypage/MyPageAnalysis';
 import MyPageReview from '../../components/mypage/MyPageReview';
 import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
+import MyPageButtons from '../../components/mypage/MyPageButtons';
+import Loader from '../../components/common/Loader';
+import ErrorMessage from '../../components/common/ErrorMessage';
 
 //내가 쓴 글 조회
 function MyPageContent({ userId }) {
@@ -40,7 +43,8 @@ function MyPageContent({ userId }) {
         error: myReviewsError,
     } = useQuery({
         queryKey: ['mypage', 'reviews', userId],
-        queryFn: () => fetchMyReviews(userId)
+        queryFn: () => fetchMyReviews(userId),
+        enabled: !!userId
     });
 
     if (isMyPageLoading || isMyDetailsLoading || isMyReviewsLoading) {
@@ -68,14 +72,10 @@ function MyPageContent({ userId }) {
             </Box >
 
             <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
-                {tab === "analysis" ? (
-                    <MyPageAnalysis detail={myDetails} />
-                ) : (
-                    <MyPageReview review={myReviews} />
-                )}
+                <MyPageButtons tab={tab} setTab={setTab} />
             </Paper>
         </Box>
     );
 }
 
-export default MyPage;
+export default MyPageContent;
