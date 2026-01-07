@@ -36,7 +36,7 @@ function CompanyDetailHeader({ company }) {
                
                     <Box
                     component="img"
-                    src={companyImage}
+                    src={`${import.meta.env.VITE_API_BASE_URL}${companyImage}`}
                     alt={name}
                     sx={{
                         width: 120,

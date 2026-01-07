@@ -11,7 +11,7 @@ export async function fetchMyDetails(params) {
 export async function fetchMyReviews(params) {
     const res = await api.get('/mypage/reviews', { params });
     return res.data;
-}  
+}
 
 // 마이페이지 기본 정보 조회
 export async function fetchMyPage(userId) {
@@ -19,24 +19,27 @@ export async function fetchMyPage(userId) {
     return res.data;
 }
 
-//마이페이지 수정 api
-export async function updateMyProfile({
-    nickname,
-    password,
-    rePassword,
-    profileImage,
-}) {
-    const payload = {
+
+    // 마이페이지 수정 API
+    export async function updateMyProfile({
         nickname,
-        profileImage, // URL string or null
-        ...(password
-            ? { password, rePassword }
-            : {}),
-    };
-    console.log(nickname,
         password,
         rePassword,
-        profileImage,);
-    console.log("➡️ updateMyProfile payload:", payload);
-    const res = await api.patch("/api/user/myinfo", payload);
-}
+        profileImage,
+    }) {
+        const payload = {
+            nickname,
+            profileImage, // URL string or null
+            ...(password
+                ? { password, rePassword }
+                : {}),
+        };
+        console.log(nickname,
+            password,
+            rePassword,
+            profileImage,);
+        console.log("➡️ updateMyProfile payload:", payload);
+
+        const res = await api.patch("/api/user/myinfo", payload);
+        return res.data;
+    }
