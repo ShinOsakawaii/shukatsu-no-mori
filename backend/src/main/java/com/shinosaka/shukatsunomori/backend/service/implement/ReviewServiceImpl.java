@@ -120,7 +120,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         // 엔티티 업데이트 메서드
-        review.update(request.getTitle(), request.getPosition(), request.getContent(), request.getStage(), request.getResult());
+        review.update(request);
 
         System.out.println("REQ stage=" + request.getStage() + ", result=" + request.getResult());
         System.out.println("ENTITY stage=" + review.getStage() + ", result=" + review.getResult());

@@ -1,5 +1,6 @@
 package com.shinosaka.shukatsunomori.backend.domain;
 
+import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,11 +57,11 @@ public class Review {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void update(String title, String position, String stage, String result, String content){
-        this.title = title;
-        this.position = position;
-        this.stage = stage;
-        this.result = result;
-        this.content = content;
+    public void update(ReviewUpdateRequest request){
+        this.title = request.getTitle();
+        this.position = request.getPosition();
+        this.stage = request.getStage();
+        this.result = request.getResult();
+        this.content = request.getContent();
     }
 }

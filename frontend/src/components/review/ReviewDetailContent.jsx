@@ -3,6 +3,8 @@ import { Typography } from "@mui/material";
 
 export default function ReviewDetailContent({ review }) {
 
+     console.log("stage:", review.stage, "content", review.content);
+
     return (
         <Typography
             variant="body1"
@@ -12,6 +14,8 @@ export default function ReviewDetailContent({ review }) {
                 lineHeight: 1.6
             }}>
             {review.content}
+
+           
         </Typography>
     );
 }
