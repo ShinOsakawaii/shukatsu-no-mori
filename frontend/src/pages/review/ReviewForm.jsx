@@ -1,31 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { createReview, fetchReview, updateReview } from "../../api/companyReviewApi";
+import { useMe } from "../../hooks/useMe"; // 권한 체크를 위해 추가
 
-// 상위 폴더(src/)로 두 번 올라가서 참조
-import { COLORS } from "../../constants/colors";
-import { createReview, updateReview, deleteReview, fetchReview } from "../../api/companyReviewApi";
-import ReviewCommonHeader from "../../components/review/ReviewCommonHeader.jsx";
-import ReviewFormContents from "../../components/review/ReviewFormContents.jsx";
-import ReviewFormButtons from "../../components/review/ReviewFormButtons.jsx";
-
-const ReviewForm = ({ isEdit }) => {
+const ReviewForm = ({ mode = "create" }) => {
     const navigate = useNavigate();
     const { companyId, reviewId } = useParams();
+    const isEdit = mode === "edit";
+
+    // 내 정보 가져오기
+    const { me } = useMe();
 
     const [formData, setFormData] = useState({
-        title: '',
-        position: '',
-        stage: '',
-        result: '',
-        content: ''
+        title: "",
+        position: "",
+        stage: "",
+        result: "",
+        content: ""
     });
 
-    // [데이터 로드] 수정 모드일 때 기존 데이터 불러오기
     useEffect(() => {
         if (isEdit && reviewId) {
-            const loadReview = async () => {
+            const getDetail = async () => {
                 try {
                     const data = await fetchReview(companyId, reviewId);
+
+                    // [추가] 본인 확인 로직: 작성자와 현재 로그인 유저가 다르면 쫓아냄
+                    // me가 로드된 후, 닉네임이 다르면 목록으로 보냅니다.
+                    if (me && data.nickname !== me.nickname) {
+                        alert("수정 권한이 없습니다.");
+                        navigate(`/companies/${companyId}`);
+                        return;
+                    }
+
                     setFormData({
                         title: data.title,
                         position: data.position,
@@ -34,25 +41,26 @@ const ReviewForm = ({ isEdit }) => {
                         content: data.content
                     });
                 } catch (err) {
-                    console.error("데이터 불러오기 실패:", err);
+                    console.error("데이터 로드 실패:", err);
+                    alert("정보를 불러오지 못했습니다.");
+                    navigate(-1);
                 }
             };
-            loadReview();
+            getDetail();
         }
-    }, [isEdit, companyId, reviewId]);
+    }, [isEdit, reviewId, companyId, navigate, me]); // me를 의존성 배열에 추가
 
-    // [저장 로직] 등록 또는 수정 실행
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
     const handleSave = async () => {
-        // URL에서 가져온 companyId는 문자열일 수 있으므로 숫자로 변환합니다.
         const numericCompanyId = Number(companyId);
-
-        // [수정 포인트] payload에 companyId를 반드시 포함시킵니다.
         const payload = {
             ...formData,
-            companyId: numericCompanyId // 서버가 기다리는 필수 값
+            companyId: numericCompanyId
         };
-
-        console.log("서버로 보내는 최종 데이터:", payload);
 
         try {
             if (isEdit) {
@@ -62,65 +70,66 @@ const ReviewForm = ({ isEdit }) => {
             } else {
                 const response = await createReview(numericCompanyId, payload);
                 alert("등록되었습니다.");
-
-                // 서버 응답 구조(ReviewResponse)에 따라 ID 추출
                 const newReviewId = response.reviewId || response.id;
-                navigate(`/companies/${numericCompanyId}/review/${newReviewId}`);
+                if (newReviewId) {
+                    navigate(`/companies/${numericCompanyId}/review/${newReviewId}`);
+                } else {
+                    navigate(`/companies/${numericCompanyId}`);
+                }
             }
         } catch (err) {
-            console.error("에러 발생:", err.response?.data);
-            alert("저장에 실패했습니다. 데이터를 확인해주세요.");
+            console.error("저장 실패:", err.response?.data);
+            alert("저장에 실패했습니다. 입력값을 확인해주세요.");
         }
     };
 
-    // [삭제 로직] 후기 삭제 실행
-    const handleDelete = async () => {
-        if (window.confirm("정말로 이 후기를 삭제하시겠습니까?")) {
-            try {
-                await deleteReview(companyId, reviewId);
-                alert("삭제되었습니다.");
-                // 삭제 후 해당 기업 페이지로 이동하도록 수정
-                navigate(`/company/${companyId}`);
-            } catch (err) {
-                alert("삭제 실패");
-            }
-        }
-    };
+    // --- 디자인 스타일 유지 ---
+    const labelStyle = { display: 'block', fontWeight: 'bold', color: '#6B6040', marginBottom: '8px', fontSize: '15px' };
+    const inputStyle = { width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #C2C5A8', boxSizing: 'border-box', outline: 'none' };
+    const selectStyle = { ...inputStyle, appearance: 'none', background: 'white url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%236B6040%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center' };
 
     return (
-        <div style={{ backgroundColor: COLORS.bg, minHeight: '100vh', padding: '20px' }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                {/* 상단 우측 삭제 버튼 (수정 모드에서만 표시) */}
-                <div style={{ display: 'flex', justifyContent: 'flex-end', height: '40px', marginBottom: '10px' }}>
-                    {isEdit && (
-                        <button
-                            onClick={handleDelete}
-                            style={{
-                                backgroundColor: '#FF4D4D',
-                                color: 'white',
-                                border: 'none',
-                                padding: '8px 20px',
-                                borderRadius: '8px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            삭제하기
-                        </button>
-                    )}
+        <div style={{ backgroundColor: '#F2F2E4', minHeight: '100vh', padding: '40px 20px' }}>
+            <div style={{ maxWidth: '900px', margin: '0 auto', backgroundColor: '#DDE5B6', borderRadius: '40px', padding: '50px' }}>
+                <div style={{ marginBottom: '25px' }}>
+                    <label style={labelStyle}>후기 제목</label>
+                    <input name="title" value={formData.title} onChange={handleChange} style={inputStyle} placeholder="예: 2026 상반기 개발직군 면접 후기" />
                 </div>
-
-                <div style={{ textAlign: 'center' }}>
-                    <ReviewCommonHeader title={isEdit ? "기업 후기 수정" : "기업 후기 작성"} />
+                <div style={{ marginBottom: '25px' }}>
+                    <label style={labelStyle}>지원 직무</label>
+                    <input name="position" value={formData.position} onChange={handleChange} style={inputStyle} placeholder="예: 프론트엔드 개발자" />
                 </div>
-
-                <div style={{ backgroundColor: COLORS.light, borderRadius: '30px', padding: '30px', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
-                    <ReviewFormContents formData={formData} setFormData={setFormData} />
-                    <ReviewFormButtons
-                        isEdit={isEdit}
-                        onSubmit={handleSave}
-                        onCancel={() => navigate(-1)}
-                    />
+                <div style={{ display: 'flex', gap: '20px', marginBottom: '25px' }}>
+                    <div style={{ flex: 1 }}>
+                        <label style={labelStyle}>전형 단계</label>
+                        <select name="stage" value={formData.stage} onChange={handleChange} style={selectStyle}>
+                            <option value="">선택하세요</option>
+                            <option value="서류전형">서류전형</option>
+                            <option value="1차면접">1차면접</option>
+                            <option value="최종면접">최종면접</option>
+                        </select>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                        <label style={labelStyle}>결과</label>
+                        <select name="result" value={formData.result} onChange={handleChange} style={selectStyle}>
+                            <option value="">선택하세요</option>
+                            <option value="합격">합격</option>
+                            <option value="불합격">불합격</option>
+                            <option value="대기중">대기중</option>
+                        </select>
+                    </div>
+                </div>
+                <div style={{ marginBottom: '40px' }}>
+                    <label style={labelStyle}>상세 내용</label>
+                    <textarea name="content" value={formData.content} onChange={handleChange} style={{ ...inputStyle, height: '300px', resize: 'none' }} placeholder="면접 질문이나 분위기 등 자유로운 후기를 남겨주세요." />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                    <button onClick={() => navigate(-1)} style={{ backgroundColor: '#A68A71', color: 'white', border: 'none', padding: '12px 45px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', fontSize: '18px' }}>
+                        취소
+                    </button>
+                    <button onClick={handleSave} style={{ backgroundColor: '#A2AD7E', color: 'white', border: 'none', padding: '12px 45px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', fontSize: '18px' }}>
+                        {isEdit ? "수정하기" : "등록하기"}
+                    </button>
                 </div>
             </div>
         </div>

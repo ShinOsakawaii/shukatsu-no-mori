@@ -46,8 +46,14 @@ export const router = createBrowserRouter([
                     {
                         path: ':companyId/review',
                         children: [
-                            { path: 'new', element: <ReviewForm mode="create" /> }, // 후기 등록 화면, 수정 화면 == ReviewForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                            { path: ':reviewId', element: <ReviewDetail /> }, // 후기 조회 (작성자/비작성자 공통)
+                            // 1. 등록: /companies/1/review/new
+                            { path: 'new', element: <ReviewForm mode="create" /> },
+
+                            // 2. 상세조회: /companies/1/review/10
+                            { path: ':reviewId', element: <ReviewDetail /> },
+
+                            // 3. 수정: /companies/1/review/10/edit
+                            { path: ':reviewId/edit', element: <ReviewForm mode="edit" /> }
                         ]
                     }
                 ]

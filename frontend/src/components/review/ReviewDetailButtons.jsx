@@ -2,27 +2,42 @@ import React from 'react';
 
 const ReviewDetailButtons = ({ isAuthor, onEditClick, onBackClick }) => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '30px' }}>
-            {/* 뒤로 가기 버튼 (이미지의 연한 베이지색 버튼) */}
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '20px',
+            marginTop: '40px'
+        }}>
+            {/* 1. 언제나 보이는 취소/뒤로 버튼 */}
             <button
                 onClick={onBackClick}
                 style={{
-                    backgroundColor: '#E8EAD5', border: '1px solid #C2C5A8',
-                    padding: '12px 35px', borderRadius: '12px', cursor: 'pointer',
-                    fontWeight: 'bold', color: '#4A4A4A', fontSize: '16px'
+                    backgroundColor: '#A68A71', // 이미지와 동일한 갈색
+                    color: 'white',
+                    border: 'none',
+                    padding: '12px 45px',
+                    borderRadius: '12px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    fontSize: '18px'
                 }}
             >
-                뒤로
+                {isAuthor ? "취소" : "뒤로"}
             </button>
 
-            {/* 수정 버튼 (이미지의 진한 녹색 버튼 / 작성자일 때만 표시) */}
+            {/* 2. 작성자일 때만 보이는 수정 버튼 */}
             {isAuthor && (
                 <button
                     onClick={onEditClick}
                     style={{
-                        backgroundColor: '#A2AD7E', border: 'none', color: 'white',
-                        padding: '12px 35px', borderRadius: '12px', cursor: 'pointer',
-                        fontWeight: 'bold', fontSize: '16px'
+                        backgroundColor: '#A2AD7E', // 이미지와 동일한 연두색
+                        color: 'white',
+                        border: 'none',
+                        padding: '12px 45px',
+                        borderRadius: '12px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        fontSize: '18px'
                     }}
                 >
                     수정
@@ -32,4 +47,5 @@ const ReviewDetailButtons = ({ isAuthor, onEditClick, onBackClick }) => {
     );
 };
 
+// ❗ 이 부분이 누락되어 에러가 발생한 것입니다.
 export default ReviewDetailButtons;
