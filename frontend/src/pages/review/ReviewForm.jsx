@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 // 상위 폴더(src/)로 두 번 올라가서 참조
 import { COLORS } from "../../constants/colors";
