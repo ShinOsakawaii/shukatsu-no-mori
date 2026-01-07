@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { fetchReview } from "../../api/companyReviewApi";
 import { useMe } from "../../hooks/useMe";
 import ReviewDetailContents from "../../components/review/ReviewDetailContents";

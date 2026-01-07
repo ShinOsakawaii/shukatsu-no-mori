@@ -1,15 +1,16 @@
 import { Box, Button, Divider, Paper, Typography } from '@mui/material';
 import Loader from '../common/Loader';
 import ErrorMessage from '../common/ErrorMessage';
-import { useNavigate } from 'react-router-dom'; // 1. useNavigate를 임포트합니다.
 import dayjs from 'dayjs';
 import { getToken } from '../../api/authApi';
+import { useNavigate } from 'react-router';
 
 function CompanyDetailReview({ companyId, review, isLoading, isError }) {
     // 2. 컴포넌트 내부 최상단에서 navigate 함수를 초기화합니다.
     const navigate = useNavigate();
 
     const lists = review ? review : [];
+    
 
     const handleCreateClick = () => {
         const token = getToken?.();
