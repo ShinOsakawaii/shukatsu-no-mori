@@ -37,6 +37,7 @@ function CompanyDetail() {
 
     console.log('company:', company);
 
+
     // const { review } = company;
     /*
     // 2. 삭제

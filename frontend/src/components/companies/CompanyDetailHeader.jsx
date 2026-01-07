@@ -38,6 +38,7 @@ function CompanyDetailHeader({ company }) {
                     component="img"
                     src={`${import.meta.env.VITE_API_BASE_URL}${companyImage}`}
                     alt={name}
+                    
                     sx={{
                         width: 120,
                         height: 120,
@@ -45,6 +46,7 @@ function CompanyDetailHeader({ company }) {
                         borderRadius: 2,
                         backgroundColor: "#fff",
                     }}
+                
                 />
                 
                 <Box sx={{ flex: 1 }}>

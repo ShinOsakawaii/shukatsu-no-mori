@@ -66,7 +66,12 @@ function CompanyForm({ mode }) {
         });
 
         setCompanyImage(company.companyImage ?? '');
-        setImagePreview(company.companyImage ?? null);
+        setImagePreview(
+            company.companyImage
+                ? `${import.meta.env.VITE_API_BASE_URL}${company.companyImage}`
+                : null
+        );
+
     }, [isEdit, company]);
 
 
