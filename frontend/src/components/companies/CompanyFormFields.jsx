@@ -29,7 +29,7 @@ export default function CompanyFormFields({ info, onChangeInfo }) {
         >
             <TextField
                 name="name"
-                placeholder="기업명을 입력해줏세요"
+                placeholder="기업명을 입력해주세요"
                 value={name}
                 onChange={(evt) => onChangeInfo(prev => ({ ...prev, name: evt.target.value }))
                 }
