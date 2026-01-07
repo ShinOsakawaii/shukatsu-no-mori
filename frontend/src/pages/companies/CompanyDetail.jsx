@@ -10,6 +10,7 @@ import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
 import { fetchAnalysis } from '../../api/companyAnalysisApi';
 import CompanyDetailButtons from '../../components/companies/CompanyDetailButtons';
+import { fetchReviews } from '../../api/companyReviewApi';
 
 
 //기업정보 상세조회, 삭제
@@ -53,11 +54,16 @@ function CompanyDetail() {
         enabled: !!companyId
     });
 
+    // 기업 후기 목록 조회
+    const { data: reviewList = [], isLoading: isReviewLoading, isError: isReviewError } = useQuery({
+        queryKey: ['review', companyId],
+        queryFn: () => fetchReviews(companyId),
+        enabled: !!companyId
+    });
+
     if (isLoading) return <Loader />;
     if (isError) return <ErrorMessage error={error} />
     if (!company) return <Loader />;
-
-    const { review } = company;
 
     return (
         <Box sx={{ m: 3 }}>
@@ -66,6 +72,7 @@ function CompanyDetail() {
             </Box >
 
             <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
+                
                 {/* 기업 분석 테이블 */}
                 {tab === "analysis" ? (
                     <CompanyDetailAnalysis
@@ -78,9 +85,9 @@ function CompanyDetail() {
                 ) : (
                     <CompanyDetailReview
                         companyId={companyId}
-                        review={review}
-                        isLoading={isLoading}
-                        isError={isError}
+                        review={reviewList}
+                        isLoading={isReviewLoading}
+                        isError={isReviewError}
                     />
                 )}
             </Paper>

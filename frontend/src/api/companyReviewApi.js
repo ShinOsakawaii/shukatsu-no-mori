@@ -1,7 +1,10 @@
-// frontend/src/api/companyReviewApi.js
 import { api } from './api';
 
 // 기업 후기 목록 조회
+// export async function fetchReviews(companyId) {
+//     const res = await api.get(`/api/companies/${companyId}/review`);
+//     return res.data;
+// }
 export async function fetchReviews(companyId) {
     const res = await api.get(`/api/companies/${companyId}/review`);
     return res.data;

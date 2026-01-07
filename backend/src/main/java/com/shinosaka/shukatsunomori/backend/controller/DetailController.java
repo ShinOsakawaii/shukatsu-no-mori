@@ -60,7 +60,7 @@ public class DetailController {
     public ResponseEntity<DetailResponse> updateDetail(
             @PathVariable Long companyId,
             @PathVariable Long detailId,
-            @RequestBody DetailUpdateRequest request,
+            @Valid @RequestBody DetailUpdateRequest request,
             @AuthenticationPrincipal Long userId
     ) {
         return ResponseEntity.ok(detailService.updateDetail(companyId, detailId, request, userId));

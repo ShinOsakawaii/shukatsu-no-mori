@@ -35,21 +35,11 @@ export const router = createBrowserRouter([
                     { path: ':companyId/detail/new', element: <AnalysisForm mode="create" /> },
                     { path: ':companyId/detail/:detailId', element: <AnalysisDetail /> },
                     { path: ':companyId/detail/:detailId/edit', element: <AnalysisForm mode="edit" /> },
-                    // path: ':companyId/detail',
-                    // children: [
-                    //     { path: 'new', element: <AnalysisForm mode="create" /> }, // 분석 등록 화면, 수정 화면 == AnalysisForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                    //     { path: ':detailId', element: <AnalysisDetail /> }, // 분석 조회 (작성자/비작성자 공통)
-                    //     { path: ':detailId/edit', element: <AnalysisForm mode="edit" /> }
-                    // ]
-
+                   
                     // 2-2. 기업 후기 (Review)
-                    {
-                        path: ':companyId/review',
-                        children: [
-                            { path: 'new', element: <ReviewForm mode="create" /> }, // 후기 등록 화면, 수정 화면 == ReviewForm 컴포넌트가 mode를 props로 받아 create면 새 글 작성
-                            { path: ':reviewId', element: <ReviewDetail /> }, // 후기 조회 (작성자/비작성자 공통)
-                        ]
-                    }
+                    { path: ':companyId/review/new', element: <ReviewForm mode="create" /> },
+                    { path: ':companyId/review/:reviewId', element: <ReviewDetail /> },
+                    { path: ':companyId/review/:reviewId/edit', element: <ReviewForm mode="edit" /> },
                 ]
             },
 
