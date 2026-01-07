@@ -43,3 +43,11 @@ export async function updateMyProfile({
     const res = await api.patch("/api/user/myinfo", payload);
     return res.data;
 }
+
+export async function changePassword({ password, rePassword }) {
+    const payload = { password, rePassword };   // ✅ 비번만
+    console.log("➡️ changePassword payload:", payload);
+
+    const res = await api.patch("/api/user/myinfo", payload);
+    return res.data;
+}
