@@ -1,16 +1,39 @@
-// src/components/mypage/MyPageEditButtons.jsx
-import { Stack, Button } from "@mui/material";
+import { useState } from "react";
+import {
+  Stack,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Typography,
+} from "@mui/material";
 
-function MyPageEditButtons({ onSave, onCancel }) {
+function MyPageEditButtons({
+  onSave,
+  onCancel,
+  disabled,
+}) {
+
   return (
-    <Stack direction="row" spacing={2}>
-      <Button variant="outlined" onClick={onCancel}>
-        취소
-      </Button>
-      <Button variant="contained" onClick={onSave} sx={{ bgcolor: 'background.button' }}>
-        저장
-      </Button>
-    </Stack>
+    <>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ width: "100%", justifyContent: "space-between", alignItems: "center" }}
+      >
+        <Button variant="outlined" onClick={onCancel} sx={{ flex: 1 }}>
+          취소
+        </Button>
+
+        <Button variant="contained" onClick={onSave} disabled={disabled} sx={{ flex: 1, bgcolor: 'background.button'  }}>
+          저장
+        </Button>
+      </Stack>
+
+
+    </>
   );
 }
 

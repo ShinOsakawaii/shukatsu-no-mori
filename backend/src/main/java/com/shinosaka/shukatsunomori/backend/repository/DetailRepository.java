@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface DetailRepository extends JpaRepository<Detail, Long> {
 
     // 검색O
-    Page<Detail> findByTitleContainingIgnoreCaseOrContentContaining(
+    Page<Detail> findByCompanyCompanyIdAndTitleContainingIgnoreCaseOrCompanyCompanyIdAndContentContainingIgnoreCase (
             Long companyId, String title,
             Long companyId2, String content,
             Pageable pageable

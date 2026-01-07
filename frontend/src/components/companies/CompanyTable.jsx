@@ -40,7 +40,7 @@ function CompanyTable({ companies = [] }) {
                 <Grid container spacing={4} justifyContent="flex-start">
                     {companies.map((company) => (
                         <Grid key={company.companyId}
-                            size={{ xs: 12, sm: 6, md: 4 }}>
+                            sx={{ width: 345, flexShrink: 0 }}>
                             <Card sx={{ width: 345, borderRadius: '10px' }}>
                                 <CardActionArea component={Link} to={`${company.companyId}`}>
                                     <CardMedia

@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import dayjs from 'dayjs';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 
 function MyPageAnalysis({ myDetails }) {
 
