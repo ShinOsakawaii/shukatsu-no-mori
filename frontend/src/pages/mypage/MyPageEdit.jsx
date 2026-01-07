@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMe } from "../../hooks/useMe";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateMyProfile, changePassword } from "../../api/mypageApi";
+import { updateMyProfile } from "../../api/mypageApi";
 import { uploadImage } from "../../api/uploadApi";
 
 import MyPageEditImage from "../../components/mypage/MyPageEditImage";
@@ -76,16 +76,6 @@ function MyPageEdit() {
         },
     });
 
-    const passwordMutation = useMutation({
-        mutationFn: changePassword,
-        onSuccess: () => {
-            alert("비밀번호가 변경되었습니다.");
-        },
-        onError: (e) => {
-            alert(e.response?.data?.message ?? "비밀번호 변경에 실패했습니다.");
-        },
-    });
-
     const handleSave = () => {
         profileMutation.mutate({
             nickname: form.nickname,
@@ -112,13 +102,6 @@ function MyPageEdit() {
                     onSave={handleSave}
                     onCancel={handleCancel}
                     disabled={profileMutation.isPending}
-                    pwLoading={passwordMutation.isPending}
-                    onPasswordSave={(payload, closeModal) => {
-                        passwordMutation.mutate(payload, {
-                            // ✅ 성공했을 때만 닫힘 (B 방식)
-                            onSuccess: () => closeModal(),
-                        });
-                    }}
                 />
             </Stack>
         </Container>

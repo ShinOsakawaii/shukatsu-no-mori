@@ -17,12 +17,11 @@ function MyPage() {
         <div>
             <MyPageHeader
                 username={user.nickname || "Guest"}
-                profileImage={user.profileImageUrl || "/images/default-avatar.png"}
+                profileImage={user.profileImage || "/images/default-avatar.png"}
             />
 
-
             {/* 기업 분석, 후기 리스트 부분은 강상이 담당 */}
-        
+
         </div>
     );
 }
