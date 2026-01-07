@@ -9,7 +9,7 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 // mui 스타일 설정
 const theme = createTheme({
   typography: {
-    fontFamily: ["Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI Emoji", "Segoe UI Symbol", "sans-serif"].join(',')
+    fontFamily: ["Gaegu", "Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI Emoji", "Segoe UI Symbol", "sans-serif"].join(',')
   },
   palette: {
     primary: {
