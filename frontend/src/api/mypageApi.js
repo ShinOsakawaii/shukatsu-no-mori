@@ -19,8 +19,6 @@ export async function fetchMyPage(userId) {
     return res.data;
 }
 
-//마이페이지 수정 api
-
 
 // 마이페이지 수정 API
 export async function updateMyProfile({
