@@ -111,8 +111,8 @@
 * 도메인별 CRUD API 제공
   (회원 / 기업 / 기업 분석 / 기업 후기)
 
-- 📘 정적 API 문서 (Redoc): [`docs/redoc-static.html`]([docs/redoc-static.html](https://raw.githack.com/ShinOsakawaii/shukatsu-no-mori/develop/docs/redoc-static.html
-))
+- 📘 정적 API 문서 (Redoc): [`docs/redoc-static.html`](https://raw.githack.com/ShinOsakawaii/shukatsu-no-mori/develop/docs/redoc-static.html
+)
 - 📄 OpenAPI 스펙(JSON): [`docs/openapi.json`](docs/openapi.json)
 
 > 본 프로젝트는 서버를 상시 운영하지 않으므로,  
