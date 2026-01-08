@@ -1,5 +1,6 @@
 package com.shinosaka.shukatsunomori.backend.domain;
 
+import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,18 +36,18 @@ public class Review {
     private String title;
 
     //oracle 예약어(자체 명령어)로 인해 db오류가 심해 position 대신 다른 단어로 대체 하였습니다.
-    @Column(name = "job_position", nullable = false, length = 50) // "position" 대신 변경
+    @Column(name = "position", nullable = false, length = 50) // "position" 대신 변경
     private String position;
-
-    @Column(name = "content", nullable = false, length = 4000)
-    private String content;
 
     @Column(name = "stage", nullable = false, length = 20)
     private String stage;
 
     //oracle 예약어(자체 명령어)로 인해 db오류가 심해 result 대신 다른 단어로 대체 하였습니다.
-    @Column(name = "job_result", nullable = false, length = 20)   // "result" 대신 변경
+    @Column(name = "result", nullable = false, length = 20)   // "result" 대신 변경
     private String result;
+
+    @Column(name = "content", nullable = false, length = 4000)
+    private String content;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -56,11 +57,11 @@ public class Review {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void update(String title,String position, String content,String stage,String result){
-        this.title = title;
-        this.position = position;
-        this.content = content;
-        this.stage = stage;
-        this.result = result;
+    public void update(ReviewUpdateRequest request){
+        this.title = request.getTitle();
+        this.position = request.getPosition();
+        this.stage = request.getStage();
+        this.result = request.getResult();
+        this.content = request.getContent();
     }
 }

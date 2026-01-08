@@ -44,6 +44,7 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
                     </Typography>
                 </Box>
             )}
+
             {/* 분석 목록 */}
             {!isLoading && !isError && lists.length > 0
                 && lists.map((item) => {

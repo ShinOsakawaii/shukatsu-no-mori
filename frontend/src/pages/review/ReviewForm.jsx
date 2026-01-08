@@ -1,130 +1,202 @@
-import React, { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import {createReview, deleteReview, fetchReview, updateReview } from '../../api/companyReviewApi';
+import { Box, Typography, Button, Paper } from '@mui/material';
+import ReviewFormFields from '../../components/review/ReviewFormFields';
+import Loader from '../../components/common/Loader';
+import ErrorMessage from '../../components/common/ErrorMessage';
+import ReviewFormSubmit from '../../components/review/ReviewFormSubmit';
 
-// 상위 폴더(src/)로 두 번 올라가서 참조
-import { COLORS } from "../../constants/colors";
-import { createReview, updateReview, deleteReview, fetchReview } from "../../api/companyReviewApi";
-import ReviewCommonHeader from "../../components/review/ReviewCommonHeader.jsx";
-import ReviewFormContents from "../../components/review/ReviewFormContents.jsx";
-import ReviewFormButtons from "../../components/review/ReviewFormButtons.jsx";
+// 기업 후기 등록 / 수정
+function ReviewForm({ mode }) {
 
-const ReviewForm = ({ isEdit }) => {
+    const isEdit = mode === 'edit';
+
+    const queryClient = useQueryClient();
+    const { companyId: companyIdParam, reviewId: reviewIdParam } = useParams();
+    const companyId = Number(companyIdParam);
+    const reviewId = reviewIdParam ? Number(reviewIdParam) : null;
+
     const navigate = useNavigate();
-    const { companyId, reviewId } = useParams();
 
-    const [formData, setFormData] = useState({
-        title: '',
-        position: '',
-        stage: '',
-        result: '',
-        content: ''
+    const [title, setTitle] = useState("");
+    const [position, setPosition] = useState("");
+    const [stage, setStage] = useState("");
+    const [result, setResult] = useState("");
+    const [content, setContent] = useState("");
+
+    // =====================
+    // 후기 등록
+    const createMutation = useMutation({
+        mutationFn: (payload) => createReview(companyId, payload),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['review', companyId] });
+            navigate(`/companies/${companyId}/review/${data.reviewId}`);
+        },
+        onError: () => {
+            alert('게시글 등록에 실패했습니다.');
+        }
     });
 
-    // [데이터 로드] 수정 모드일 때 기존 데이터 불러오기
-    useEffect(() => {
-        if (isEdit && reviewId) {
-            const loadReview = async () => {
-                try {
-                    const data = await fetchReview(companyId, reviewId);
-                    setFormData({
-                        title: data.title,
-                        position: data.position,
-                        stage: data.stage,
-                        result: data.result,
-                        content: data.content
-                    });
-                } catch (err) {
-                    console.error("데이터 불러오기 실패:", err);
-                }
-            };
-            loadReview();
+    // 수정 모드일 때 기존 데이터 조회
+    const { data: review, isLoading, isError, error } = useQuery({
+        queryKey: ['review', companyId, reviewId],
+        queryFn: () => fetchReview(companyId, reviewId),
+        enabled: isEdit && !!reviewId
+    });
+
+    // 후기 수정
+    const updateMutation = useMutation({
+        mutationFn: ({ companyId, reviewId, payload }) =>
+            updateReview(companyId, reviewId, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['review', companyId, reviewId] });
+
+            queryClient.invalidateQueries({ queryKey: ['review', companyId] });
+
+            navigate(`/companies/${companyId}/review/${reviewId}`, { replace: true } );
+        },
+        onError: () => {
+            alert('게시글 수정에 실패했습니다.');
         }
-    }, [isEdit, companyId, reviewId]);
+    });
 
-    // [저장 로직] 등록 또는 수정 실행
-    const handleSave = async () => {
-        // URL에서 가져온 companyId는 문자열일 수 있으므로 숫자로 변환합니다.
-        const numericCompanyId = Number(companyId);
+    // 삭제
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteReview(companyId, reviewId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['review', companyId] });
+            navigate(`/companies/${companyId}`);
+        },
+        onError: () => {
+            alert('게시글 삭제에 실패했습니다.');
+        }
+    });
 
-        // [수정 포인트] payload에 companyId를 반드시 포함시킵니다.
+    // 기존 데이터 세팅
+    useEffect(() => {
+        if (review) {
+            setTitle(review.title);
+            setPosition(review.position);
+            setStage(review.stage);
+            setResult(review.result);
+            setContent(review.content);
+        }
+    }, [review]);
+
+    // =====================
+    // 폼 제출
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
         const payload = {
-            ...formData,
-            companyId: numericCompanyId // 서버가 기다리는 필수 값
+            title: title.trim(),
+            position: position.trim(),
+            stage: stage.trim(),
+            result: result.trim(),
+            content: content.trim(),
         };
 
-        console.log("서버로 보내는 최종 데이터:", payload);
+        if (!payload.title || !payload.position || !payload.stage || !payload.result || !payload.content ) {
+            alert('모든 내용은 필수입니다.');
+            return;
+        }
 
-        try {
-            if (isEdit) {
-                await updateReview(numericCompanyId, reviewId, payload);
-                alert("수정되었습니다.");
-                navigate(`/companies/${numericCompanyId}/review/${reviewId}`);
-            } else {
-                const response = await createReview(numericCompanyId, payload);
-                alert("등록되었습니다.");
-
-                // 서버 응답 구조(ReviewResponse)에 따라 ID 추출
-                const newReviewId = response.reviewId || response.id;
-                navigate(`/companies/${numericCompanyId}/review/${newReviewId}`);
-            }
-        } catch (err) {
-            console.error("에러 발생:", err.response?.data);
-            alert("저장에 실패했습니다. 데이터를 확인해주세요.");
+        if (isEdit) {
+            updateMutation.mutate({ companyId, reviewId, payload });
+        } else {
+            createMutation.mutate(payload);
         }
     };
 
-    // [삭제 로직] 후기 삭제 실행
-    const handleDelete = async () => {
-        if (window.confirm("정말로 이 후기를 삭제하시겠습니까?")) {
-            try {
-                await deleteReview(companyId, reviewId);
-                alert("삭제되었습니다.");
-                // 삭제 후 해당 기업 페이지로 이동하도록 수정
-                navigate(`/company/${companyId}`);
-            } catch (err) {
-                alert("삭제 실패");
-            }
-        }
-    };
+    if (isEdit && isLoading) return <Loader />;
+    if (isEdit && isError) return <ErrorMessage error={error} />;
 
     return (
-        <div style={{ backgroundColor: COLORS.bg, minHeight: '100vh', padding: '20px' }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                {/* 상단 우측 삭제 버튼 (수정 모드에서만 표시) */}
-                <div style={{ display: 'flex', justifyContent: 'flex-end', height: '40px', marginBottom: '10px' }}>
-                    {isEdit && (
-                        <button
-                            onClick={handleDelete}
-                            style={{
-                                backgroundColor: '#FF4D4D',
-                                color: 'white',
-                                border: 'none',
-                                padding: '8px 20px',
-                                borderRadius: '8px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            삭제하기
-                        </button>
-                    )}
-                </div>
+        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
+            {/* 상단 제목 */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                <Typography
+                    sx={{
+                        width: 340,
+                        height: 48,
+                        backgroundColor: '#A98467',
+                        color: '#F0EAD2',
+                        borderRadius: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '16px',
+                        fontWeight: 500,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                    }}
+                >
+                    기업 후기
+                </Typography>
+            </Box>
 
-                <div style={{ textAlign: 'center' }}>
-                    <ReviewCommonHeader title={isEdit ? "기업 후기 수정" : "기업 후기 작성"} />
-                </div>
+            <Paper
+                elevation={0}
+                sx={{ position: 'relative', maxWidth: 900, mx: 'auto' }}
+            >
+                {/* 수정일 때만 삭제 버튼 */}
+                {isEdit && (
+                    <Button
+                        color="error"
+                        variant="contained"
+                        sx={{
+                            position: 'absolute',
+                            px: 4,
+                            borderRadius: 2,
+                            top: 550,
+                            left: 730,
+                            backgroundColor: '#f00',
+                            color: '#fff',
+                            '&:hover': { backgroundColor: '#d00' }
+                        }}
+                        onClick={() => {
+                            if (window.confirm('해당 글을 정말 삭제하겠습니까?')) {
+                                deleteMutation.mutate();
+                            }
+                        }}
+                    >
+                        삭제
+                    </Button>
+                )}
+            </Paper>
 
-                <div style={{ backgroundColor: COLORS.light, borderRadius: '30px', padding: '30px', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
-                    <ReviewFormContents formData={formData} setFormData={setFormData} />
-                    <ReviewFormButtons
-                        isEdit={isEdit}
-                        onSubmit={handleSave}
-                        onCancel={() => navigate(-1)}
+            {/* 입력 카드 */}
+            <Paper
+                elevation={0}
+                sx={{
+                    maxWidth: 900,
+                    mx: 'auto',
+                    p: 5,
+                    borderRadius: 6,
+                    backgroundColor: '#DDE5B6',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                }}
+            >
+                <Box component="form" onSubmit={handleSubmit}>
+                    <ReviewFormFields
+                        title={title}
+                        content={content}
+                        position={position}
+                        stage={stage}
+                        result={result}
+                        onChangeTitle={setTitle}
+                        onChangePosition={setPosition}
+                        onChangeContent={setContent}
+                        onChangeStage={setStage}
+                        onChangeResult={setResult}
                     />
-                </div>
-            </div>
-        </div>
+
+                    <ReviewFormSubmit isEdit={isEdit} />
+                </Box>
+            </Paper>
+        </Box>
     );
-};
+}
 
 export default ReviewForm;

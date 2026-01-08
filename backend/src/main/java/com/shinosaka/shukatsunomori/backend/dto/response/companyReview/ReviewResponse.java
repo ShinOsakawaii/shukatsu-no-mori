@@ -28,18 +28,36 @@ public class ReviewResponse {
     /*
      * Entity -> DTO 변환 메서드
      */
-    public static ReviewResponse from(Review review, Long currentUserId) {
+
+    // 목록 조회 변환
+    public static ReviewResponse from(Review review) {
+        return ReviewResponse.builder()
+                .reviewId(review.getReviewId())
+                .nickname(review.getUser().getNickname())
+                .title(review.getTitle())
+                .position(review.getPosition())
+                .stage(review.getStage())
+                .result(review.getResult())
+                .content(review.getContent())
+                .isOwner(false)
+                .createdAt(review.getCreatedAt())
+                .updatedAt(review.getUpdatedAt())
+                .build();
+    }
+
+    // 상세 조회 변환
+    public static ReviewResponse from(Review review, boolean isOwner) {
         return ReviewResponse.builder()
                 .reviewId(review.getReviewId())
                 .companyId(review.getCompany().getCompanyId())
                 .userId(review.getUser().getUserId())
+                .nickname(review.getUser().getNickname())
                 .title(review.getTitle())
                 .position(review.getPosition())
-                .content(review.getContent())
                 .stage(review.getStage())
                 .result(review.getResult())
-                .nickname(review.getUser().getNickname())
-                .isOwner(currentUserId != null && currentUserId.equals(review.getUser().getUserId()))
+                .content(review.getContent())
+                .isOwner(isOwner)
                 .createdAt(review.getCreatedAt())
                 .updatedAt(review.getUpdatedAt())
                 .build();

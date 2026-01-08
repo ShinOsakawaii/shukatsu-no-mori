@@ -15,9 +15,6 @@ import lombok.*;
 @Builder
 public class ReviewCreateRequest {
 
-    @NotNull(message = "회사 ID는 필수입니다.")
-    private Long companyId;
-
     @NotBlank(message = "제목 작성은 필수입니다.")
     @Size(max = 200, message = "200자 이하로 작성해주세요.")
     private String title;
@@ -42,11 +39,11 @@ public class ReviewCreateRequest {
         return Review.builder()
                 .user(user)
                 .company(company)
-                .title(this.title)
-                .position(this.position)
-                .content(this.content)
-                .stage(this.stage)
-                .result(this.result)
+                .title(title)
+                .position(position)
+                .stage(stage)
+                .result(result)
+                .content(content)
                 .build();
     }
 }
