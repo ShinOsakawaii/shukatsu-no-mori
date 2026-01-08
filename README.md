@@ -100,7 +100,8 @@
 
 | 기업 후기 상세 | 기업 분석 상세 |
 | --- | --- |
-| <img src="https://github.com/user-attachments/assets/b8d865e7-cfb3-4f08-9ca1-dbcf03e170db" width="420" /> | <img src="https://github.com/user-attachments/assets/a524b8c9-f4cb-4c52-a88d-b3b6996e4c5f" width="420" /> |
+| <img src="https://github.com/user-attachments/assets/b8d865e7-cfb3-4f08-9ca1-dbcf03e170db" width="420" /> | <img width="420" height="911" alt="image" src="https://github.com/user-attachments/assets/59d11b49-c834-4596-9035-983145cdf8a5" />
+ |
 
 | 회원 가입 | 마이페이지 |
 | --- | --- |
