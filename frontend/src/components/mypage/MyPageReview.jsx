@@ -9,20 +9,22 @@ function MyPageReview({ myReviews, isLoading, isError }) {
     const lists = Array.isArray(myReviews?.content) ? myReviews.content : [];
 
     if (isLoading) return <Loader />;
-        if (isError && !myReviews?.length) {
-            return <ErrorMessage message="기업 후기 목록을 불러오지 못했습니다." />;
-        }
+    if (isError && !myReviews?.length) {
+        return <ErrorMessage message="기업 후기 목록을 불러오지 못했습니다." />;
+    }
 
     return (
-        <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
+        <TableContainer sx={{ mt: 3, bgcolor: 'background.box', borderRadius: 2 }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
                     '& th': {
                         bgcolor: 'background.box',
-                        fontSize: 14,
-                        fontWeight: 500,
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
                         color: 'text',
+                        borderBottom: '2px solid',
+                        borderColor: 'divider'
                     }
                 }}>
                     <TableRow>
@@ -41,20 +43,24 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                                 hover
                                 sx={{
                                     '& td': {
-                                        fontSize: 15,
-                                        borderBottom: '1px solid constrastText'
+                                        fontSize: '1.25rem',
+                                        borderBottom: '1px solid', borderColor: 'rgba(108, 88, 76, 0.2)'
                                     }
                                 }}
                             >
                                 <TableCell align='center'>{reviewId}</TableCell>
                                 <TableCell>
-                                    <Typography
+                                    <Typography variant='body1'
                                         onClick={() => navigate(`/companies/${companyId}/review/${reviewId}`)}
                                         sx={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit', '&:hover': { color: 'primary.main' } }}>
                                         {title}
                                     </Typography>
                                 </TableCell>
-                                <TableCell align='center'>{dayjs(createAt).format('YY년MM월DD일HH:mm')}</TableCell>
+                                <TableCell align='center'>
+                                    <Typography variant='body1' sx={{ fontSize: '1.1rem' }}>
+                                        {dayjs(createAt).format('YY년MM월DD일HH:mm')}
+                                    </Typography>
+                                </TableCell>
                             </TableRow>
                         ))
 

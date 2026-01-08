@@ -14,15 +14,17 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
     }
 
     return (
-        <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
+        <TableContainer sx={{ mt: 3, bgcolor: 'background.box', borderRadius: 2 }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
                     '& th': {
                         bgcolor: 'background.box',
-                        fontSize: 14,
-                        fontWeight: 500,
+                        fontSize: '1.2rem',
+                        fontWeight: 700,
                         color: 'text',
+                        borderBottom: '2px solid',
+                        borderColor: 'divider'
                     }
                 }}>
                     <TableRow>
@@ -39,12 +41,13 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                             <TableRow
                                 key={detailId}
                                 hover
-                                sx={{ '& td': { fontSize: 15, borderBottom: '1px solid constrastText' } }}
+                                sx={{ '& td': { fontSize: '1.25rem', borderBottom: '1px solid', borderColor: 'rgba(108, 88, 76, 0.2)' } }}
                                 onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}
                             >
                                 <TableCell align='center'>{detailId}</TableCell>
                                 <TableCell>
                                     <Typography
+                                        variant='body1'
                                         sx={{
                                             cursor: 'pointer',
                                             textDecoration: 'none',
@@ -56,7 +59,9 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {dayjs(createdAt).format('YYYY년 MM월 DD일 HH:mm')}
+                                    <Typography variant='body1' sx={{ fontSize: '1.1rem' }}>
+                                        {dayjs(createdAt).format('YYYY년 MM월 DD일 HH:mm')}
+                                    </Typography>
                                 </TableCell>
                             </TableRow>
                         ))
@@ -71,7 +76,7 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                     )}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer >
     );
 }
 

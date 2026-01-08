@@ -35,7 +35,7 @@ function NavBar() {
             <div style={{ fontWeight: "bold", fontSize: "20px" }}>
                 <ForestIcon style={{ color: "#4caf50" }} />
                 <Link to="/companies" style={{ textDecoration: "none", color: "inherit" }}>
-                    就職の森 ⋆*
+                    就活の森 ⋆*
                 </Link>
             </div>
 
