@@ -27,7 +27,7 @@ function MyPageEditButtons({
           취소
         </Button>
 
-        <Button variant="contained" onClick={onSave} disabled={disabled} sx={{ flex: 1 }}>
+        <Button variant="contained" onClick={onSave} disabled={disabled} sx={{ flex: 1, bgcolor: 'background.button'  }}>
           저장
         </Button>
       </Stack>

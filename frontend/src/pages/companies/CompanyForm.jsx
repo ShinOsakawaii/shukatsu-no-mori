@@ -8,6 +8,8 @@ import CompanyFormFields from '../../components/companies/CompanyFormFields';
 import CompanyFormImage from '../../components/companies/CompanyFormImage';
 import CompanyFormSubmit from '../../components/companies/CompanyFormSubmit';
 import { COLORS } from '../../constants/colors';
+import { useEffect } from 'react';
+
 
 //홈 화면에서 새 글 작성하는 입력 폼, 페이지
 //기업정보 등록, 수정
@@ -50,6 +52,28 @@ function CompanyForm({ mode }) {
         queryFn: () => fetchCompany(companyId),
         enabled: isEdit
     });
+
+    useEffect(() => {
+        if (!isEdit || !company) return;
+
+        setInfo({
+            name: company.name ?? '',
+            industry: company.industry ?? '',
+            city: company.location?.city ?? '',
+            website: company.website ?? '',
+            description: company.description ?? '',
+            companyImage: company.companyImage ?? '',
+        });
+
+        setCompanyImage(company.companyImage ?? '');
+        setImagePreview(
+            company.companyImage
+                ? `${import.meta.env.VITE_API_BASE_URL}${company.companyImage}`
+                : null
+        );
+
+    }, [isEdit, company]);
+
 
 
     //3. 기업 정보 수정
