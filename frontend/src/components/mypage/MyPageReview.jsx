@@ -9,9 +9,9 @@ function MyPageReview({ myReviews, isLoading, isError }) {
     const lists = Array.isArray(myReviews?.content) ? myReviews.content : [];
 
     if (isLoading) return <Loader />;
-        if (isError && !myReviews?.length) {
-            return <ErrorMessage message="기업 후기 목록을 불러오지 못했습니다." />;
-        }
+    if (isError && !myReviews?.length) {
+        return <ErrorMessage message="기업 후기 목록을 불러오지 못했습니다." />;
+    }
 
     return (
         <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
@@ -27,6 +27,7 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                 }}>
                     <TableRow>
                         <TableCell align='center' width={80}>번호</TableCell>
+                        <TableCell align='center' width={80}>기업명</TableCell>
                         <TableCell align='center' width={80}>제목</TableCell>
                         <TableCell align='center' width={80}>작성일</TableCell>
                     </TableRow>
@@ -35,7 +36,7 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                 {/* 테이블 본문 */}
                 <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
-                        lists.map(({ title, createAt, companyId, reviewId }) => (
+                        lists.map(({ title, createAt, companyId, reviewId, companyName }) => (
                             <TableRow
                                 key={reviewId}
                                 hover
@@ -47,6 +48,13 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                                 }}
                             >
                                 <TableCell align='center'>{reviewId}</TableCell>
+
+                                <TableCell align='center'>
+                                    <Typography>
+                                        {companyName}
+                                    </Typography>
+                                </TableCell>
+
                                 <TableCell>
                                     <Typography
                                         onClick={() => navigate(`/companies/${companyId}/review/${reviewId}`)}
