@@ -25,9 +25,8 @@
 
 ### 💡 기획 배경
 
-일본 취업을 준비하는 과정에서 기업 정보와 면접·선고 후기가
-여러 커뮤니티에 분산되어 있고, 언어와 문화 차이로 인해
-**실제 경험 기반 정보를 체계적으로 얻기 어렵다는 문제**를 느꼈다.
+일본 취업을 준비하는 과정에서 기업 정보와 면접·선고 후기가여러 커뮤니티에 분산되어 있고, 
+언어와 문화 차이로 인해 **실제 경험 기반 정보를 체계적으로 얻기 어렵다는 문제**를 느꼈다.
 이에 일본 취업 준비생들이 기업 정보를 한 곳에서 확인하고 공유할 수 있는 서비스를 기획하였다.
 
 ---
@@ -100,8 +99,7 @@
 
 | 기업 후기 상세 | 기업 분석 상세 |
 | --- | --- |
-| <img src="https://github.com/user-attachments/assets/b8d865e7-cfb3-4f08-9ca1-dbcf03e170db" width="420" /> | <img src="https://github.com/user-attachments/assets/ca45269a-37a9-4b4a-86e9-d017ad47298c"  width="420" />
- |
+| <img src="https://github.com/user-attachments/assets/b8d865e7-cfb3-4f08-9ca1-dbcf03e170db" width="420" /> | <img src="https://github.com/user-attachments/assets/ca45269a-37a9-4b4a-86e9-d017ad47298c"  width="420" /> |
 
 | 회원 가입 | 마이페이지 |
 | --- | --- |
@@ -114,4 +112,20 @@
 
 - 📘 정적 API 문서 (Redoc): [`docs/redoc-static.html`](https://raw.githack.com/ShinOsakawaii/shukatsu-no-mori/develop/docs/redoc-static.html
 )
-- 📄 OpenAPI 스펙(JSON): [`docs/openapi.json`](docs/openapi.json)
+- 📄 OpenAPI 스펙(JSON): [`docs/openapi.json`](docs/openApi.json)
+
+## 📂 기술 문서
+<details>
+<summary>기술 문서 전체 보기</summary>
+
+- 📘 [프로젝트 개요서](https://www.notion.so/Web-Application-Project-Overview-2ca1351cd9c280878334d029784782f1)
+- 🧾 [요구사항 정의서](https://www.notion.so/2cd1351cd9c28136b96feb9fb4b468ff)
+- 🧩 [유스케이스 명세서](https://www.notion.so/2cd1351cd9c281958e4ec2c1ffa4047d)
+- 🛠️ [기능 명세서](https://www.notion.so/2d31351cd9c280a6b18eec7b773cac3f)
+- 🔌 [API 명세서](https://www.notion.so/API-2cd1351cd9c2811b977ef77996a8947e)
+- 🗄️ [DB 설계서](https://www.notion.so/DB-2cd1351cd9c28177a8a8eb8efec4ac4b)
+- 🖥️ [화면 설계서](https://www.notion.so/2d51351cd9c2809d8aecc47291a508be)
+- 📐 [시퀀스 / 클래스 다이어그램](https://www.notion.so/2d81351cd9c280f78d6eeece85a5baeb)
+
+</details>
+
