@@ -1,8 +1,4 @@
-body{
-  background-color: #efefef;
-}
-
-.borderTop{
+.borderTop {
   border-top: 2px solid orange;
   padding: 10px;
   margin: 10px 0;
