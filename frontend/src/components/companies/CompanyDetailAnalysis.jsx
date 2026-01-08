@@ -12,7 +12,7 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
     return (
         <Box sx={{ maxWidth: 1100, mx: "auto", bgcolor: 'background.box', p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button component={Link} to={`/companies/${companyId}/detail/new`} variant="contained" sx={{ mb: 2, bgcolor: 'background.button' }} >
+                <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2 }}>
                     기업 분석 등록
                 </Button>
             </Box>
