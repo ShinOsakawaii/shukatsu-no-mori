@@ -53,18 +53,7 @@ export default function CompanyFormImage({ handleChangeImage, uploading, imageNa
                     }}
                 >
                     이미지 업로드
-                    {/* <input
-                    type="file"
-                    hidden
-                    accept="image/*"
-                    onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        onFileSelect(file);
-                        e.target.value = '';
-                    }}
-                /> */}
-
+                   
                     <input
                         type="file"
                         hidden
@@ -79,11 +68,6 @@ export default function CompanyFormImage({ handleChangeImage, uploading, imageNa
                     </Typography>
                 )}
 
-                {!uploading && imageName && (
-                    <Typography variant='body2' sx={{ ml: 1 }}>
-                        {imageName}
-                    </Typography>
-                )}
             </Stack>
         </Box>
     );
