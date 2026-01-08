@@ -16,8 +16,8 @@ function AnalysisFormSubmit({ isEdit }) {
                     size="small"
                     onClick={() => navigate(-1)}
                     sx={{
-                        borderColor: '#6C584C',
-                        color: '#6C584C',
+                        shape: 'bordercolor',
+                        color: 'bordercolor',
                         px: 5,
                     }}
                 >
@@ -26,13 +26,12 @@ function AnalysisFormSubmit({ isEdit }) {
 
                 <Button
                     type="submit"
-                    variant="contained"
+                    variant="outliend"
                     size="small"
                     sx={{
-                        color: '#6C584C',
-                        backgroundColor: '#ADC178',
                         px: 5,
-                        '&:hover': { backgroundColor: '#96b85f' },
+                        backgroundColor: 'background.box2',
+                        '&:hover': { bgcolor: 'background.box' },
                     }}
                 >
                     {isEdit ? '수정' : '저장'}

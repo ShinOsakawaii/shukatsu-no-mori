@@ -43,7 +43,7 @@ function CompanyList() {
                 py: 5 // 상하 여백
             }}
         >
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
 
                 {/* 1. 페이지 제목 섹션 */}
                 <Box sx={{ mb: 4, textAlign: 'left' }}>

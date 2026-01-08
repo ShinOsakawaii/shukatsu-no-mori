@@ -6,15 +6,15 @@ function MyPageReview({ myReviews }) {
 
     const lists = myReviews ? myReviews : []
     return (
-        <TableContainer sx={{ mt: 3, backgroundColor: '#DDE5B6' }}>
+        <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
                     '& th': {
-                        borderBottom: '1px solid #EEEEEE',
+                        bgcolor: 'background.box',
                         fontSize: 14,
                         fontWeight: 500,
-                        color: '#222831',
+                        color: 'text',
                     }
                 }}>
                     <TableRow>
@@ -25,7 +25,7 @@ function MyPageReview({ myReviews }) {
                 </TableHead>
 
                 {/* 테이블 본문 */}
-                <TableBody sx={{ color: "#222831" }}>
+                <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
                         lists.map(({ id, title, createAt, companyId, reviewId }) => (
                             <TableRow
@@ -34,7 +34,7 @@ function MyPageReview({ myReviews }) {
                                 sx={{
                                     '& td': {
                                         fontSize: 15,
-                                        borderBottom: '1px solid #eeeeee'
+                                        borderBottom: '1px solid constrastText'
                                     }
                                 }}
                             >

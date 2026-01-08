@@ -74,8 +74,8 @@ function MyPageHeader({ username, profileImage }) {
                 alignItems: "center",
                 gap: 2,
                 padding: 2,
-                backgroundColor: "#f5f2e9",
-                borderRadius: 2,
+                bgcolor: 'background.default',
+                borderRadius: 2
             }}
         >
             <Avatar
@@ -88,8 +88,7 @@ function MyPageHeader({ username, profileImage }) {
 
                 <Button
                     variant="contained"
-                    color="success"
-                    sx={{ mt: 1, mr: 1 }}
+                    sx={{ mt: 1, bgcolor: 'background.button' }}
                     onClick={handleEditProfile}
                 >
                     개인정보 수정
@@ -165,7 +164,7 @@ function MyPageHeader({ username, profileImage }) {
                     </DialogActions>
                 </Dialog>
             </Box>
-        </Box>
+        </Box >
     );
 }
 

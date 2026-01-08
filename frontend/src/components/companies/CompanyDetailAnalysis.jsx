@@ -33,7 +33,7 @@ function CompanyDetailAnalysis({ companyId, detail, isLoading, isError }) {
     };
 
     return (
-        <Box sx={{ maxWidth: 1100, mx: "auto", backgroundColor: '#ADC178', p: 2 }}>
+        <Box sx={{ maxWidth: 1100, mx: "auto", bgcolor: 'background.box', p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
                 <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2 }}>
                     기업 분석 등록

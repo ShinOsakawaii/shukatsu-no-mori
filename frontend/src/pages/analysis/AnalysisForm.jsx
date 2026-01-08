@@ -124,16 +124,16 @@ function AnalysisForm({ mode }) {
     if (isEdit && isError) return <ErrorMessage error={error} />
 
     return (
-        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
+        <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 6 }}>
             {/* 상단 제목 */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
                 <Typography
                     sx={{
                         width: 340,
                         height: 48,
-                        backgroundColor: '#A98467',
-                        color: '#F0EAD2',
                         borderRadius: 2,
+                        bgcolor: 'background.button',
+                        color: 'primary.contrastText',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

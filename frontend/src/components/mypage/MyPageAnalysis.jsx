@@ -6,15 +6,15 @@ function MyPageAnalysis({ myDetails }) {
 
     const lists = myDetails ? myDetails : []
     return (
-        <TableContainer sx={{ mt: 3, backgroundColor: '#DDE5B6' }}>
+        <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
                     '& th': {
-                        borderBottom: '1px solid #EEEEEE',
+                        bgcolor: 'background.box',
                         fontSize: 14,
                         fontWeight: 500,
-                        color: '#222831',
+                        color: 'text',
                     }
                 }}>
                     <TableRow>
@@ -25,13 +25,13 @@ function MyPageAnalysis({ myDetails }) {
                 </TableHead>
 
                 {/* 테이블 본문 */}
-                <TableBody sx={{ color: "#222831" }}>
+                <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
                         lists.map(({ id, title, createAt, companyId, detailId }) => (
                             <TableRow
                                 key={id}
                                 hover
-                                sx={{ '& td': { fontSize: 15, borderBottom: '1px solid #eeeeee' } }}
+                                sx={{ '& td': { fontSize: 15, borderBottom: '1px solid constrastText' } }}
                             >
                                 <TableCell align='center'>{id}</TableCell>
                                 <TableCell>
