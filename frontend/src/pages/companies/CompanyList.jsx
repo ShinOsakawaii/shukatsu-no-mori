@@ -61,7 +61,7 @@ function CompanyList() {
                         🌳 기업 정보 파트너스
                     </Typography>
                     <Typography variant='body1' sx={{ color: 'text.secondary', mt: 1 }}>
-                        숲처럼 함계 성장하는 기업들의 목록입니다.
+                        숲처럼 함께 성장하는 기업들의 목록입니다.
                     </Typography>
                 </Box>
 
