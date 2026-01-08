@@ -30,7 +30,7 @@ function MyPageEditImage({ imageUrl, onChangeImage }) {
       />
 
       <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 3 }}>
-        <Button component="label" variant="contained" size="small">
+        <Button component="label" variant="contained" size="small" sx={{ bgcolor: 'background.button' }}>
           이미지 업로드
           <input
             type="file"
@@ -42,7 +42,6 @@ function MyPageEditImage({ imageUrl, onChangeImage }) {
 
         <Button
           variant="outlined"
-          color="error"
           size="small"
           onClick={handleImageRemove}
         >

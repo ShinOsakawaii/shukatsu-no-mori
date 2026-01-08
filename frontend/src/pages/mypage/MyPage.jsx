@@ -1,6 +1,7 @@
 // src/pages/mypage/MyPage.jsx
 import MyPageHeader from "../../components/mypage/MyPageHeader";
 import { useMe } from "../../hooks/useMe";
+import MyPageContent from "./MyPageContent";
 
 function MyPage() {
 
@@ -20,9 +21,8 @@ function MyPage() {
                 profileImage={user.profileImage || "/images/default-avatar.png"}
             />
 
-
             {/* 기업 분석, 후기 리스트 부분은 강상이 담당 */}
-
+            <MyPageContent userId={user.userId} />
         </div>
     );
 }

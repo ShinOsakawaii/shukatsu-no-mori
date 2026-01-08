@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function PasswordChangeModal({ open, onClose, onSubmit, isLoading }) {
+function PasswordChangeModal({ passwordForm, open, onClose, onPasswordSave, isLoading }) {
   const [form, setForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -48,8 +48,9 @@ function PasswordChangeModal({ open, onClose, onSubmit, isLoading }) {
       setError("새 비밀번호가 일치하지 않습니다.");
       return;
     }
-
-    onSubmit(form);
+    passwordForm.password = form.password;
+    passwordForm.rePassword = form.newPassword;
+    onPasswordSave();
   };
 
   return (
