@@ -29,6 +29,7 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                 }}>
                     <TableRow>
                         <TableCell align='center' width={80}>번호</TableCell>
+                        <TableCell align='center' width={80}>기업명</TableCell>
                         <TableCell align='center' width={80}>제목</TableCell>
                         <TableCell align='center' width={80}>작성일</TableCell>
                     </TableRow>
@@ -37,7 +38,7 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                 {/* 테이블 본문 */}
                 <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
-                        lists.map(({ title, createAt, companyId, reviewId }) => (
+                        lists.map(({ title, createAt, companyId, reviewId, companyName }) => (
                             <TableRow
                                 key={reviewId}
                                 hover
@@ -49,6 +50,13 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                                 }}
                             >
                                 <TableCell align='center'>{reviewId}</TableCell>
+
+                                <TableCell align='center'>
+                                    <Typography>
+                                        {companyName}
+                                    </Typography>
+                                </TableCell>
+
                                 <TableCell>
                                     <Typography variant='body1'
                                         onClick={() => navigate(`/companies/${companyId}/review/${reviewId}`)}
