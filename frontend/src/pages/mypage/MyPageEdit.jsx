@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 // src/pages/mypage/MyPageEdit.jsx
->>>>>>> origin/develop
-import { Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMe } from "../../hooks/useMe";
@@ -93,55 +90,48 @@ function MyPageEdit() {
     if (isLoading) return null;
 
     return (
-        <Container maxWidth="sm">
-            <Stack spacing={4} alignItems="center">
-                <Typography variant="h5">개인 정보 수정</Typography>
+        <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 8 }}>
+            <Container maxWidth="md">
+                {/* 상단 제목 */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                    <Typography
+                        variant='h2'
+                        sx={{
+                            px: 6,
+                            py: 1.5,
+                            backgroundColor: 'background.button',
+                            color: 'primary.contrastText',
+                            borderRadius: '50px',
+                            fontSize: '2rem',
+                            textAlign: 'center',
+                            boxShadow: 2
+                        }}
+                    >개인 정보 수정
+                    </Typography>
+                </Box>
 
-                <MyPageEditImage imageUrl={form.profileImage} onChangeImage={handleChangeImage} />
+                <Stack
+                    spacing={4}
+                    sx={{
+                        bgcolor: 'background.box',
+                        p: 5,
+                        borderRadius: 8,
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                        alignItems: 'center'
+                    }}
+                >
+                    <MyPageEditImage imageUrl={form.profileImage} onChangeImage={handleChangeImage} />
 
-<<<<<<< HEAD
-            setForm((prev) => ({ ...prev, profileImage: imageUrl }));
-        } catch (e) {
-            alert("이미지 업로드 실패");
-        }
-    };
+                    <MyPageEditContents email={me?.email} form={form} onChange={handleChange} />
 
-
-    //이미지 저장 경로 수정
-    const toAbs = (path) => {
-        if (!path) return null;
-        if (path.startsWith("http")) return path;
-        return `${import.meta.env.VITE_API_BASE_URL}${path}`;
-    };
-
-    if (isLoading) return null;
-
-    return (
-        <Container maxWidth="sm">
-            <Stack spacing={4} alignItems="center">
-                <Typography variant="h5">개인 정보 수정</Typography>
-
-                <MyPageEditImage
-                    imageUrl={form.profileImage}
-                    onChangeImage={handleChangeImage}
-                />
-
-                <MyPageEditContents
-                    email={me?.email}
-                    form={form}
-                    onChange={handleChange}
-                />
-=======
-                <MyPageEditContents email={me?.email} form={form} onChange={handleChange} />
->>>>>>> origin/develop
-
-                <MyPageEditButtons
-                    onSave={handleSave}
-                    onCancel={handleCancel}
-                    disabled={profileMutation.isPending}
-                />
-            </Stack>
-        </Container>
+                    <MyPageEditButtons
+                        onSave={handleSave}
+                        onCancel={handleCancel}
+                        disabled={profileMutation.isPending}
+                    />
+                </Stack>
+            </Container >
+        </Box >
     );
 }
 
