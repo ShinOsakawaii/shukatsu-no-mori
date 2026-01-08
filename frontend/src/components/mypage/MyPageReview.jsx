@@ -1,10 +1,18 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import dayjs from 'dayjs';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import Loader from '../common/Loader';
+import ErrorMessage from '../common/ErrorMessage';
 
-function MyPageReview({ myReviews }) {
+function MyPageReview({ myReviews, isLoading, isError }) {
+    const navigate = useNavigate();
+    const lists = Array.isArray(myReviews?.content) ? myReviews.content : [];
 
-    const lists = myReviews ? myReviews : []
+    if (isLoading) return <Loader />;
+        if (isError && !myReviews?.length) {
+            return <ErrorMessage message="기업 후기 목록을 불러오지 못했습니다." />;
+        }
+
     return (
         <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
             <Table>
@@ -27,9 +35,9 @@ function MyPageReview({ myReviews }) {
                 {/* 테이블 본문 */}
                 <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
-                        lists.map(({ id, title, createAt, companyId, reviewId }) => (
+                        lists.map(({ title, createAt, companyId, reviewId }) => (
                             <TableRow
-                                key={id}
+                                key={reviewId}
                                 hover
                                 sx={{
                                     '& td': {
@@ -38,10 +46,10 @@ function MyPageReview({ myReviews }) {
                                     }
                                 }}
                             >
-                                <TableCell align='center'>{id}</TableCell>
+                                <TableCell align='center'>{reviewId}</TableCell>
                                 <TableCell>
                                     <Typography
-                                        component={Link} to={`/companies/${companyId}/review/${reviewId}`}
+                                        onClick={() => navigate(`/companies/${companyId}/review/${reviewId}`)}
                                         sx={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit', '&:hover': { color: 'primary.main' } }}>
                                         {title}
                                     </Typography>

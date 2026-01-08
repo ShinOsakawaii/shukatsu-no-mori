@@ -9,4 +9,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(
             String title, String content, Pageable pageable
     );
+
+    Page<Review> findByUserUserIdAndTitleContainingIgnoreCaseOrUserUserIdAndContentContainingIgnoreCase(
+            Long userId, String title,
+            Long userId2, String content,
+            Pageable pageable
+    );
+
+    Page<Review> findByUserUserId(Long userId, Pageable pageable);
 }

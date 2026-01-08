@@ -144,4 +144,31 @@ public class DetailServiceImpl implements DetailService {
         // 삭제
         detailRepository.delete(detail);
     }
+
+
+    // 마이페이지 기업 분석 조회
+    @Transactional(readOnly = true)
+    public PageResponse<DetailResponse> getMyDetailList(
+            int page, int size, String keyword,Long companyId, Long userId
+    ) {
+        // 로그인 체크
+        requiredLogin(userId);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "detailId"));
+
+        Page<Detail> detailPage;
+        if (keyword != null && !keyword.isBlank()) {
+            detailPage = detailRepository
+                    .findByUserUserIdAndTitleContainingIgnoreCaseOrUserUserIdAndContentContainingIgnoreCase(
+                            userId, keyword,
+                            userId, keyword,
+                            pageable
+                    );
+        } else {
+            detailPage = detailRepository.findByUserUserId(userId, pageable);
+        }
+
+        // 어차피 전부 본인 글이라 isOwner는 전부 true
+        return PageResponse.from(detailPage, detail -> DetailResponse.from(detail, true));
+    }
 }

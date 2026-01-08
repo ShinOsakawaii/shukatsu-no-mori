@@ -6,6 +6,8 @@ import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.companyReview.ReviewResponse;
 import com.shinosaka.shukatsunomori.backend.service.ReviewService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,5 +79,17 @@ public class ReviewController {
 
         reviewService.deleteReview(userId, reviewId);
         return ResponseEntity.noContent().build();
+    }
+
+    // 마이페이지 기업 후기 조회
+    @GetMapping("/me")
+    public PageResponse<ReviewResponse> getMyReviewList(
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Max(10) int size,
+            @RequestParam(required = false) String keyword,
+            @PathVariable Long companyId,
+            @AuthenticationPrincipal Long userId
+    ) {
+        return reviewService.getMyReviewList(page, size, keyword, companyId, userId);
     }
 }

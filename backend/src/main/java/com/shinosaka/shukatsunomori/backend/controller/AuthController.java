@@ -1,4 +1,4 @@
-package com.shinosaka.shukatsunomori.backend.Controller;
+package com.shinosaka.shukatsunomori.backend.controller;
 
 import com.shinosaka.shukatsunomori.backend.dto.request.auth.LoginRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.auth.MyInfoUpdateRequest;
