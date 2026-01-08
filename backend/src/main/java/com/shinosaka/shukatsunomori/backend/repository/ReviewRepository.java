@@ -21,4 +21,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Optional<Review> findByReviewIdAndCompanyCompanyId(Long reviewId, Long companyId);
 
     Page<Review> findByUserUserId(Long userId, Pageable pageable);
+
+    Page<Review> findByUserUserIdAndTitleContainingIgnoreCaseOrUserUserIdAndContentContainingIgnoreCase(Long userId, String keyword, Long userId1, String keyword1, Pageable pageable);
 }

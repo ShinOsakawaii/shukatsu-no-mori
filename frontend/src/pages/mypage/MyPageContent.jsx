@@ -56,7 +56,7 @@ function MyPageContent({ userId }) {
         <Box sx={{ m: 3 }}>
             <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
                 <MyPageButtons tab={tab} setTab={setTab} />
-                {tab === "analysis" ? (
+                {tab === "analysis" &&
                     <>
                         <MyPageAnalysis
                             myDetails={myDetails}
@@ -64,12 +64,13 @@ function MyPageContent({ userId }) {
                             isError={isMyDetailsError}
                         />
                     </>
-                ) : (
-                    <MyPageReview 
-                    myReviews={myReviews}
-                    isLoading={isMyReviewsLoading}
-                    isError={isMyReviewsError} />
-                )}
+                }
+                {tab === "review" &&
+                    <MyPageReview
+                        myReviews={myReviews}
+                        isLoading={isMyReviewsLoading}
+                        isError={isMyReviewsError} />
+                }
 
             </Paper>
         </Box>

@@ -77,7 +77,7 @@ public class ReviewController {
     }
 
     // 마이페이지 기업 후기 조회
-    @GetMapping("/me")
+    @GetMapping("/review/me")
     public PageResponse<ReviewResponse> getMyReviewList(
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "10") @Max(10) int size,
