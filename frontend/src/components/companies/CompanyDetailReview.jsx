@@ -89,8 +89,6 @@ function CompanyDetailReview({ companyId, review, isLoading, isError }) {
                     );
                 })
             }
-
-            <Divider sx={{ mt: 2 }} />
         </Box>
     );
 }

@@ -9,18 +9,18 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 // mui 스타일 설정
 const theme = createTheme({
   typography: {
-    fontSize: 16,
+    fontSize: 20,
     body1: {
-      fontSize: '1.1rem',
+      fontSize: '1.5rem',
       lineHeight: 1.6,
       fontWeight: 500
     },
     button: {
-      fontSize: '1rem',
+      fontSize: '1.5rem',
       fontWeight: 700
     },
-    h1: { fontSize: '2.5rem', fontWeight: 800 },
-    h2: { fontSize: '2rem', fontWeight: 700 },
+    h1: { fontSize: '3rem', fontWeight: 800 },
+    h2: { fontSize: '3rem', fontWeight: 700 },
     fontFamily: ["Gaegu", "Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI Emoji", "Segoe UI Symbol", "sans-serif"].join(',')
   },
   palette: {

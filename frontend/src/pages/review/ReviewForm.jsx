@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import {createReview, deleteReview, fetchReview, updateReview } from '../../api/companyReviewApi';
+import { createReview, deleteReview, fetchReview, updateReview } from '../../api/companyReviewApi';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import ReviewFormFields from '../../components/review/ReviewFormFields';
 import Loader from '../../components/common/Loader';
@@ -55,7 +55,7 @@ function ReviewForm({ mode }) {
 
             queryClient.invalidateQueries({ queryKey: ['review', companyId] });
 
-            navigate(`/companies/${companyId}/review/${reviewId}`, { replace: true } );
+            navigate(`/companies/${companyId}/review/${reviewId}`, { replace: true });
         },
         onError: () => {
             alert('게시글 수정에 실패했습니다.');
@@ -98,7 +98,7 @@ function ReviewForm({ mode }) {
             content: content.trim(),
         };
 
-        if (!payload.title || !payload.position || !payload.stage || !payload.result || !payload.content ) {
+        if (!payload.title || !payload.position || !payload.stage || !payload.result || !payload.content) {
             alert('모든 내용은 필수입니다.');
             return;
         }
@@ -114,20 +114,22 @@ function ReviewForm({ mode }) {
     if (isEdit && isError) return <ErrorMessage error={error} />;
 
     return (
-        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
+        <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 8 }}>
             {/* 상단 제목 */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
                 <Typography
                     sx={{
+                        px: 6,
+                        py: 1.5,
                         width: 340,
                         height: 48,
-                        backgroundColor: '#A98467',
-                        color: '#F0EAD2',
-                        borderRadius: 2,
+                        backgroundColor: 'background.button',
+                        color: 'background.default',
+                        borderRadius: '50px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '16px',
+                        fontSize: '2rem',
                         fontWeight: 500,
                         boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                     }}
