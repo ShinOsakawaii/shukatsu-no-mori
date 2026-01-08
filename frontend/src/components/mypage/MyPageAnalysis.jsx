@@ -66,7 +66,9 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {dayjs(createdAt).format('YYYY년 MM월 DD일 HH:mm')}
+                                    <Typography variant='body1' sx={{ fontSize: '1.1rem' }}>
+                                        {dayjs(createdAt).format('YYYY년 MM월 DD일 HH:mm')}
+                                    </Typography>
                                 </TableCell>
                             </TableRow>
                         ))
