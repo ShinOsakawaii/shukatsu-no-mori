@@ -38,7 +38,7 @@ export default function ReviewDetail() {
         me && review && Number(review.userId) === Number(me.userId);
 
     return (
-        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 8 }}>
+        <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 8 }}>
             <Container maxWidth="md">
                 {/* 상단 제목 */}
                 <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>

@@ -8,6 +8,7 @@ import {
     DialogContent,
     TextField,
     DialogActions,
+    Stack,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -86,23 +87,24 @@ function MyPageHeader({ username, profileImage }) {
             <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h6">안녕하세요. {username}님</Typography>
 
-                <Button
-                    variant="contained"
-                    sx={{ mt: 1, bgcolor: 'background.button' }}
-                    onClick={handleEditProfile}
-                >
-                    개인정보 수정
-                </Button>
+                <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+                    <Button
+                        variant="contained"
+                        sx={{ mt: 1, bgcolor: 'background.button' }}
+                        onClick={handleEditProfile}
+                    >
+                        개인정보 수정
+                    </Button>
 
-                <Button
-                    variant="outlined"
-                    color="success"
-                    onClick={() => setPasswordModalOpen(true)}
-                    sx={{ mt: 1 }}
-                >
-                    비밀번호 변경
-                </Button>
-
+                    <Button
+                        variant="outlined"
+                        color="success"
+                        onClick={() => setPasswordModalOpen(true)}
+                        sx={{ mt: 1 }}
+                    >
+                        비밀번호 변경
+                    </Button>
+                </Stack>
                 <Dialog open={passwordModalOpen} onClose={handleCloseModal}>
                     <DialogTitle>비밀번호 변경</DialogTitle>
 
