@@ -114,7 +114,7 @@ function ReviewForm({ mode }) {
     if (isEdit && isError) return <ErrorMessage error={error} />;
 
     return (
-        <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 8 }}>
+        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 8 }}>
             {/* 상단 제목 */}
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
                 <Typography
@@ -124,7 +124,7 @@ function ReviewForm({ mode }) {
                         width: 340,
                         height: 48,
                         backgroundColor: 'background.button',
-                        color: 'background.default',
+                        color: 'primary.contrastText',
                         borderRadius: '50px',
                         display: 'flex',
                         alignItems: 'center',
@@ -137,35 +137,11 @@ function ReviewForm({ mode }) {
                     기업 후기
                 </Typography>
             </Box>
-
+            {/*입력 카드 */}
             <Paper
                 elevation={0}
                 sx={{ position: 'relative', maxWidth: 900, mx: 'auto' }}
             >
-                {/* 수정일 때만 삭제 버튼 */}
-                {isEdit && (
-                    <Button
-                        color="error"
-                        variant="contained"
-                        sx={{
-                            position: 'absolute',
-                            px: 4,
-                            borderRadius: 2,
-                            top: 550,
-                            left: 730,
-                            backgroundColor: '#f00',
-                            color: '#fff',
-                            '&:hover': { backgroundColor: '#d00' }
-                        }}
-                        onClick={() => {
-                            if (window.confirm('해당 글을 정말 삭제하겠습니까?')) {
-                                deleteMutation.mutate();
-                            }
-                        }}
-                    >
-                        삭제
-                    </Button>
-                )}
             </Paper>
 
             {/* 입력 카드 */}
@@ -177,7 +153,8 @@ function ReviewForm({ mode }) {
                     p: 5,
                     borderRadius: 6,
                     backgroundColor: '#DDE5B6',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                    position: 'relative' // 부모 기준점 설정
                 }}
             >
                 <Box component="form" onSubmit={handleSubmit}>
@@ -193,6 +170,31 @@ function ReviewForm({ mode }) {
                         onChangeStage={setStage}
                         onChangeResult={setResult}
                     />
+
+                    {/* [수정 부분] 삭제 버튼을 우측 하단으로 배치 */}
+                    {isEdit && (
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, mb: 1 }}>
+                            <Button
+                                color="error"
+                                variant="contained"
+                                sx={{
+                                    px: 4,
+                                    borderRadius: 2,
+                                    backgroundColor: '#f00',
+                                    color: '#fff',
+                                    fontWeight: 'bold',
+                                    '&:hover': { backgroundColor: '#d00' }
+                                }}
+                                onClick={() => {
+                                    if (window.confirm('해당 글을 정말 삭제하겠습니까?')) {
+                                        deleteMutation.mutate();
+                                    }
+                                }}
+                            >
+                                삭제
+                            </Button>
+                        </Box>
+                    )}
 
                     <ReviewFormSubmit isEdit={isEdit} />
                 </Box>

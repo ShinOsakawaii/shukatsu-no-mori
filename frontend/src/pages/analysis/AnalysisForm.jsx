@@ -137,7 +137,7 @@ function AnalysisForm({ mode }) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '16px',
+                        fontSize: '2rem',
                         fontWeight: 500,
                         boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                     }}
