@@ -90,22 +90,25 @@ function MyPageHeader({ username, profileImage }) {
             <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h6">안녕하세요. {username}님</Typography>
 
-                <Button
-                    variant="contained"
-                    sx={{ mt: 1, bgcolor: 'background.button' }}
-                    onClick={handleEditProfile}
-                >
-                    개인정보 수정
-                </Button>
+                <Box sx={{ display: "flex", gap: 2}}>
+                    <Button
+                        variant="contained"
+                        sx={{ mt: 1, bgcolor: 'background.button' }}
+                        onClick={handleEditProfile}
+                    >
+                        개인정보 수정
+                    </Button>
 
-                <Button
-                    variant="outlined"
-                    color="success"
-                    onClick={() => setPasswordModalOpen(true)}
-                    sx={{ mt: 1 }}
-                >
-                    비밀번호 변경
-                </Button>
+                    <Button
+                        variant="outlined"
+                        color="success"
+                        onClick={() => setPasswordModalOpen(true)}
+                        sx={{ mt: 1 }}
+                    >
+                        비밀번호 변경
+                    </Button>
+                </Box>
+
 
                 <Dialog open={passwordModalOpen} onClose={handleCloseModal}>
                     <DialogTitle>비밀번호 변경</DialogTitle>
