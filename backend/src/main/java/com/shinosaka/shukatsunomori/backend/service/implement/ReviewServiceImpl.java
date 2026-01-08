@@ -171,6 +171,6 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         // 어차피 전부 본인 글이라 isOwner는 전부 true
-        return PageResponse.from(reviewPage, review -> ReviewResponse.from(review, userId));
+        return PageResponse.from(reviewPage, review -> ReviewResponse.from(review, true));
     }
 }
