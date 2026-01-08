@@ -15,6 +15,7 @@ function ReviewFormFields({ title, position, content, stage, result, onChangeTit
                 value={title}
                 onChange={(evt) => onChangeTitle(evt.target.value)}
                 variant='outlined'
+                sx={{ backgroundColor: '#ADC178', borderRadius: 3, '& fieldset': { border: 'none' } }}
                 required
             />
 
@@ -24,6 +25,7 @@ function ReviewFormFields({ title, position, content, stage, result, onChangeTit
                 value={position}
                 onChange={(evt) => onChangePosition(evt.target.value)}
                 variant='outlined'
+                sx={{ backgroundColor: '#ADC178', borderRadius: 3, '& fieldset': { border: 'none' } }}
                 required
             />
 
@@ -34,6 +36,7 @@ function ReviewFormFields({ title, position, content, stage, result, onChangeTit
                 value={stage}
                 onChange={(evt) => onChangeStage(evt.target.value)}
                 fullWidth
+                sx={{ backgroundColor: '#ADC178', borderRadius: 3, '& fieldset': { border: 'none' } }}
                 size="small"
             >
                 <MenuItem value="">
@@ -53,6 +56,7 @@ function ReviewFormFields({ title, position, content, stage, result, onChangeTit
                 value={result}
                 onChange={(evt) => onChangeResult(evt.target.value)}
                 fullWidth
+                sx={{ backgroundColor: '#ADC178', borderRadius: 3, '& fieldset': { border: 'none' } }}
                 size="small"
             >
                 <MenuItem value="">
@@ -71,6 +75,7 @@ function ReviewFormFields({ title, position, content, stage, result, onChangeTit
                 value={content}
                 onChange={(evt) => onChangeContent(evt.target.value)}
                 variant='outlined'
+                sx={{ backgroundColor: '#ADC178', borderRadius: 3, '& fieldset': { border: 'none' } }}
                 multiline
                 minRows={8}
                 required
