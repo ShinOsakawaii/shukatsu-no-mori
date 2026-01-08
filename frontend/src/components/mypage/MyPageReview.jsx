@@ -37,7 +37,7 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                         {/* width를 %로 지정하여 유동적인 너비 설정 */}
                         <TableCell align='center' width="10%">번호</TableCell>
                         <TableCell align='center' width="20%">기업명</TableCell>
-                        <TableCell align='left' width="45%">제목</TableCell>
+                        <TableCell align='center' width="45%">제목</TableCell>
                         <TableCell align='center' width="25%">작성일</TableCell>
                     </TableRow>
                 </TableHead>
@@ -73,9 +73,8 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                                     </Typography>
                                 </TableCell>
 
-                                <TableCell align='left'> {/* 제목은 왼쪽 정렬이 더 자연스럽습니다 */}
-                                    <Typography variant='body1'
-                                        sx={{ color: 'inherit', '&:hover': { color: 'primary.main' } }}>
+                                <TableCell align='left'>
+                                    <Typography sx={{ '&:hover': { color: 'primary.main' } }}>
                                         {title}
                                     </Typography>
                                 </TableCell>
