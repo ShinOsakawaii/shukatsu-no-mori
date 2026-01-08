@@ -27,6 +27,7 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                 }}>
                     <TableRow>
                         <TableCell align='center' width={80}>번호</TableCell>
+                        <TableCell align='center' width={80}>기업명</TableCell>
                         <TableCell align='center' width={80}>제목</TableCell>
                         <TableCell align='center' width={80}>작성일</TableCell>
                     </TableRow>
@@ -35,7 +36,7 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                 {/* 테이블 본문 */}
                 <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
-                        lists.map(({ title, createdAt, companyId, detailId }) => (
+                        lists.map(({ title, createdAt, companyId, detailId, companyName }) => (
                             <TableRow
                                 key={detailId}
                                 hover
@@ -43,6 +44,13 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                                 onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}
                             >
                                 <TableCell align='center'>{detailId}</TableCell>
+
+                                <TableCell align='center'>
+                                    <Typography>
+                                        {companyName}
+                                    </Typography>
+                                </TableCell>
+
                                 <TableCell>
                                     <Typography
                                         sx={{

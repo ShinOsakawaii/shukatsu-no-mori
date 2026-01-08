@@ -23,6 +23,8 @@ public class DetailResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private String companyName;
+
     // 목록 조회
     public static DetailResponse from(Detail detail) {
         return DetailResponse.builder()
@@ -50,6 +52,7 @@ public class DetailResponse {
                 .isOwner(isOwner)
                 .createdAt(detail.getCreatedAt())
                 .updatedAt(detail.getUpdatedAt())
+                .companyName(detail.getCompany().getName())
                 .build();
     }
 }

@@ -25,6 +25,8 @@ public class ReviewResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private String companyName;
+
     /*
      * Entity -> DTO 변환 메서드
      */
@@ -60,6 +62,7 @@ public class ReviewResponse {
                 .isOwner(isOwner)
                 .createdAt(review.getCreatedAt())
                 .updatedAt(review.getUpdatedAt())
+                .companyName(review.getCompany().getName())
                 .build();
     }
 }
