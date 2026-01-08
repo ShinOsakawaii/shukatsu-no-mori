@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { fetchReview } from "../../api/companyReviewApi";
@@ -38,46 +38,46 @@ export default function ReviewDetail() {
         me && review && Number(review.userId) === Number(me.userId);
 
     return (
-        <Box sx={{ backgroundColor: '#f6f1dc', minHeight: '100vh', py: 6 }}>
-            {/* 상단 제목 */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
-                <Typography
+        <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 8 }}>
+            <Container maxWidth="md">
+                {/* 상단 제목 */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                    <Typography
+                        variant='h2'
+                        sx={{
+                            px: 6,
+                            py: 1.5,
+                            backgroundColor: 'background.button',
+                            color: 'primary.contrastText',
+                            borderRadius: '50px',
+                            fontSize: '2rem',
+                            textAlign: 'center',
+                            boxShadow: 2
+                        }}
+                    >
+                        기업 후기
+                    </Typography>
+                </Box>
+
+                <Paper
+                    elevation={0}
                     sx={{
-                        width: 340,
-                        height: 48,
-                        backgroundColor: '#A98467',
-                        color: '#F0EAD2',
-                        borderRadius: 2,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '16px',
-                        fontWeight: 500,
+                        maxWidth: 900,
+                        mx: 'auto',
+                        p: 5,
+                        borderRadius: 6,
+                        backgroundColor: '#e4efc3',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                     }}
                 >
-                    기업 후기
-                </Typography>
-            </Box>
-
-            <Paper
-                elevation={0}
-                sx={{
-                    maxWidth: 900,
-                    mx: 'auto',
-                    p: 5,
-                    borderRadius: 6,
-                    backgroundColor: '#e4efc3',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
-                }}
-            >
-                <ReviewDetailHeader review={review} />
-                <ReviewDetailContent review={review} />
-                <ReviewDetailButtons
-                    isAuthor={isAuthor}
-                    reviewId={reviewId}
-                />
-            </Paper>
+                    <ReviewDetailHeader review={review} />
+                    <ReviewDetailContent review={review} />
+                    <ReviewDetailButtons
+                        isAuthor={isAuthor}
+                        reviewId={reviewId}
+                    />
+                </Paper>
+            </Container>
         </Box>
     );
 }
