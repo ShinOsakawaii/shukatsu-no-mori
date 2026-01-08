@@ -115,16 +115,3 @@
 - 📘 정적 API 문서 (Redoc): [`docs/redoc-static.html`](https://raw.githack.com/ShinOsakawaii/shukatsu-no-mori/develop/docs/redoc-static.html
 )
 - 📄 OpenAPI 스펙(JSON): [`docs/openapi.json`](docs/openapi.json)
-
-> 본 프로젝트는 서버를 상시 운영하지 않으므로,  
-> OpenAPI 기반 **정적 API 문서**를 레포에 포함하여 언제든 확인할 수 있도록 했다.
-
-
-## 🔗 API 개요
-* 도메인별 CRUD API 제공
-  (회원 / 기업 / 기업 분석 / 기업 후기)
-
-📎 API 명세서: `docs/api.md`
-📎 Swagger UI: (선택, 있을 경우 링크)
-
-
