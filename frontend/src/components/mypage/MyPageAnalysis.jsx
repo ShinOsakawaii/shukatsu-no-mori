@@ -14,55 +14,54 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
     }
 
     return (
-        <TableContainer sx={{ mt: 3, bgcolor: 'background.box', borderRadius: 2 }}>
-            <Table>
-                {/* 테이블 머릿말 */}
+        <TableContainer sx={{ mt: 3, bgcolor: 'transparent', borderRadius: 2 }}>
+            <Table sx={{
+                // 1. 테이블 행 사이의 간격을 설정 (가로 0, 세로 16px)
+                borderCollapse: 'separate',
+                borderSpacing: '0 16px'
+            }}>
+                {/* 테이블 머릿말 (TableHead)은 그대로 둡니다 */}
                 <TableHead sx={{
                     '& th': {
                         bgcolor: 'background.box',
                         fontSize: '1.2rem',
                         fontWeight: 700,
-                        color: 'text',
-                        borderBottom: '2px solid',
-                        borderColor: 'divider'
+                        borderBottom: 'none' // 간격 스타일을 위해 테두리 제거
                     }
                 }}>
                     <TableRow>
-                        <TableCell align='center' width={30}>번호</TableCell>
-                        <TableCell align='center' width={60}>기업명</TableCell>
-                        <TableCell align='center' width={120}>제목</TableCell>
-                        <TableCell align='center' width={80}>작성일</TableCell>
+                        <TableCell align='center' width="10%">번호</TableCell>
+                        <TableCell align='center' width="20%">기업명</TableCell>
+                        <TableCell align='center' width="45%">제목</TableCell>
+                        <TableCell align='center' width="25%">작성일</TableCell>
                     </TableRow>
                 </TableHead>
 
-                {/* 테이블 본문 */}
-                <TableBody sx={{ bgcolor: 'background.box' }}>
+                <TableBody>
                     {lists.length > 0 ? (
                         lists.map(({ title, createdAt, companyId, detailId, companyName }) => (
                             <TableRow
                                 key={detailId}
                                 hover
-                                sx={{ '& td': { fontSize: '1.25rem', borderBottom: '1px solid', borderColor: 'rgba(108, 88, 76, 0.2)' } }}
                                 onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}
+                                sx={{
+                                    cursor: 'pointer',
+                                    bgcolor: 'background.box', // 행의 배경색
+                                    '& td': {
+                                        border: 'none', // 모든 셀 테두리 제거
+                                        py: 2, // 상하 패딩으로 높이 조절
+                                        fontSize: '1.25rem'
+                                    },
+                                    // 양 끝 모서리 둥글게 (시각적으로 분리된 카드처럼 보이게 함)
+                                    '& td:first-of-type': { borderTopLeftRadius: '8px', borderBottomLeftRadius: '8px' },
+                                    '& td:last-of-type': { borderTopRightRadius: '8px', borderBottomRightRadius: '8px' },
+                                    boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' // 선택사항: 그림자
+                                }}
                             >
                                 <TableCell align='center'>{detailId}</TableCell>
-
-                                <TableCell align='center'>
-                                    <Typography>
-                                        {companyName}
-                                    </Typography>
-                                </TableCell>
-
-                                <TableCell>
-                                    <Typography
-                                        variant='body1'
-                                        sx={{
-                                            cursor: 'pointer',
-                                            textDecoration: 'none',
-                                            color: 'inherit',
-                                            '&:hover': { color: 'primary.main' }
-                                        }}
-                                    >
+                                <TableCell align='center'>{companyName}</TableCell>
+                                <TableCell align='left'>
+                                    <Typography sx={{ '&:hover': { color: 'primary.main' } }}>
                                         {title}
                                     </Typography>
                                 </TableCell>
@@ -75,7 +74,8 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={3} align='center' sx={{ py: 5 }}>
+                            {/* colSpan을 4로 수정 (열 갯수가 4개이므로) */}
+                            <TableCell colSpan={4} align='center' sx={{ py: 5 }}>
                                 <Typography color="text.secondary">
                                     등록된 게시글이 없습니다.
                                 </Typography>

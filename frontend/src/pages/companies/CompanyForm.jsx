@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Container } from '@mui/material';
 import { createCompany, updateCompany, fetchCompany, uploadImage } from '../../api/companyApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
@@ -160,7 +160,7 @@ function CompanyForm({ mode }) {
         }
     }
 
-   
+
 
     return (
         <Box>
@@ -175,34 +175,52 @@ function CompanyForm({ mode }) {
                     py: 6,
                 }}
             >
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
-                    <Typography variant="h4" sx={{ color: COLORS.dark }}>
-                        {isEdit ? '기업 정보 수정' : '기업 정보 등록'}
-                    </Typography>
-                </Box>
+                <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 8 }}>
+                    <Container maxWidth="md">
+                        {/* 상단 제목 */}
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 6 }}>
+                            <Typography
+                                variant='h2'
+                                sx={{
+                                    px: 6,
+                                    py: 1.5,
+                                    backgroundColor: 'background.button',
+                                    color: 'primary.contrastText',
+                                    borderRadius: '50px',
+                                    fontSize: '2rem',
+                                    textAlign: 'center',
+                                    boxShadow: 2
+                                }}
+                            >
+                                {isEdit ? '기업 정보 수정' : '기업 정보 등록'}
+                            </Typography>
+                        </Box>
 
-                <Box sx={{ 
-                    display: 'flex', justifyContent: 'center', 
-                    gap: 6 }}>
-                    
-
-                        {/* 이미지 */}
-                        <CompanyFormImage
-                            handleChangeImage={handleChangeImage}
-                            uploading={updateImageMutation.isPending}
-                            imageName={imageName}
-                            imagePreview={imagePreview} />
-
-                        <Box sx={{ width: 520 }}>
-                        {/* 입력 필드 */}
-                        <CompanyFormFields
-                            info={info}
-                            onChangeInfo={setInfo} />
+                        <Box sx={{
+                            display: 'flex', justifyContent: 'center',
+                            gap: 6
+                        }}>
 
 
-                        {/* 등록 / 수정 버튼 */}
-                        <CompanyFormSubmit isEdit={isEdit} />
-                    </Box>
+                            {/* 이미지 */}
+                            <CompanyFormImage
+                                handleChangeImage={handleChangeImage}
+                                uploading={updateImageMutation.isPending}
+                                imageName={imageName}
+                                imagePreview={imagePreview} />
+
+                            <Box sx={{ width: 520 }}>
+                                {/* 입력 필드 */}
+                                <CompanyFormFields
+                                    info={info}
+                                    onChangeInfo={setInfo} />
+
+
+                                {/* 등록 / 수정 버튼 */}
+                                <CompanyFormSubmit isEdit={isEdit} />
+                            </Box>
+                        </Box>
+                    </Container>
                 </Box>
             </Box>
         </Box>
