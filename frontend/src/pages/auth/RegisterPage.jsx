@@ -60,7 +60,7 @@ function RegisterPage() {
 
     return (
         <Container maxWidth="sm">
-            <Typography variant="h5" align="center" fontWeight={500} sx={{ mb: 2 }}>회원가입</Typography>
+            <Typography variant="h5" align="center" fontWeight={500} sx={{ py: 2 }}>회원가입</Typography>
 
             <Paper
                 sx={{
@@ -68,12 +68,10 @@ function RegisterPage() {
                     borderRadius: 3,
                     px: 8,
                     py: 6,
-                    boxShadow: '0 16px 40px rgba(0,0,0, 0.07)'
+                    boxShadow: '0 16px 40px rgba(0,0,0, 0.07)',
+                    bgcolor: 'background.box'
                 }}
             >
-
-
-
                 <Box component="form" onSubmit={handleSubmit}>
                     <Stack spacing={2}>
                         <TextField
@@ -85,6 +83,21 @@ function RegisterPage() {
                             helperText="*필수 입력입니다"
                             value={form.email}
                             onChange={handleChange}
+                            sx={{
+                                // TextField 전체에 대한 스타일입니다.
+
+                                // .MuiOutlinedInput-root 클래스 (입력창 전체 컨테이너)를 타겟팅합니다.
+                                '& .MuiOutlinedInput-root': {
+                                    bgcolor: 'background.paper', // 배경색 적용
+                                    borderRadius: '12px',        // 둥근 모서리 적용
+                                    height: '56px',              // 높낮이 조절
+                                },
+                                // .MuiInputBase-input 클래스 (실제 input 태그)를 타겟팅할 수도 있습니다.
+                                // '& .MuiInputBase-input': {
+                                //     padding: '12px 14px', 
+                                // }
+                            }}
+                            color="primary"
                         />
 
                         <TextField
@@ -95,6 +108,21 @@ function RegisterPage() {
                             helperText="*필수 입력입니다"
                             value={form.password}
                             onChange={handleChange}
+                            sx={{
+                                // TextField 전체에 대한 스타일입니다.
+
+                                // .MuiOutlinedInput-root 클래스 (입력창 전체 컨테이너)를 타겟팅합니다.
+                                '& .MuiOutlinedInput-root': {
+                                    bgcolor: 'background.paper', // 배경색 적용
+                                    borderRadius: '12px',        // 둥근 모서리 적용
+                                    height: '56px',              // 높낮이 조절
+                                },
+                                // .MuiInputBase-input 클래스 (실제 input 태그)를 타겟팅할 수도 있습니다.
+                                // '& .MuiInputBase-input': {
+                                //     padding: '12px 14px', 
+                                // }
+                            }}
+                            color="primary"
                         />
 
                         <TextField
@@ -105,6 +133,21 @@ function RegisterPage() {
                             helperText="*필수 입력입니다"
                             value={form.rePassword}
                             onChange={handleChange}
+                            sx={{
+                                // TextField 전체에 대한 스타일입니다.
+
+                                // .MuiOutlinedInput-root 클래스 (입력창 전체 컨테이너)를 타겟팅합니다.
+                                '& .MuiOutlinedInput-root': {
+                                    bgcolor: 'background.paper', // 배경색 적용
+                                    borderRadius: '12px',        // 둥근 모서리 적용
+                                    height: '56px',              // 높낮이 조절
+                                },
+                                // .MuiInputBase-input 클래스 (실제 input 태그)를 타겟팅할 수도 있습니다.
+                                // '& .MuiInputBase-input': {
+                                //     padding: '12px 14px', 
+                                // }
+                            }}
+                            color="primary"
                         />
 
                         <TextField
@@ -115,6 +158,21 @@ function RegisterPage() {
                             helperText="*필수 입력입니다"
                             value={form.nickname}
                             onChange={handleChange}
+                            sx={{
+                                // TextField 전체에 대한 스타일입니다.
+
+                                // .MuiOutlinedInput-root 클래스 (입력창 전체 컨테이너)를 타겟팅합니다.
+                                '& .MuiOutlinedInput-root': {
+                                    bgcolor: 'background.paper', // 배경색 적용
+                                    borderRadius: '12px',        // 둥근 모서리 적용
+                                    height: '56px',              // 높낮이 조절
+                                },
+                                // .MuiInputBase-input 클래스 (실제 input 태그)를 타겟팅할 수도 있습니다.
+                                // '& .MuiInputBase-input': {
+                                //     padding: '12px 14px', 
+                                // }
+                            }}
+                            color="primary"
                         />
 
                         {registerMutation.isError && (
@@ -131,9 +189,10 @@ function RegisterPage() {
                             sx={{ mt: 1 }}
                         >
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 size="small"
                                 onClick={handleCancel}
+                                sx={{ bgcolor: 'background.button' }}
                             >
                                 취소
                             </Button>

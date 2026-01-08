@@ -75,4 +75,16 @@ public class ReviewController {
         reviewService.deleteReview(companyId, reviewId, userId);
         return ResponseEntity.noContent().build();
     }
+
+    // 마이페이지 기업 후기 조회
+    @GetMapping("/me")
+    public PageResponse<ReviewResponse> getMyReviewList(
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Max(10) int size,
+            @RequestParam(required = false) String keyword,
+            @PathVariable Long companyId,
+            @AuthenticationPrincipal Long userId
+    ) {
+        return reviewService.getMyReviewList(page, size, keyword, companyId, userId);
+    }
 }

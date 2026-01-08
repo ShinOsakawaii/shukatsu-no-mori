@@ -1,13 +1,15 @@
 import React from 'react';
 import { fetchCompany } from '../../api/companyApi';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import CompanyDetailAnalysis from "../../components/companies/CompanyDetailAnalysis";
 import CompanyDetailReview from '../../components/companies/CompanyDetailReview';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import Loader from '../../components/common/Loader';
 import { Box, Button, Paper } from '@mui/material';
 import { useState } from 'react';
+import CompanyDetailHeader from '../../components/companies/CompanyDetailHeader';
+import { Outlet } from "react-router";
 import { fetchAnalysis } from '../../api/companyAnalysisApi';
 import CompanyDetailButtons from '../../components/companies/CompanyDetailButtons';
 import { fetchReviews } from '../../api/companyReviewApi';
@@ -15,7 +17,7 @@ import { fetchReviews } from '../../api/companyReviewApi';
 
 //기업정보 상세조회, 삭제
 function CompanyDetail() {
-
+    
     const { companyId: companyIdParam } = useParams();
     const companyId = Number(companyIdParam);
     const queryClient = useQueryClient();
@@ -26,6 +28,7 @@ function CompanyDetail() {
     const tabParam = searchParams.get("tab");
     const [tab, setTab] = useState(tabParam || "analysis");
 
+
     // TanStack Query=============
     // 1. 상세 내용 조회
     const { data: company, isLoading, isError, error } = useQuery({
@@ -33,6 +36,26 @@ function CompanyDetail() {
         queryFn: () => fetchCompany(companyId),
         enabled: !!companyId
     });
+
+
+    console.log('company:', company);
+
+
+    // const { review } = company;
+    /*
+    // 2. 삭제
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteCompany(companyId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey:['companies']});
+            navigate('/companies');
+            
+        },
+        onError: () => {
+            alert('기업 정보 삭제에 실패했습니다.');
+        }
+    });
+*/
 
     // 기업 분석 목록 조회
     const { data: analysisList = [], isLoading: isAnalysisLoading, isError: isAnalysisError } = useQuery({
@@ -59,12 +82,20 @@ function CompanyDetail() {
 
     return (
         <Box sx={{ m: 3 }}>
+            <Box sx={{ maxWidth: 1100, mx: "auto" }}>
+                <CompanyDetailHeader company={company}/>
+                <Outlet />
+            </Box>
+
             <Box sx={{ justifyContent: "center", display: "flex", gap: 2, mb: 2 }}>
                 <CompanyDetailButtons tab={tab} setTab={handleTabChange} />
             </Box >
 
-            <Paper sx={{ borderRadius: 4, p: "20px 20px 35px 20px" }}>
-
+            <Paper sx={{
+                borderRadius: 4,
+                p: "20px 20px 35px 20px",
+                bgcolor: 'background.box'
+            }}>
                 {/* 기업 분석 테이블 */}
                 {tab === "analysis" &&
                     <CompanyDetailAnalysis

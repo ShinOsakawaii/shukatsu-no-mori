@@ -36,6 +36,7 @@ function LoginPage() {
                 align="center"
                 fontWeight={500}
                 sx={{ mb: 2 }}
+                py={4}
             >
                 로그인
             </Typography>
@@ -46,7 +47,8 @@ function LoginPage() {
                     borderRadius: 3,
                     px: 8,
                     py: 6,
-                    boxShadow: '0 16px 40px rgba(0,0,0, 0.07)'
+                    boxShadow: '0 16px 40px rgba(0,0,0, 0.07)',
+                    bgcolor: 'background.box'
                 }}
             >
 
@@ -60,6 +62,11 @@ function LoginPage() {
                             placeholder="aaa@bbb.com"
                             size="small"
                             required
+                            sx={{
+                                marginBottom: 2,
+                                bgcolor: 'background.paper',
+                                borderRadius: '12px',
+                            }}
                         />
 
                         <TextField
@@ -69,6 +76,11 @@ function LoginPage() {
                             placeholder="비밀번호"
                             size="small"
                             required
+                            sx={{
+                                marginBottom: 2,
+                                bgcolor: 'background.paper',
+                                borderRadius: '12px',
+                            }}
                         />
 
                         {loginMutation.isError && (
@@ -87,9 +99,10 @@ function LoginPage() {
                         >
                             <Button
                                 type="submit"
-                                variant="outlined"
+                                variant="contained"
                                 size="small"
                                 onClick={() => navigate("/auth/register")}
+                                sx={{ border: 'borderColor', bgcolor: 'background.button' }}
                             >
                                 회원가입
                             </Button>

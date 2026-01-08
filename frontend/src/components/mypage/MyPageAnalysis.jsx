@@ -1,20 +1,28 @@
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import dayjs from 'dayjs';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import Loader from '../common/Loader';
+import ErrorMessage from '../common/ErrorMessage';
 
-function MyPageAnalysis({ myDetails }) {
+function MyPageAnalysis({ myDetails, isLoading, isError }) {
+    const navigate = useNavigate();
+    const lists = Array.isArray(myDetails?.content) ? myDetails.content : [];
 
-    const lists = myDetails ? myDetails : []
+    if (isLoading) return <Loader />;
+    if (isError && !myDetails?.length) {
+        return <ErrorMessage message="기업 분석 목록을 불러오지 못했습니다." />;
+    }
+
     return (
-        <TableContainer sx={{ mt: 3, backgroundColor: '#DDE5B6' }}>
+        <TableContainer sx={{ mt: 3, bgcolor: 'background.box' }}>
             <Table>
                 {/* 테이블 머릿말 */}
                 <TableHead sx={{
                     '& th': {
-                        borderBottom: '1px solid #EEEEEE',
+                        bgcolor: 'background.box',
                         fontSize: 14,
                         fontWeight: 500,
-                        color: '#222831',
+                        color: 'text',
                     }
                 }}>
                     <TableRow>
@@ -25,19 +33,18 @@ function MyPageAnalysis({ myDetails }) {
                 </TableHead>
 
                 {/* 테이블 본문 */}
-                <TableBody sx={{ color: "#222831" }}>
+                <TableBody sx={{ bgcolor: 'background.box' }}>
                     {lists.length > 0 ? (
-                        lists.map(({ id, title, createAt, companyId, detailId }) => (
+                        lists.map(({ title, createdAt, companyId, detailId }) => (
                             <TableRow
-                                key={id}
+                                key={detailId}
                                 hover
-                                sx={{ '& td': { fontSize: 15, borderBottom: '1px solid #eeeeee' } }}
+                                sx={{ '& td': { fontSize: 15, borderBottom: '1px solid constrastText' } }}
+                                onClick={() => navigate(`/companies/${companyId}/detail/${detailId}`)}
                             >
-                                <TableCell align='center'>{id}</TableCell>
+                                <TableCell align='center'>{detailId}</TableCell>
                                 <TableCell>
                                     <Typography
-                                        component={Link}
-                                        to={`/companies/${companyId}/detail/${detailId}`}
                                         sx={{
                                             cursor: 'pointer',
                                             textDecoration: 'none',
@@ -49,7 +56,7 @@ function MyPageAnalysis({ myDetails }) {
                                     </Typography>
                                 </TableCell>
                                 <TableCell align='center'>
-                                    {dayjs(createAt).format('YY년MM월DD일 HH:mm')}
+                                    {dayjs(createdAt).format('YYYY년 MM월 DD일 HH:mm')}
                                 </TableCell>
                             </TableRow>
                         ))

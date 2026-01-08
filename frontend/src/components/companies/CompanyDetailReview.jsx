@@ -32,9 +32,9 @@ function CompanyDetailReview({ companyId, review, isLoading, isError }) {
     };
 
     return (
-        <Box sx={{ maxWidth: 1100, mx: "auto", backgroundColor: '#ADC178', p: 2 }}>
+        <Box sx={{ maxWidth: 1100, mx: "auto", bgcolor: 'background.box', p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2 }}>
+                <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2, <Button onClick={handleCreateClick} variant="contained" sx={{ mb: 2, , bgcolor: 'background.button'  }}> }}>
                     기업 후기 등록
                 </Button>
             </Box>

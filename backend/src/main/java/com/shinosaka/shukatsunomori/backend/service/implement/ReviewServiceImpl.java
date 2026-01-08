@@ -6,6 +6,7 @@ import com.shinosaka.shukatsunomori.backend.domain.User;
 import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewCreateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.request.companyReview.ReviewUpdateRequest;
 import com.shinosaka.shukatsunomori.backend.dto.response.common.PageResponse;
+import com.shinosaka.shukatsunomori.backend.dto.response.companyDetail.DetailResponse;
 import com.shinosaka.shukatsunomori.backend.dto.response.companyReview.ReviewResponse;
 import com.shinosaka.shukatsunomori.backend.repository.CompanyRepository;
 import com.shinosaka.shukatsunomori.backend.repository.ReviewRepository;
@@ -145,5 +146,31 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 삭제
         reviewRepository.delete(review);
+    }
+
+    // 마이페이지 기업 후기 조회
+    @Transactional(readOnly = true)
+    public PageResponse<ReviewResponse> getMyReviewList(
+            int page, int size, String keyword, Long companyId, Long userId
+    ) {
+        // 로그인 체크
+        requiredLogin(userId);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "reviewId"));
+
+        Page<Review> reviewPage;
+        if (keyword != null && !keyword.isBlank()) {
+            reviewPage = reviewRepository
+                    .findByUserUserIdAndTitleContainingIgnoreCaseOrUserUserIdAndContentContainingIgnoreCase(
+                            userId, keyword,
+                            userId, keyword,
+                            pageable
+                    );
+        } else {
+            reviewPage = reviewRepository.findByUserUserId(userId, pageable);
+        }
+
+        // 어차피 전부 본인 글이라 isOwner는 전부 true
+        return PageResponse.from(reviewPage, review -> ReviewResponse.from(review, userId));
     }
 }

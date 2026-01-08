@@ -16,8 +16,23 @@ public interface DetailRepository extends JpaRepository<Detail, Long> {
             Pageable pageable
     );
 
+    Page<Detail> findByUserUserIdAndTitleContainingIgnoreCaseOrUserUserIdAndContentContainingIgnoreCase(
+            Long userId, String title,
+            Long userId2, String content,
+            Pageable pageable
+    );
+
     // 검색X
     Page<Detail> findByCompanyCompanyId(Long companyId, Pageable pageable);
 
     Optional<Detail> findByDetailIdAndCompanyCompanyId(Long detailId, Long companyId);
+
+    Page<Detail> findByUserUserId(Long userId, Pageable pageable);
+
+    Page<Detail> findByCompanyCompanyIdAndUserUserId(
+            Long companyId,
+            Long userId,
+            Pageable pageable
+    );
+
 }
