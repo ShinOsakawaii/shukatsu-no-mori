@@ -28,9 +28,9 @@ function MyPageAnalysis({ myDetails, isLoading, isError }) {
                     }
                 }}>
                     <TableRow>
-                        <TableCell align='center' width={80}>번호</TableCell>
-                        <TableCell align='center' width={80}>기업명</TableCell>
-                        <TableCell align='center' width={80}>제목</TableCell>
+                        <TableCell align='center' width={30}>번호</TableCell>
+                        <TableCell align='center' width={60}>기업명</TableCell>
+                        <TableCell align='center' width={120}>제목</TableCell>
                         <TableCell align='center' width={80}>작성일</TableCell>
                     </TableRow>
                 </TableHead>
