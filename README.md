@@ -106,6 +106,18 @@
 | --- | --- |
 | <img src="https://github.com/user-attachments/assets/00c43c0a-d1bd-46e8-956f-6dd0853e4678" width="420" /> | <img src="https://github.com/user-attachments/assets/3c3fbafa-81b5-4d32-baeb-82c723372506" width="420" /> |
 
+## 🔗 API 문서
+
+* 도메인별 CRUD API 제공
+  (회원 / 기업 / 기업 분석 / 기업 후기)
+
+- 📘 정적 API 문서 (Redoc): [`docs/redoc-static.html`](docs/redoc-static.html)
+- 📄 OpenAPI 스펙(JSON): [`docs/openapi.json`](docs/openapi.json)
+
+> 본 프로젝트는 서버를 상시 운영하지 않으므로,  
+> OpenAPI 기반 **정적 API 문서**를 레포에 포함하여 언제든 확인할 수 있도록 했다.
+
+
 ## 🔗 API 개요
 * 도메인별 CRUD API 제공
   (회원 / 기업 / 기업 분석 / 기업 후기)
