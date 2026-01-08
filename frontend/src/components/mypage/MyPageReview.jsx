@@ -81,7 +81,7 @@ function MyPageReview({ myReviews, isLoading, isError }) {
                                 </TableCell>
                                 <TableCell align='center'>
                                     <Typography variant='body1' sx={{ fontSize: '1.1rem' }}>
-                                        {dayjs(createAt).format('YY년MM월DD일HH:mm')}
+                                        {dayjs(createAt).format('YYYY년 MM월 DD일 HH:mm')}
                                     </Typography>
                                 </TableCell>
                             </TableRow>
